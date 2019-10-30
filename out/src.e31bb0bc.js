@@ -15333,7 +15333,4111 @@ Object.keys(_units).forEach(function (key) {
     }
   });
 });
-},{"./api":"../node_modules/@thi.ng/hiccup-css/api.js","./animation":"../node_modules/@thi.ng/hiccup-css/animation.js","./attribs":"../node_modules/@thi.ng/hiccup-css/attribs.js","./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js","./css":"../node_modules/@thi.ng/hiccup-css/css.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./inject":"../node_modules/@thi.ng/hiccup-css/inject.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./quoted-functions":"../node_modules/@thi.ng/hiccup-css/quoted-functions.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"../node_modules/@styled-system/css/dist/index.esm.js":[function(require,module,exports) {
+},{"./api":"../node_modules/@thi.ng/hiccup-css/api.js","./animation":"../node_modules/@thi.ng/hiccup-css/animation.js","./attribs":"../node_modules/@thi.ng/hiccup-css/attribs.js","./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js","./css":"../node_modules/@thi.ng/hiccup-css/css.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./inject":"../node_modules/@thi.ng/hiccup-css/inject.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./quoted-functions":"../node_modules/@thi.ng/hiccup-css/quoted-functions.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"../node_modules/@thi.ng/associative/dissoc.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dissoc = dissoc;
+exports.dissocObj = void 0;
+
+function dissoc(coll, keys) {
+  for (let k of keys) {
+    coll.delete(k);
+  }
+
+  return coll;
+}
+
+const dissocObj = (obj, keys) => {
+  for (let k of keys) {
+    delete obj[k];
+  }
+
+  return obj;
+};
+
+exports.dissocObj = dissocObj;
+},{}],"../node_modules/@thi.ng/associative/internal/equiv.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.equivSet = exports.equivMap = void 0;
+
+var _equiv = require("@thi.ng/equiv");
+
+const equivMap = (a, b) => {
+  if (a === b) {
+    return true;
+  }
+
+  if (!(b instanceof Map) || a.size !== b.size) {
+    return false;
+  }
+
+  for (let p of a.entries()) {
+    if (!(0, _equiv.equiv)(b.get(p[0]), p[1])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+exports.equivMap = equivMap;
+
+const equivSet = (a, b) => {
+  if (a === b) {
+    return true;
+  }
+
+  if (!(b instanceof Set) || a.size !== b.size) {
+    return false;
+  }
+
+  for (let k of a.keys()) {
+    if (!b.has(k)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+exports.equivSet = equivSet;
+},{"@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js"}],"../node_modules/@thi.ng/associative/into.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.into = into;
+
+var _checks = require("@thi.ng/checks");
+
+function into(dest, src) {
+  if ((0, _checks.isMap)(dest)) {
+    for (let x of src) {
+      dest.set(x[0], x[1]);
+    }
+  } else {
+    for (let x of src) {
+      dest.add(x);
+    }
+  }
+
+  return dest;
+}
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/array-set.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ArraySet = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __vals = inst => __private.get(inst).vals;
+/**
+ * An alternative set implementation to the native ES6 Set type. Uses
+ * customizable equality/equivalence predicate and so is more useful
+ * when dealing with structured data. Implements full API of native Set
+ * and by the default uses `@thi.ng/equiv` for equivalence checking.
+ *
+ * Additionally, the type also implements the `ICopy`, `IEmpty` and
+ * `IEquiv` interfaces itself.
+ */
+
+
+class ArraySet extends Set {
+  constructor(vals, opts = {}) {
+    super();
+
+    __private.set(this, {
+      equiv: opts.equiv || _equiv.equiv,
+      vals: []
+    });
+
+    vals && this.into(vals);
+  }
+
+  *[Symbol.iterator]() {
+    yield* __vals(this);
+  }
+
+  get [Symbol.species]() {
+    return ArraySet;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "ArraySet";
+  }
+
+  get size() {
+    return __vals(this).length;
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const s = new ArraySet(null, {
+      equiv: $this.equiv
+    });
+    __private.get(s).vals = $this.vals.slice();
+    return s;
+  }
+
+  empty() {
+    return new ArraySet(null, this.opts());
+  }
+
+  clear() {
+    __vals(this).length = 0;
+  }
+
+  first() {
+    if (this.size) {
+      return __vals(this)[0];
+    }
+  }
+
+  add(key) {
+    !this.has(key) && __vals(this).push(key);
+    return this;
+  }
+
+  into(keys) {
+    return (0, _into.into)(this, keys);
+  }
+
+  has(key) {
+    return this.get(key, _api.SEMAPHORE) !== _api.SEMAPHORE;
+  }
+  /**
+   * Returns the canonical value for `x`, if present. If the set
+   * contains no equivalent for `x`, returns `notFound`.
+   *
+   * @param key
+   * @param notFound
+   */
+
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    const vals = $this.vals;
+
+    for (let i = vals.length; --i >= 0;) {
+      if (eq(vals[i], key)) {
+        return vals[i];
+      }
+    }
+
+    return notFound;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    const vals = $this.vals;
+
+    for (let i = vals.length; --i >= 0;) {
+      if (eq(vals[i], key)) {
+        vals.splice(i, 1);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  disj(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivSet)(this, o);
+  }
+
+  forEach(fn, thisArg) {
+    const vals = __vals(this);
+
+    for (let i = vals.length; --i >= 0;) {
+      const v = vals[i];
+      fn.call(thisArg, v, v, this);
+    }
+  }
+
+  *entries() {
+    for (let v of __vals(this)) {
+      yield [v, v];
+    }
+  }
+
+  *keys() {
+    yield* __vals(this);
+  }
+
+  *values() {
+    yield* __vals(this);
+  }
+
+  opts() {
+    return {
+      equiv: __private.get(this).equiv
+    };
+  }
+
+}
+
+exports.ArraySet = ArraySet;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/common-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.commonKeysObj = exports.commonKeysMap = void 0;
+
+/**
+ * Like `commonKeysObj()`, but for ES6 Maps.
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const commonKeysMap = (a, b, out = []) => {
+  for (let k of a.keys()) {
+    b.has(k) && out.push(k);
+  }
+
+  return out;
+};
+/**
+ * Returns array of keys present in both args, i.e. the set intersection
+ * of the given objects' key / property sets.
+ *
+ * ```
+ * commonKeys({ a: 1, b: 2 }, { c: 10, b: 20, a: 30 })
+ * // [ "a", "b" ]
+ * ```
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+
+
+exports.commonKeysMap = commonKeysMap;
+
+const commonKeysObj = (a, b, out = []) => {
+  for (let k in a) {
+    b.hasOwnProperty(k) && out.push(k);
+  }
+
+  return out;
+};
+
+exports.commonKeysObj = commonKeysObj;
+},{}],"../node_modules/@thi.ng/associative/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ensureSet = exports.ensureMap = exports.objValues = exports.first = exports.copy = exports.empty = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+const empty = (x, ctor) => (0, _checks.implementsFunction)(x, "empty") ? x.empty() : new (x[Symbol.species] || ctor)();
+
+exports.empty = empty;
+
+const copy = (x, ctor) => (0, _checks.implementsFunction)(x, "copy") ? x.copy() : new (x[Symbol.species] || ctor)(x);
+
+exports.copy = copy;
+
+const first = x => x[Symbol.iterator]().next().value;
+
+exports.first = first;
+
+const objValues = src => {
+  const vals = [];
+
+  for (let k in src) {
+    src.hasOwnProperty(k) && vals.push(src[k]);
+  }
+
+  return vals;
+};
+
+exports.objValues = objValues;
+
+const ensureMap = x => (0, _checks.isMap)(x) ? x : new Map(x);
+
+exports.ensureMap = ensureMap;
+
+const ensureSet = x => (0, _checks.isSet)(x) ? x : new Set(x);
+
+exports.ensureSet = ensureSet;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/difference.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.difference = void 0;
+
+var _into = require("./into");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the difference of sets `a - b` and writes results to new set
+ * or optionally given set `out` (assumed to be empty for correct
+ * results).
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const difference = (a, b, out) => {
+  if (a === b) {
+    return out || (0, _utils.empty)(a, Set);
+  }
+
+  out = out ? (0, _into.into)(out, a) : (0, _utils.copy)(a, Set);
+
+  for (let i of b) {
+    out.delete(i);
+  }
+
+  return out;
+};
+
+exports.difference = difference;
+},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/equiv-map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EquivMap = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _arraySet = require("./array-set");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __map = map => __private.get(map).map;
+
+class EquivMap extends Map {
+  /**
+   * Creates a new instance with optional initial key-value pairs and
+   * provided options. If no `opts` are given, uses `ArraySet` for
+   * storing canonical keys and `@thi.ng/equiv` for checking key
+   * equivalence.
+   *
+   * @param pairs
+   * @param opts
+   */
+  constructor(pairs, opts) {
+    super();
+
+    const _opts = Object.assign({
+      equiv: _equiv.equiv,
+      keys: _arraySet.ArraySet
+    }, opts);
+
+    __private.set(this, {
+      keys: new _opts.keys(null, {
+        equiv: _opts.equiv
+      }),
+      map: new Map(),
+      opts: _opts
+    });
+
+    if (pairs) {
+      this.into(pairs);
+    }
+  }
+  /**
+   * Converts given vanilla object into an `EquivMap` instance with
+   * default (or optionally provided) options and returns it. By
+   * default uses strict `===` equality check for `equiv` option.
+   *
+   * @param obj
+   * @param opts
+   */
+
+
+  static fromObject(obj, opts) {
+    const m = new EquivMap(null, Object.assign({
+      equiv: (a, b) => a === b
+    }, opts));
+
+    for (let k in obj) {
+      obj.hasOwnProperty(k) && m.set(k, obj[k]);
+    }
+
+    return m;
+  }
+
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+
+  get [Symbol.species]() {
+    return EquivMap;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "EquivMap";
+  }
+
+  get size() {
+    return __private.get(this).keys.size;
+  }
+
+  clear() {
+    const $this = __private.get(this);
+
+    $this.keys.clear();
+    $this.map.clear();
+  }
+
+  empty() {
+    return new EquivMap(null, __private.get(this).opts);
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const m = new EquivMap();
+
+    __private.set(m, {
+      keys: $this.keys.copy(),
+      map: new Map($this.map),
+      opts: $this.opts
+    });
+
+    return m;
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivMap)(this, o);
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    key = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (key !== _api.SEMAPHORE) {
+      $this.map.delete(key);
+      $this.keys.delete(key);
+      return true;
+    }
+
+    return false;
+  }
+
+  dissoc(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  forEach(fn, thisArg) {
+    for (let pair of __map(this)) {
+      fn.call(thisArg, pair[1], pair[0], this);
+    }
+  }
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    key = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (key !== _api.SEMAPHORE) {
+      return $this.map.get(key);
+    }
+
+    return notFound;
+  }
+
+  has(key) {
+    return __private.get(this).keys.has(key);
+  }
+
+  set(key, value) {
+    const $this = __private.get(this);
+
+    const k = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (k !== _api.SEMAPHORE) {
+      $this.map.set(k, value);
+    } else {
+      $this.keys.add(key);
+      $this.map.set(key, value);
+    }
+
+    return this;
+  }
+
+  into(pairs) {
+    return (0, _into.into)(this, pairs);
+  }
+
+  entries() {
+    return __map(this).entries();
+  }
+
+  keys() {
+    return __map(this).keys();
+  }
+
+  values() {
+    return __map(this).values();
+  }
+
+  opts() {
+    return __private.get(this).opts;
+  }
+
+}
+
+exports.EquivMap = EquivMap;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./array-set":"../node_modules/@thi.ng/associative/array-set.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/binary/api.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MASKS = void 0;
+const MASKS = new Array(33).fill(0).map((_, i) => Math.pow(2, i) - 1);
+exports.MASKS = MASKS;
+},{}],"../node_modules/@thi.ng/binary/align.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isAligned = exports.align = void 0;
+
+/**
+ * Aligns `addr` to next multiple of `size`. The latter must be a power
+ * of 2.
+ *
+ * @param addr
+ * @param size
+ */
+const align = (addr, size) => (size--, addr + size & ~size);
+/**
+ * Returns true if `addr` is aligned to wordsize `size`.
+ */
+
+
+exports.align = align;
+
+const isAligned = (addr, size) => !(addr & size - 1);
+
+exports.isAligned = isAligned;
+},{}],"../node_modules/@thi.ng/binary/count.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ctz32 = exports.clz32 = exports.hammingDist = exports.popCount = void 0;
+
+/**
+ * Returns number of 1 bits in `x`.
+ *
+ * @param x
+ */
+const popCount = x => (x = x - (x >>> 1 & 0x55555555), x = (x & 0x33333333) + (x >>> 2 & 0x33333333), (x + (x >>> 4) & 0xf0f0f0f) * 0x1010101 >>> 24);
+/**
+ * https://en.wikipedia.org/wiki/Hamming_distance
+ *
+ * @param x
+ * @param y
+ */
+
+
+exports.popCount = popCount;
+
+const hammingDist = (x, y) => popCount(x ^ y);
+/**
+ * Math.clz32() polyfill (corrected).
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32$revision/1426816
+ *
+ * @param x
+ */
+
+
+exports.hammingDist = hammingDist;
+
+const clz32 = x => x !== 0 ? 31 - (Math.log(x >>> 0) / Math.LN2 | 0) : 32;
+
+exports.clz32 = clz32;
+
+const ctz32 = x => {
+  let c = 32;
+  x &= -x;
+  x && c--;
+  x & 0x0000ffff && (c -= 16);
+  x & 0x00ff00ff && (c -= 8);
+  x & 0x0f0f0f0f && (c -= 4);
+  x & 0x33333333 && (c -= 2);
+  x & 0x55555555 && (c -= 1);
+  return c;
+};
+
+exports.ctz32 = ctz32;
+},{}],"../node_modules/@thi.ng/binary/mask.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.maskH = exports.maskL = exports.defMask = void 0;
+
+var _api = require("./api");
+
+/**
+ * Creates bit mask by enabling bit `a` to bit `b-1`, both in range
+ * 0-32. `b` MUST be >= `a`.
+ *
+ * ```
+ * defMask(1,31).toString(16) // 7ffffffe
+ * defMask(3,8).toString(16)  // f8
+ * ```
+ *
+ * @param a
+ * @param b
+ */
+const defMask = (a, b) => (~_api.MASKS[a] & _api.MASKS[b]) >>> 0;
+/**
+ * Returns unsigned version of `x` with only lowest `n` bits.
+ *
+ * @param n
+ * @param x
+ */
+
+
+exports.defMask = defMask;
+
+const maskL = (n, x) => (x & _api.MASKS[n]) >>> 0;
+/**
+ * Returns unsigned version of `x` with only highest `n` bits.
+ *
+ * @param n
+ * @param x
+ */
+
+
+exports.maskL = maskL;
+
+const maskH = (n, x) => (x & ~_api.MASKS[n]) >>> 0;
+
+exports.maskH = maskH;
+},{"./api":"../node_modules/@thi.ng/binary/api.js"}],"../node_modules/@thi.ng/binary/edit.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bitClearWindow = exports.bitSetWindow = exports.bitSet = exports.bitFlip = exports.bitClear = void 0;
+
+var _mask = require("./mask");
+
+/**
+ * Clears bit in given uint `x`.
+ *
+ * @param x value
+ * @param bit bit number (0..31)
+ */
+const bitClear = (x, bit) => (x & ~(1 << bit)) >>> 0;
+/**
+ * Toggles bit in given uint `x`.
+ *
+ * @param x
+ * @param bit
+ */
+
+
+exports.bitClear = bitClear;
+
+const bitFlip = (x, bit) => (x ^ 1 << bit) >>> 0;
+/**
+ * Sets bit in given uint `x`.
+ *
+ * @param x value
+ * @param bit bit number (0..31)
+ */
+
+
+exports.bitFlip = bitFlip;
+
+const bitSet = (x, bit) => (x | 1 << bit) >>> 0;
+
+exports.bitSet = bitSet;
+
+const bitSetWindow = (x, y, from, to) => {
+  const m = (0, _mask.defMask)(from, to);
+  return x & ~m | y << (1 << from) & m;
+};
+
+exports.bitSetWindow = bitSetWindow;
+
+const bitClearWindow = (x, from, to) => x & ~(0, _mask.defMask)(from, to);
+
+exports.bitClearWindow = bitClearWindow;
+},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/float.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.floatToSortableInt = exports.uintBitsToFloat = exports.intBitsToFloat = exports.floatToUintBits = exports.floatToIntBits = void 0;
+const F32 = new Float32Array(1);
+const I32 = new Int32Array(F32.buffer);
+const U32 = new Uint32Array(F32.buffer);
+
+const floatToIntBits = x => (F32[0] = x, I32[0]);
+
+exports.floatToIntBits = floatToIntBits;
+
+const floatToUintBits = x => (F32[0] = x, U32[0]);
+
+exports.floatToUintBits = floatToUintBits;
+
+const intBitsToFloat = x => (I32[0] = x, F32[0]);
+
+exports.intBitsToFloat = intBitsToFloat;
+
+const uintBitsToFloat = x => (U32[0] = x, F32[0]);
+/**
+ * Converts given float into a sortable integer representation, using
+ * raw bitwise conversion via `floatToIntBits()`.
+ *
+ * https://github.com/tzaeschke/phtree/blob/master/PhTreeRevisited.pdf
+ * (page 3)
+ *
+ * @param x
+ */
+
+
+exports.uintBitsToFloat = uintBitsToFloat;
+
+const floatToSortableInt = x => {
+  if (x === -0) x = 0;
+  const i = floatToIntBits(x);
+  return x < 0 ? ~i | 1 << 31 : i;
+};
+
+exports.floatToSortableInt = floatToSortableInt;
+},{}],"../node_modules/@thi.ng/binary/gray.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.decodeGray32 = exports.encodeGray32 = void 0;
+
+/**
+ * Converts 32bit unsigned int to Gray code (reflected binary). Gray
+ * codes of successive values always have a Hamming distance of 1 (i.e.
+ * only 1 bit changes at a time).
+ *
+ * https://en.wikipedia.org/wiki/Gray_code
+ *
+ * @param x u32
+ */
+const encodeGray32 = x => (x ^ x >>> 1) >>> 0;
+/**
+ * Converts 32bit Gray code to binary / unsigned int.
+ *
+ * https://en.wikipedia.org/wiki/Gray_code
+ */
+
+
+exports.encodeGray32 = encodeGray32;
+
+const decodeGray32 = x => {
+  x = x ^ x >>> 16;
+  x = x ^ x >>> 8;
+  x = x ^ x >>> 4;
+  x = x ^ x >>> 2;
+  x = x ^ x >>> 1;
+  return x >>> 0;
+};
+
+exports.decodeGray32 = decodeGray32;
+},{}],"../node_modules/@thi.ng/binary/logic.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bitDemux = exports.bitMux = exports.bitOai22 = exports.bitAoi22 = exports.bitOai21 = exports.bitAoi21 = exports.bitImply = exports.bitXnor = exports.bitXor = exports.bitNor = exports.bitOr = exports.bitNand = exports.bitAnd = exports.bitNot = void 0;
+
+var _mask = require("./mask");
+
+const bitNot = (n, x) => (0, _mask.maskL)(n, ~x);
+
+exports.bitNot = bitNot;
+
+const bitAnd = (n, a, b) => (0, _mask.maskL)(n, a & b);
+
+exports.bitAnd = bitAnd;
+
+const bitNand = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
+
+exports.bitNand = bitNand;
+
+const bitOr = (n, a, b) => (0, _mask.maskL)(n, a | b);
+
+exports.bitOr = bitOr;
+
+const bitNor = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
+
+exports.bitNor = bitNor;
+
+const bitXor = (n, a, b) => (0, _mask.maskL)(n, a ^ b);
+
+exports.bitXor = bitXor;
+
+const bitXnor = (n, a, b) => (0, _mask.maskL)(n, ~(a ^ b));
+
+exports.bitXnor = bitXnor;
+
+const bitImply = (n, a, b) => (0, _mask.maskL)(n, ~a | b);
+
+exports.bitImply = bitImply;
+
+const bitAoi21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a | b & c));
+
+exports.bitAoi21 = bitAoi21;
+
+const bitOai21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a & (b | c)));
+
+exports.bitOai21 = bitOai21;
+
+const bitAoi22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~(a & b | c & d));
+
+exports.bitAoi22 = bitAoi22;
+
+const bitOai22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~((a | b) & (c | d)));
+
+exports.bitOai22 = bitOai22;
+
+const bitMux = (n, a, b, s) => (0, _mask.maskL)(n, a & ~s | b & s);
+
+exports.bitMux = bitMux;
+
+const bitDemux = (n, a, b, s) => [(0, _mask.maskL)(n, a & ~s), (0, _mask.maskL)(n, b & s)];
+
+exports.bitDemux = bitDemux;
+},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/pow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.floorPow2 = exports.ceilPow2 = exports.isPow2 = void 0;
+
+// http://graphics.stanford.edu/~seander/bithacks.html
+const isPow2 = x => !!x && !(x & x - 1);
+
+exports.isPow2 = isPow2;
+
+const ceilPow2 = x => {
+  x += x === 0;
+  --x;
+  x |= x >>> 1;
+  x |= x >>> 2;
+  x |= x >>> 4;
+  x |= x >>> 8;
+  x |= x >>> 16;
+  return x + 1;
+};
+
+exports.ceilPow2 = ceilPow2;
+
+const floorPow2 = x => {
+  x |= x >>> 1;
+  x |= x >>> 2;
+  x |= x >>> 4;
+  x |= x >>> 8;
+  x |= x >>> 16;
+  return x - (x >>> 1);
+};
+
+exports.floorPow2 = floorPow2;
+},{}],"../node_modules/@thi.ng/binary/rotate.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.rotateRight = exports.rotateLeft = void 0;
+
+/**
+ * Rotates `x` `n` bits to the left.
+ *
+ * @param x
+ * @param n
+ */
+const rotateLeft = (x, n) => (x << n | x >>> 32 - n) >>> 0;
+/**
+ * Rotates `x` `n` bits to the right.
+ *
+ * @param x
+ * @param n
+ */
+
+
+exports.rotateLeft = rotateLeft;
+
+const rotateRight = (x, n) => (x >>> n | x << 32 - n) >>> 0;
+
+exports.rotateRight = rotateRight;
+},{}],"../node_modules/@thi.ng/binary/splat.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.same8 = exports.same4 = exports.splat16_32 = exports.splat8_32 = exports.splat8_24 = exports.splat4_32 = exports.splat4_24 = void 0;
+
+/**
+ * Repeats lowest nibble of `x` as 24 bit uint.
+ *
+ * @param x
+ */
+const splat4_24 = x => (x & 0xf) * 0x111111;
+/**
+ * Repeats lowest nibble of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat4_24 = splat4_24;
+
+const splat4_32 = x => (x & 0xf) * 0x11111111 >>> 0;
+/**
+ * Repeats lowest byte of `x` as 24 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat4_32 = splat4_32;
+
+const splat8_24 = x => (x & 0xff) * 0x010101;
+/**
+ * Repeats lowest byte of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat8_24 = splat8_24;
+
+const splat8_32 = x => (x & 0xff) * 0x01010101 >>> 0;
+/**
+ * Repeats lowest 16bit of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat8_32 = splat8_32;
+
+const splat16_32 = x => (x &= 0xffff, (x << 16 | x) >>> 0);
+/**
+ * Returns true if bits 0-3 are same as bits 4-7.
+ *
+ * @param x
+ */
+
+
+exports.splat16_32 = splat16_32;
+
+const same4 = x => (x >> 4 & 0xf) === (x & 0xf);
+/**
+ * Returns true if bits 0-7 are same as bits 8-15.
+ *
+ * @param x
+ */
+
+
+exports.same4 = same4;
+
+const same8 = x => (x >> 8 & 0xff) === (x & 0xff);
+
+exports.same8 = same8;
+},{}],"../node_modules/@thi.ng/binary/swizzle.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.flipBytes = exports.swizzle4 = exports.swizzle8 = exports.setLane2 = exports.setLane4 = exports.setLane8 = exports.lane2 = exports.lane4 = exports.lane8 = void 0;
+
+/**
+ * Extracts 8-bit lane from given 32bit uint.
+ *
+ * - Lane #0: bits 24-31
+ * - Lane #1: bits 16-23
+ * - Lane #2: bits 8-15
+ * - Lane #3: bits 0-7
+ *
+ * @param x
+ * @param lane
+ */
+const lane8 = (x, lane) => x >>> (3 - lane << 3) & 0xff;
+/**
+ * Extracts 4-bit lane from given 32bit uint.
+ *
+ * - Lane #0: bits 28-31
+ * - Lane #1: bits 24-27
+ * - Lane #2: bits 20-23
+ * - Lane #3: bits 16-19
+ * - Lane #4: bits 12-15
+ * - Lane #5: bits 8-11
+ * - Lane #6: bits 4-7
+ * - Lane #7: bits 0-3
+ *
+ * @param x
+ * @param lane
+ */
+
+
+exports.lane8 = lane8;
+
+const lane4 = (x, lane) => x >>> (7 - lane << 2) & 0xf;
+
+exports.lane4 = lane4;
+
+const lane2 = (x, lane) => x >>> (15 - lane << 1) & 0x3;
+/**
+ * Sets 8-bit `lane` with value`y` in `x`.
+ *
+ * @see lane8
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.lane2 = lane2;
+
+const setLane8 = (x, y, lane) => {
+  const l = 3 - lane << 3;
+  return (~(0xff << l) & x | (y & 0xff) << l) >>> 0;
+};
+/**
+ * Sets 4-bit `lane` with value `y` in `x`.
+ *
+ * @see lane4
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.setLane8 = setLane8;
+
+const setLane4 = (x, y, lane) => {
+  const l = 7 - lane << 2;
+  return (~(0xf << l) & x | (y & 0xf) << l) >>> 0;
+};
+/**
+ * Sets 2-bit `lane` with value `y` in `x`.
+ *
+ * @see lane2
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.setLane4 = setLane4;
+
+const setLane2 = (x, y, lane) => {
+  const l = 15 - lane << 1;
+  return (~(0x3 << l) & x | (y & 0x3) << l) >>> 0;
+};
+/**
+ * Re-orders byte lanes in given order (MSB).
+ *
+ * ```
+ * swizzle(0x12345678, 3, 2, 1, 0) // 0x78563412
+ * swizzle(0x12345678, 1, 0, 3, 2) // 0x34127856
+ * swizzle(0x12345678, 2, 2, 0, 0) // 0x56561212
+ * ```
+ *
+ * @param x
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ */
+
+
+exports.setLane2 = setLane2;
+
+const swizzle8 = (x, a, b, c, d) => (lane8(x, a) << 24 | lane8(x, b) << 16 | lane8(x, c) << 8 | lane8(x, d)) >>> 0;
+/**
+ *
+ * @param x
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @param e
+ * @param f
+ * @param g
+ * @param h
+ */
+
+
+exports.swizzle8 = swizzle8;
+
+const swizzle4 = (x, a, b, c, d, e, f, g, h) => (lane4(x, a) << 28 | lane4(x, b) << 24 | lane4(x, c) << 20 | lane4(x, d) << 16 | lane4(x, e) << 12 | lane4(x, f) << 8 | lane4(x, g) << 4 | lane4(x, h)) >>> 0;
+/**
+ * Same as `swizzle8(x, 3, 2, 1, 0)`, but faster.
+ *
+ * @param x
+ */
+
+
+exports.swizzle4 = swizzle4;
+
+const flipBytes = x => (x >>> 24 | x >> 8 & 0xff00 | (x & 0xff00) << 8 | x << 24) >>> 0;
+
+exports.flipBytes = flipBytes;
+},{}],"../node_modules/@thi.ng/binary/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _api = require("./api");
+
+Object.keys(_api).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _api[key];
+    }
+  });
+});
+
+var _align = require("./align");
+
+Object.keys(_align).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _align[key];
+    }
+  });
+});
+
+var _count = require("./count");
+
+Object.keys(_count).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _count[key];
+    }
+  });
+});
+
+var _edit = require("./edit");
+
+Object.keys(_edit).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _edit[key];
+    }
+  });
+});
+
+var _float = require("./float");
+
+Object.keys(_float).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _float[key];
+    }
+  });
+});
+
+var _gray = require("./gray");
+
+Object.keys(_gray).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _gray[key];
+    }
+  });
+});
+
+var _logic = require("./logic");
+
+Object.keys(_logic).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _logic[key];
+    }
+  });
+});
+
+var _mask = require("./mask");
+
+Object.keys(_mask).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mask[key];
+    }
+  });
+});
+
+var _pow = require("./pow");
+
+Object.keys(_pow).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _pow[key];
+    }
+  });
+});
+
+var _rotate = require("./rotate");
+
+Object.keys(_rotate).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _rotate[key];
+    }
+  });
+});
+
+var _splat = require("./splat");
+
+Object.keys(_splat).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _splat[key];
+    }
+  });
+});
+
+var _swizzle = require("./swizzle");
+
+Object.keys(_swizzle).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _swizzle[key];
+    }
+  });
+});
+},{"./api":"../node_modules/@thi.ng/binary/api.js","./align":"../node_modules/@thi.ng/binary/align.js","./count":"../node_modules/@thi.ng/binary/count.js","./edit":"../node_modules/@thi.ng/binary/edit.js","./float":"../node_modules/@thi.ng/binary/float.js","./gray":"../node_modules/@thi.ng/binary/gray.js","./logic":"../node_modules/@thi.ng/binary/logic.js","./mask":"../node_modules/@thi.ng/binary/mask.js","./pow":"../node_modules/@thi.ng/binary/pow.js","./rotate":"../node_modules/@thi.ng/binary/rotate.js","./splat":"../node_modules/@thi.ng/binary/splat.js","./swizzle":"../node_modules/@thi.ng/binary/swizzle.js"}],"../node_modules/@thi.ng/associative/hash-map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HashMap = void 0;
+
+var _binary = require("@thi.ng/binary");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __iterator = (map, id) => function* () {
+  for (let p of __private.get(map).bins) {
+    if (p) yield p[id];
+  }
+};
+
+const DEFAULT_CAP = 16;
+/**
+ * Configurable hash map implementation w/ ES6 Map API. Uses open
+ * addressing / linear probing to resolve key collisions. Supports any
+ * key types via mandatory user supplied hash function.
+ *
+ * See `HashMapOpts` for further configuration & behavior details.
+ *
+ * ```
+ * import { HashMap } from "@thi.ng/associative"
+ * import { hash } from "@thi.ng/vectors"
+ *
+ * m = new HashMap([], { hash })
+ * m.set([1, 2], "a");
+ * m.set([3, 4], "b");
+ * m.set([1, 2], "c");
+ * // HashMap { [ 1, 2 ] => 'c', [ 3, 4 ] => 'b' }
+ * ```
+ *
+ */
+
+class HashMap extends Map {
+  constructor(pairs, opts) {
+    super();
+    const m = (0, _binary.ceilPow2)(Math.min(opts.cap || DEFAULT_CAP, 4)) - 1;
+
+    __private.set(this, {
+      hash: opts.hash,
+      equiv: opts.equiv || _equiv.equiv,
+      load: opts.load || 0.75,
+      mask: m,
+      bins: new Array(m + 1),
+      size: 0
+    });
+
+    if (pairs) {
+      this.into(pairs);
+    }
+  }
+
+  get [Symbol.species]() {
+    return HashMap;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "HashMap";
+  }
+
+  get size() {
+    return __private.get(this).size;
+  }
+
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+
+  *entries() {
+    for (let p of __private.get(this).bins) {
+      if (p) yield [p[0], p[1]];
+    }
+  }
+
+  keys() {
+    return __iterator(this, 0)();
+  }
+
+  values() {
+    return __iterator(this, 1)();
+  }
+
+  forEach(fn, thisArg) {
+    for (let pair of __private.get(this).bins) {
+      fn.call(thisArg, pair[1], pair[0], this);
+    }
+  }
+
+  clear() {
+    const $this = __private.get(this);
+
+    $this.bins = new Array(DEFAULT_CAP);
+    $this.mask = 15;
+    $this.size = 0;
+  }
+
+  empty() {
+    return new HashMap(null, this.opts({
+      cap: DEFAULT_CAP
+    }));
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const m = new HashMap(null, this.opts({
+      cap: 4
+    }));
+    Object.assign(__private.get(m), {
+      bins: $this.bins.slice(),
+      mask: $this.mask,
+      size: $this.size
+    });
+    return m;
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivMap)(this, o);
+  }
+
+  has(key) {
+    const $this = __private.get(this);
+
+    const i = this.find(key, $this);
+    return i >= 0 && $this.bins[i] != undefined;
+  }
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    const i = this.find(key, $this);
+    return i >= 0 && $this.bins[i] ? $this.bins[i][1] : notFound;
+  }
+
+  set(key, val) {
+    const $this = __private.get(this);
+
+    let i = this.find(key, $this);
+
+    if (i >= 0 && $this.bins[i]) {
+      $this.bins[i][1] = val;
+      return this;
+    }
+
+    if ($this.size > $this.mask * $this.load) {
+      this.resize($this);
+      i = this.find(key, $this);
+    }
+
+    $this.bins[i] = [key, val];
+    $this.size++;
+    return this;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    let i = this.find(key, $this);
+    const bins = $this.bins;
+
+    if (i >= 0 && !bins[i]) {
+      return false;
+    }
+
+    $this.size--;
+    const m = $this.mask;
+    let j = i;
+    let k;
+
+    while (true) {
+      delete bins[i];
+
+      do {
+        j = j + 1 & m;
+        if (!bins[j]) return true;
+        k = $this.hash(bins[j][0]) & m;
+      } while (i <= j ? i < k && k <= j : i < k || k <= j);
+
+      bins[i] = bins[j];
+      i = j;
+    }
+  }
+
+  into(pairs) {
+    return (0, _into.into)(this, pairs);
+  }
+
+  dissoc(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  opts(overrides) {
+    const $this = __private.get(this);
+
+    return Object.assign({
+      hash: $this.hash,
+      equiv: $this.equiv,
+      load: $this.load,
+      cap: $this.mask + 1
+    }, overrides);
+  }
+
+  find(key, $this) {
+    const m = $this.mask;
+    const bins = $this.bins;
+    const equiv = $this.equiv;
+    let i = m;
+    let h = $this.hash(key) & m;
+
+    while (bins[h] && !equiv(bins[h][0], key)) {
+      i--;
+      if (i < 0) return -1;
+      h = h + 1 & $this.mask;
+    }
+
+    return h;
+  }
+
+  resize($this) {
+    const src = $this.bins;
+    const cap = ($this.mask + 1) * 2;
+    $this.bins = new Array(cap);
+    $this.mask = cap - 1;
+    $this.size = 0;
+
+    for (let p of src) {
+      if (p) this.set(p[0], p[1]);
+    }
+  }
+
+}
+
+exports.HashMap = HashMap;
+},{"@thi.ng/binary":"../node_modules/@thi.ng/binary/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/select-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.selectKeysObj = exports.selectKeysMap = void 0;
+
+var _utils = require("./utils");
+
+/**
+ * Returns a new map of same type as input only containing given keys
+ * (and only if they existed in the original map).
+ *
+ * @param src
+ * @param ks selected keys
+ */
+const selectKeysMap = (src, ks) => {
+  const dest = (0, _utils.empty)(src, Map);
+
+  for (let k of ks) {
+    src.has(k) && dest.set(k, src.get(k));
+  }
+
+  return dest;
+};
+/**
+ * Returns a new object only containing given keys (and only if they
+ * existed in the original).
+ *
+ * @param src
+ * @param ks
+ */
+
+
+exports.selectKeysMap = selectKeysMap;
+
+const selectKeysObj = (src, ks) => {
+  const dest = {};
+
+  for (let k of ks) {
+    src.hasOwnProperty(k) && (dest[k] = src[k]);
+  }
+
+  return dest;
+};
+
+exports.selectKeysObj = selectKeysObj;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/indexed.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexed = void 0;
+
+var _equivMap = require("./equiv-map");
+
+var _selectKeys = require("./select-keys");
+
+var _utils = require("./utils");
+
+/**
+ * Takes an iterable of plain objects and array of indexing keys. Calls
+ * `selectKeysObj` on each value and uses returned objects as new keys
+ * to group original values. Returns a new `EquivMap` of sets.
+ *
+ * ```
+ * indexed(
+ *   new Set([{a: 1, b: 1}, {a: 1, b: 2}, {a: 1, b: 1, c: 2}]),
+ *   ["a","b"]
+ * )
+ * // EquivMap {
+ * //   { a: 1, b: 1 } => Set { { a: 1, b: 1 }, { a: 1, b: 1, c: 2 } },
+ * //   { a: 1, b: 2 } => Set { { a: 1, b: 2 } } }
+ * ```
+ *
+ * @param records objects to index
+ * @param ks keys used for indexing
+ */
+const indexed = (records, ks) => {
+  const res = new _equivMap.EquivMap();
+  let x, ik, rv;
+
+  for (x of records) {
+    ik = (0, _selectKeys.selectKeysObj)(x, ks);
+    rv = res.get(ik);
+    !rv && res.set(ik, rv = (0, _utils.empty)(records, Set));
+    rv.add(x);
+  }
+
+  return res;
+};
+
+exports.indexed = indexed;
+},{"./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/intersection.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.intersection = void 0;
+
+var _into = require("./into");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the intersection of sets `a` and `b` and writes results into
+ * new set or optionally given set `out` (assumed to be empty for
+ * correct results). If `out` is *not* given, the returned Set type will
+ * be that of `a` (provided it defines `Symbol.species`).
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const intersection = (a, b, out) => {
+  out = out || (0, _utils.empty)(a, Set);
+
+  if (a === b) {
+    return (0, _into.into)(out, a);
+  }
+
+  if (b.size < a.size) {
+    return intersection(b, a, out);
+  }
+
+  for (let i of b) {
+    if (a.has(i)) {
+      out.add(i);
+    }
+  }
+
+  return out;
+};
+
+exports.intersection = intersection;
+},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/invert.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.invertObj = exports.invertMap = void 0;
+
+/**
+ * Returns a new map in which the original values are used as keys and
+ * original keys as values. If `dest` is given, writes results in that
+ * map instead. Depending on the value type of `src` and/or if the
+ * inverted map should use custom key equality semantics as provided by
+ * the Map types in this package, you MUST provide a `dest` map, since
+ * the default `dest` will only be a standard ES6 Map.
+ *
+ * ```
+ * invertMap(new Map(), new Map([["a", 1], ["b", 2]]));
+ * // Map { 1 => 'a', 2 => 'b' }
+ * ```
+ *
+ * @param src
+ * @param dest
+ */
+const invertMap = (src, dest) => {
+  dest = dest || new Map();
+
+  for (let p of src) {
+    dest.set(p[1], p[0]);
+  }
+
+  return dest;
+};
+/**
+ * Returns a new object in which the original values are used as keys
+ * and original keys as values. If `dest` is given, writes results in
+ * that object instead.
+ *
+ * ```
+ * invertObj({a: 1, b: 2})
+ * // { '1': 'a', '2': 'b' }
+ * ```
+ *
+ * @param src
+ * @param dest
+ */
+
+
+exports.invertMap = invertMap;
+
+const invertObj = (src, dest = {}) => {
+  for (let k in src) {
+    dest[src[k]] = k;
+  }
+
+  return dest;
+};
+
+exports.invertObj = invertObj;
+},{}],"../node_modules/@thi.ng/associative/merge.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mergeObj = exports.mergeMap = void 0;
+
+/**
+ * Merges all given maps in left-to-right order into `dest`.
+ * Returns `dest`.
+ *
+ * @param dest
+ * @param xs
+ */
+const mergeMap = (dest, ...xs) => {
+  for (let x of xs) {
+    for (let pair of x) {
+      dest.set(pair[0], pair[1]);
+    }
+  }
+
+  return dest;
+};
+/**
+ * Merges all given objects in left-to-right order into `dest`.
+ * Returns `dest`.
+ *
+ * @param dest
+ * @param xs
+ */
+
+
+exports.mergeMap = mergeMap;
+
+const mergeObj = (dest, ...xs) => Object.assign(dest, ...xs);
+
+exports.mergeObj = mergeObj;
+},{}],"../node_modules/@thi.ng/associative/rename-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renameKeysObj = exports.renameKeysMap = void 0;
+
+var _utils = require("./utils");
+
+/**
+ * Renames keys in `src` using mapping provided by key map `km`. Does
+ * support key swapping / swizzling. Does not modify original.
+ *
+ * @param src
+ * @param km
+ * @param out
+ */
+const renameKeysMap = (src, km, out) => {
+  out = out || (0, _utils.empty)(src, Map);
+
+  for (let [k, v] of src) {
+    out.set(km.has(k) ? km.get(k) : k, v);
+  }
+
+  return out;
+};
+/**
+ * Renames keys in `src` using mapping provided by key map `km`. Does
+ * support key swapping / swizzling. Does not modify original.
+ *
+ * ```
+ * // swap a & b, rename c
+ * renameKeysObj({a: 1, b: 2, c: 3}, {a: "b", b: "a", c: "cc"})
+ * // {b: 1, a: 2, cc: 3}
+ * ```
+ *
+ * @param src
+ * @param km
+ */
+
+
+exports.renameKeysMap = renameKeysMap;
+
+const renameKeysObj = (src, km, out = {}) => {
+  for (let k in src) {
+    out[km.hasOwnProperty(k) ? km[k] : k] = src[k];
+  }
+
+  return out;
+};
+
+exports.renameKeysObj = renameKeysObj;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/join.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.joinWith = exports.join = void 0;
+
+var _commonKeys = require("./common-keys");
+
+var _indexed = require("./indexed");
+
+var _invert = require("./invert");
+
+var _merge = require("./merge");
+
+var _renameKeys = require("./rename-keys");
+
+var _selectKeys = require("./select-keys");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the natural join between the two sets of relations. Each set
+ * is assumed to have plain objects as values with at least one of the
+ * keys present in both sides. Furthermore the objects in each set are
+ * assumed to have the same internal structure (i.e. sets of keys).
+ * Returns new set of same type as `a`.
+ *
+ * ```
+ * join(
+ *   new Set([
+ *     {id: 1, name: "foo"},
+ *     {id: 2, name: "bar"},
+ *     {id: 3, name: "baz"}]),
+ *   new Set([
+ *     {id: 1, color: "red"},
+ *     {id: 2, color: "blue"}])
+ * )
+ * // Set {
+ * //   { id: 1, color: 'red', name: 'foo' },
+ * //   { id: 2, color: 'blue', name: 'bar' }
+ * // }
+ * ```
+ *
+ * @param a
+ * @param b
+ */
+const join = (a, b) => {
+  if (a.size && b.size) {
+    const ks = (0, _commonKeys.commonKeysObj)((0, _utils.first)(a) || {}, (0, _utils.first)(b) || {});
+    let aa, bb;
+
+    if (a.size <= b.size) {
+      aa = a;
+      bb = b;
+    } else {
+      aa = b;
+      bb = a;
+    }
+
+    const idx = (0, _indexed.indexed)(aa, ks);
+    const res = (0, _utils.empty)(a, Set);
+
+    for (let x of bb) {
+      const found = idx.get((0, _selectKeys.selectKeysObj)(x, ks));
+
+      if (found) {
+        for (let f of found) {
+          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
+        }
+      }
+    }
+
+    return res;
+  }
+
+  return (0, _utils.empty)(a, Set);
+};
+/**
+ * Similar to `join()`, computes the join between two sets of relations,
+ * using the given keys in `kmap` only for joining and ignoring others.
+ * `kmap` can also be used to translate join keys in `b` where
+ * needed. Else, if no renaming is desired, the values in `kmap` should
+ * be the same as their respective keys, e.g. `{id: "id"}`. Returns new
+ * set of same type as `a`.
+ *
+ * ```
+ * joinWith(
+ *   new Set([
+ *     {id: 1, name: "foo"},
+ *     {id: 2, name: "bar"},
+ *     {id: 3, name: "baz"}]),
+ *   new Set([
+ *     {type: 1, color: "red"},
+ *     {type: 2, color: "blue"}]),
+ *   {id: "type"}
+ * )
+ * // Set {
+ * //   { type: 1, color: 'red', id: 1, name: 'foo' },
+ * //   { type: 2, color: 'blue', id: 2, name: 'bar' } }
+ * ```
+ *
+ * @param a
+ * @param b
+ * @param kmap keys to compute join for
+ */
+
+
+exports.join = join;
+
+const joinWith = (a, b, kmap) => {
+  if (a.size && b.size) {
+    let aa, bb;
+    let k;
+
+    if (a.size <= b.size) {
+      aa = a;
+      bb = b;
+      k = (0, _invert.invertObj)(kmap);
+    } else {
+      aa = b;
+      bb = a;
+      k = kmap;
+    }
+
+    const idx = (0, _indexed.indexed)(aa, (0, _utils.objValues)(k));
+    const ks = Object.keys(k);
+    const res = (0, _utils.empty)(a, Set);
+
+    for (let x of bb) {
+      const found = idx.get((0, _renameKeys.renameKeysObj)((0, _selectKeys.selectKeysObj)(x, ks), k));
+
+      if (found) {
+        for (let f of found) {
+          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
+        }
+      }
+    }
+
+    return res;
+  }
+
+  return (0, _utils.empty)(a, Set);
+};
+
+exports.joinWith = joinWith;
+joinWith(new Set([{
+  a: 1,
+  b: 2
+}]), new Set([{
+  id: 1,
+  c: 2
+}]), {
+  a: "id"
+});
+},{"./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/dcons/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DCons = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _checks = require("@thi.ng/checks");
+
+var _compare = require("@thi.ng/compare");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _errors = require("@thi.ng/errors");
+
+var _transducers = require("@thi.ng/transducers");
+
+class DCons {
+  constructor(src) {
+    this._length = 0;
+
+    if (src) {
+      this.into(src);
+    }
+  }
+
+  get length() {
+    return this._length;
+  }
+
+  copy() {
+    return new DCons(this);
+  }
+
+  empty() {
+    return new DCons();
+  }
+
+  clear() {
+    this.release();
+  }
+
+  release() {
+    let cell = this.head,
+        next;
+
+    while (cell) {
+      next = cell.next;
+      delete cell.value;
+      delete cell.prev;
+      delete cell.next;
+      cell = next;
+    }
+
+    delete this.head;
+    delete this.tail;
+    this._length = 0;
+    return true;
+  }
+
+  compare(o) {
+    const n = this._length;
+
+    if (n < o._length) {
+      return -1;
+    } else if (n > o._length) {
+      return 1;
+    } else if (n === 0) {
+      return 0;
+    } else {
+      let ca = this.head;
+      let cb = o.head;
+      let res = 0;
+
+      while (ca && res == 0) {
+        res = (0, _compare.compare)(ca.value, cb.value);
+        ca = ca.next;
+        cb = cb.next;
+      }
+
+      return res;
+    }
+  }
+
+  equiv(o) {
+    if ((o instanceof DCons || (0, _checks.isArrayLike)(o)) && this._length === o.length) {
+      if (this._length === 0) {
+        return true;
+      }
+
+      let cell = this.head;
+
+      for (let x of o) {
+        if (!(0, _equiv.equiv)(cell.value, x)) {
+          return false;
+        }
+
+        cell = cell.next;
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  *[Symbol.iterator]() {
+    let cell = this.head;
+
+    while (cell) {
+      yield cell.value;
+      cell = cell.next;
+    }
+  }
+
+  *cycle() {
+    while (true) {
+      yield* this;
+    }
+  }
+
+  $reduce(rfn, acc) {
+    let cell = this.head;
+
+    while (cell && !(0, _transducers.isReduced)(acc)) {
+      acc = rfn(acc, cell.value);
+      cell = cell.next;
+    }
+
+    return acc;
+  }
+
+  drop() {
+    const cell = this.head;
+
+    if (cell) {
+      this.head = cell.next;
+
+      if (this.head) {
+        delete this.head.prev;
+      } else {
+        delete this.tail;
+      }
+
+      this._length--;
+      return cell.value;
+    }
+  }
+
+  cons(value) {
+    const cell = {
+      value,
+      next: this.head
+    };
+
+    if (this.head) {
+      this.head.prev = cell;
+    } else {
+      this.tail = cell;
+    }
+
+    this.head = cell;
+    this._length++;
+    return this;
+  }
+
+  insertBefore(cell, value) {
+    if (!cell) {
+      (0, _errors.illegalArgs)("cell is undefined");
+    }
+
+    const newCell = {
+      value,
+      next: cell,
+      prev: cell.prev
+    };
+
+    if (cell.prev) {
+      cell.prev.next = newCell;
+    } else {
+      this.head = newCell;
+    }
+
+    cell.prev = newCell;
+    this._length++;
+    return this;
+  }
+
+  insertAfter(cell, value) {
+    if (!cell) {
+      (0, _errors.illegalArgs)("cell is undefined");
+    }
+
+    const newCell = {
+      value,
+      next: cell.next,
+      prev: cell
+    };
+
+    if (cell.next) {
+      cell.next.prev = newCell;
+    } else {
+      this.tail = newCell;
+    }
+
+    cell.next = newCell;
+    this._length++;
+    return this;
+  }
+
+  insertBeforeNth(n, x) {
+    if (n < 0) {
+      n += this._length;
+    }
+
+    if (n <= 0) {
+      return this.cons(x);
+    } else {
+      this.ensureIndex(n);
+      return this.insertBefore(this.nthCellUnsafe(n), x);
+    }
+  }
+
+  insertAfterNth(n, x) {
+    if (n < 0) {
+      n += this._length;
+    }
+
+    if (n >= this._length - 1) {
+      return this.push(x);
+    } else {
+      this.ensureIndex(n);
+      return this.insertAfter(this.nthCellUnsafe(n), x);
+    }
+  }
+
+  insertSorted(value, cmp) {
+    cmp = cmp || _compare.compare;
+    let cell = this.head;
+
+    while (cell) {
+      if (cmp(value, cell.value) <= 0) {
+        return this.insertBefore(cell, value);
+      }
+
+      cell = cell.next;
+    }
+
+    return this.push(value);
+  }
+
+  find(value) {
+    let cell = this.head;
+
+    while (cell) {
+      if (cell.value === value) {
+        return cell;
+      }
+
+      cell = cell.next;
+    }
+  }
+
+  findWith(fn) {
+    let cell = this.head;
+
+    while (cell) {
+      if (fn(cell.value)) {
+        return cell;
+      }
+
+      cell = cell.next;
+    }
+  }
+
+  concat(...slices) {
+    const res = this.copy();
+
+    for (let slice of slices) {
+      res.into(slice);
+    }
+
+    return res;
+  }
+
+  into(src) {
+    for (let x of src) {
+      this.push(x);
+    }
+  }
+
+  slice(from = 0, to = this.length) {
+    let a = from < 0 ? from + this._length : from;
+    let b = to < 0 ? to + this._length : to;
+
+    if (a < 0 || b < 0) {
+      (0, _errors.illegalArgs)("invalid indices: ${from} / ${to}");
+    }
+
+    const res = new DCons();
+    let cell = this.nthCell(a);
+
+    while (cell && ++a <= b) {
+      res.push(cell.value);
+      cell = cell.next;
+    }
+
+    return res;
+  }
+
+  splice(at, del = 0, insert) {
+    let cell;
+
+    if (typeof at === "number") {
+      if (at < 0) {
+        at += this._length;
+      }
+
+      this.ensureIndex(at);
+      cell = this.nthCellUnsafe(at);
+    } else {
+      cell = at;
+    }
+
+    const removed = new DCons();
+
+    if (del > 0) {
+      while (cell && del-- > 0) {
+        this.remove(cell);
+        removed.push(cell.value);
+        cell = cell.next;
+      }
+    } else if (cell) {
+      cell = cell.next;
+    }
+
+    if (insert) {
+      if (cell) {
+        for (let i of insert) {
+          this.insertBefore(cell, i);
+        }
+      } else {
+        for (let i of insert) {
+          this.push(i);
+        }
+      }
+    }
+
+    return removed;
+  }
+
+  remove(cell) {
+    if (cell.prev) {
+      cell.prev.next = cell.next;
+    } else {
+      this.head = cell.next;
+    }
+
+    if (cell.next) {
+      cell.next.prev = cell.prev;
+    } else {
+      this.tail = cell.prev;
+    }
+
+    this._length--;
+    return this;
+  }
+
+  swap(a, b) {
+    if (a !== b) {
+      const t = a.value;
+      a.value = b.value;
+      b.value = t;
+    }
+
+    return this;
+  }
+
+  push(value) {
+    if (this.tail) {
+      const cell = {
+        value,
+        prev: this.tail
+      };
+      this.tail.next = cell;
+      this.tail = cell;
+      this._length++;
+      return this;
+    } else {
+      return this.cons(value);
+    }
+  }
+
+  pop() {
+    const cell = this.tail;
+
+    if (!cell) {
+      return;
+    }
+
+    this.tail = cell.prev;
+
+    if (this.tail) {
+      delete this.tail.next;
+    } else {
+      delete this.head;
+    }
+
+    this._length--;
+    return cell.value;
+  }
+
+  first() {
+    return this.head && this.head.value;
+  }
+
+  peek() {
+    return this.tail && this.tail.value;
+  }
+
+  setHead(v) {
+    if (this.head) {
+      this.head.value = v;
+      return this;
+    }
+
+    return this.cons(v);
+  }
+
+  setTail(v) {
+    if (this.tail) {
+      this.tail.value = v;
+      return this;
+    }
+
+    return this.push(v);
+  }
+
+  setNth(n, v) {
+    const cell = this.nthCell(n);
+    !cell && (0, _errors.illegalArgs)(`index out of bounds: ${n}`);
+    cell.value = v;
+    return this;
+  }
+
+  nth(n, notFound) {
+    const cell = this.nthCell(n);
+    return cell ? cell.value : notFound;
+  }
+
+  nthCell(n) {
+    if (n < 0) {
+      n += this._length;
+    }
+
+    if (n < 0 || n >= this._length) {
+      return;
+    }
+
+    return this.nthCellUnsafe(n);
+  }
+
+  rotateLeft() {
+    switch (this._length) {
+      case 0:
+      case 1:
+        return this;
+
+      case 2:
+        return this.swap(this.head, this.tail);
+
+      default:
+        return this.push(this.drop());
+    }
+  }
+
+  rotateRight() {
+    switch (this._length) {
+      case 0:
+      case 1:
+        return this;
+
+      case 2:
+        return this.swap(this.head, this.tail);
+
+      default:
+        const x = this.peek();
+        this.pop();
+        return this.cons(x);
+    }
+  }
+
+  map(fn) {
+    const res = new DCons();
+    let cell = this.head;
+
+    while (cell) {
+      res.push(fn(cell.value));
+      cell = cell.next;
+    }
+
+    return res;
+  }
+
+  filter(pred) {
+    const res = new DCons();
+    let cell = this.head;
+
+    while (cell) {
+      pred(cell.value) && res.push(cell.value);
+      cell = cell.next;
+    }
+
+    return res;
+  }
+
+  reduce(rfn, initial) {
+    let acc = initial;
+    let cell = this.head;
+
+    while (cell) {
+      // TODO add early termination support
+      acc = rfn(acc, cell.value);
+      cell = cell.next;
+    }
+
+    return acc;
+  }
+
+  shuffle() {
+    let n = this._length;
+    let cell = this.tail;
+
+    while (n > 1) {
+      let i = Math.floor(Math.random() * n);
+      this.swap(this.nthCell(i), cell);
+      cell = cell.prev;
+      n--;
+    }
+
+    return this;
+  }
+
+  reverse() {
+    let head = this.head;
+    let tail = this.tail;
+    let n = (this._length >>> 1) + (this._length & 1);
+
+    while (head && tail && n > 0) {
+      const t = head.value;
+      head.value = tail.value;
+      tail.value = t;
+      head = head.next;
+      tail = tail.prev;
+      n--;
+    }
+
+    return this;
+  }
+
+  asHead(cell) {
+    if (cell === this.head) {
+      return this;
+    }
+
+    this.remove(cell);
+    this.head.prev = cell;
+    cell.next = this.head;
+    cell.prev = undefined;
+    this.head = cell;
+    this._length++;
+    return this;
+  }
+
+  asTail(cell) {
+    if (cell === this.tail) {
+      return this;
+    }
+
+    this.remove(cell);
+    this.tail.next = cell;
+    cell.prev = this.tail;
+    cell.next = undefined;
+    this.tail = cell;
+    this._length++;
+    return this;
+  }
+
+  toString() {
+    let res = [];
+    let cell = this.head;
+
+    while (cell) {
+      res.push(cell.value != null ? String(cell.value) : cell.value === undefined ? "undefined" : "null");
+      cell = cell.next;
+    }
+
+    return res.join(", ");
+  }
+
+  toJSON() {
+    return [...this];
+  }
+
+  ensureIndex(i) {
+    (0, _api.assert)(i >= 0 && i < this._length, `index out of range: ${i}`);
+  }
+
+  nthCellUnsafe(n) {
+    let cell, dir;
+
+    if (n <= this._length >> 1) {
+      cell = this.head;
+      dir = "next";
+    } else {
+      cell = this.tail;
+      dir = "prev";
+      n = this._length - n - 1;
+    }
+
+    while (n-- > 0 && cell) {
+      cell = cell[dir];
+    }
+
+    return cell;
+  }
+
+}
+
+exports.DCons = DCons;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/compare":"../node_modules/@thi.ng/compare/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js"}],"../node_modules/@thi.ng/associative/ll-set.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LLSet = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _dcons = require("@thi.ng/dcons");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __vals = inst => __private.get(inst).vals;
+/**
+ * Similar to `ArraySet`, this class is an alternative implementation of
+ * the native ES6 Set API using a @thi.ng/dcons linked list as backing
+ * store and a customizable value equality / equivalence predicate. By
+ * the default uses `@thi.ng/equiv` for equivalence checking.
+ *
+ * Additionally, the type also implements the `ICopy`, `IEmpty` and
+ * `IEquiv` interfaces itself.
+ */
+
+
+class LLSet extends Set {
+  constructor(vals, opts = {}) {
+    super();
+
+    __private.set(this, {
+      equiv: opts.equiv || _equiv.equiv,
+      vals: new _dcons.DCons()
+    });
+
+    vals && this.into(vals);
+  }
+
+  *[Symbol.iterator]() {
+    yield* __vals(this);
+  }
+
+  get [Symbol.species]() {
+    return LLSet;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "LLSet";
+  }
+
+  get size() {
+    return __vals(this).length;
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const s = new LLSet(null, this.opts());
+    __private.get(s).vals = $this.vals.copy();
+    return s;
+  }
+
+  empty() {
+    return new LLSet(null, this.opts());
+  }
+
+  clear() {
+    __vals(this).clear();
+  }
+
+  first() {
+    if (this.size) {
+      return __vals(this).head.value;
+    }
+  }
+
+  add(key) {
+    !this.has(key) && __vals(this).push(key);
+    return this;
+  }
+
+  into(keys) {
+    return (0, _into.into)(this, keys);
+  }
+
+  has(key) {
+    return this.get(key, _api.SEMAPHORE) !== _api.SEMAPHORE;
+  }
+  /**
+   * Returns the canonical (stored) value for `key`, if present. If
+   * the set contains no equivalent for `key`, returns `notFound`.
+   *
+   * @param key
+   * @param notFound
+   */
+
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    let i = $this.vals.head;
+
+    while (i) {
+      if (eq(i.value, key)) {
+        return i.value;
+      }
+
+      i = i.next;
+    }
+
+    return notFound;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    let i = $this.vals.head;
+
+    while (i) {
+      if (eq(i.value, key)) {
+        $this.vals.splice(i, 1);
+        return true;
+      }
+
+      i = i.next;
+    }
+
+    return false;
+  }
+
+  disj(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivSet)(this, o);
+  }
+
+  forEach(fn, thisArg) {
+    let i = __vals(this).head;
+
+    while (i) {
+      fn.call(thisArg, i.value, i.value, this);
+      i = i.next;
+    }
+  }
+
+  *entries() {
+    for (let v of __vals(this)) {
+      yield [v, v];
+    }
+  }
+
+  *keys() {
+    yield* __vals(this);
+  }
+
+  *values() {
+    yield* __vals(this);
+  }
+
+  opts() {
+    return {
+      equiv: __private.get(this).equiv
+    };
+  }
+
+}
+
+exports.LLSet = LLSet;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/dcons":"../node_modules/@thi.ng/dcons/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/merge-apply.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mergeApplyObj = exports.mergeApplyMap = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _utils = require("./utils");
+
+/**
+ * Similar to `mergeApplyObj()`, but for ES6 Maps instead of plain objects.
+ *
+ * @param src
+ * @param xs
+ */
+const mergeApplyMap = (src, xs) => {
+  const res = (0, _utils.copy)(src, Map);
+
+  for (let [k, v] of xs) {
+    res.set(k, (0, _checks.isFunction)(v) ? v(res.get(k)) : v);
+  }
+
+  return res;
+};
+/**
+ * Similar to `mergeObjWith()`, but only supports 2 args and any
+ * function values in `xs` will be called with respective value in `src`
+ * to produce a new / derived value for that key, i.e.
+ *
+ * ```
+ * dest[k] = xs[k](src[k])
+ * ```
+ *
+ * Returns new merged object and does not modify any of the inputs.
+ *
+ * ```
+ * mergeApplyObj(
+ *   {a: "hello", b: 23, c: 12},
+ *   {a: (x) => x + " world", b: 42}
+ * );
+ * // { a: 'hello world', b: 42, c: 12 }
+ * ```
+ *
+ * @param src
+ * @param xs
+ */
+
+
+exports.mergeApplyMap = mergeApplyMap;
+
+const mergeApplyObj = (src, xs) => {
+  const res = Object.assign({}, src);
+
+  for (let k in xs) {
+    const v = xs[k];
+    res[k] = (0, _checks.isFunction)(v) ? v(res[k]) : v;
+  }
+
+  return res;
+};
+
+exports.mergeApplyObj = mergeApplyObj;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/merge-with.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mergeObjWith = exports.mergeMapWith = void 0;
+
+var _utils = require("./utils");
+
+const mergeMapWith = (f, dest, ...xs) => {
+  const res = (0, _utils.copy)(dest, Map);
+
+  for (let x of xs) {
+    for (let [k, v] of x) {
+      res.set(k, res.has(k) ? f(res.get(k), v) : v);
+    }
+  }
+
+  return res;
+};
+
+exports.mergeMapWith = mergeMapWith;
+
+const mergeObjWith = (f, dest, ...xs) => {
+  const res = Object.assign({}, dest);
+
+  for (let x of xs) {
+    for (let k in x) {
+      const v = x[k];
+      res[k] = res.hasOwnProperty(k) ? f(dest[k], v) : v;
+    }
+  }
+
+  return res;
+};
+
+exports.mergeObjWith = mergeObjWith;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/merge-deep.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mergeDeepObj = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _mergeWith = require("./merge-with");
+
+const mergeDeepObj = (dest, ...xs) => (0, _mergeWith.mergeObjWith)((a, b) => (0, _checks.isPlainObject)(a) && (0, _checks.isPlainObject)(b) ? mergeDeepObj(a, b) : b, dest, ...xs);
+
+exports.mergeDeepObj = mergeDeepObj;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./merge-with":"../node_modules/@thi.ng/associative/merge-with.js"}],"../node_modules/@thi.ng/associative/sorted-map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SortedMap = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _compare = require("@thi.ng/compare");
+
+var _transducers = require("@thi.ng/transducers");
+
+var _dissoc = require("./dissoc");
+
+var _equiv = require("./internal/equiv");
+
+var _into = require("./into");
+
+class Node {
+  constructor(k, v, h) {
+    this.k = k;
+    this.v = v;
+    this.next = new Array(h + 1);
+  }
+
+} // stores private properties for all instances
+// http://fitzgeraldnick.com/2014/01/13/hiding-implementation-details-with-e6-weakmaps.html
+
+
+const __private = new WeakMap();
+
+class SortedMap extends Map {
+  /**
+   * Creates new `SortedMap` instance with optionally given pairs
+   * and/or options.
+   *
+   * @param pairs
+   * @param opts
+   */
+  constructor(pairs, opts = {}) {
+    super();
+    const cap = opts.capacity || SortedMap.DEFAULT_CAP;
+    const maxh = Math.ceil(Math.log2(cap));
+
+    __private.set(this, {
+      head: new Node(null, null, 0),
+      cap: Math.pow(2, maxh),
+      cmp: opts.compare || _compare.compare,
+      p: opts.probability || SortedMap.DEFAULT_P,
+      maxh,
+      length: 0,
+      h: 0
+    });
+
+    if (pairs) {
+      this.into(pairs);
+    }
+  }
+  /**
+   * Creates new `SortedMap` instance from given object's key-value
+   * pairs.
+   *
+   * @param obj
+   * @param opts
+   */
+
+
+  static fromObject(obj, opts) {
+    const m = new SortedMap(null, Object.assign({
+      capacity: Object.keys(obj).length
+    }, opts));
+
+    for (let k in obj) {
+      obj.hasOwnProperty(k) && m.set(k, obj[k]);
+    }
+
+    return m;
+  }
+
+  get [Symbol.species]() {
+    return SortedMap;
+  }
+
+  *[Symbol.iterator]() {
+    let node = __private.get(this).head;
+
+    while (node = node.next[0]) {
+      yield [node.k, node.v];
+    }
+  }
+
+  *entries(key, max = false) {
+    const $this = __private.get(this);
+
+    let node = $this.head;
+    const cmp = $this.cmp;
+    let code;
+
+    if (max) {
+      while (node = node.next[0]) {
+        if (key === undefined || (code = cmp(node.k, key)) <= 0) {
+          yield [node.k, node.v];
+          if (code === 0) return;
+        }
+      }
+    } else {
+      while (node = node.next[0]) {
+        if (key === undefined || (code = cmp(node.k, key)) >= 0) {
+          yield [node.k, node.v];
+        }
+      }
+    }
+  }
+
+  keys(key, max = false) {
+    return (0, _transducers.map)(p => p[0], this.entries(key, max));
+  }
+
+  values(key, max = false) {
+    return (0, _transducers.map)(p => p[1], this.entries(key, max));
+  }
+
+  get size() {
+    return __private.get(this).length;
+  }
+
+  clear() {
+    const $this = __private.get(this);
+
+    $this.head = new Node(null, null, 0);
+    $this.length = 0;
+    $this.h = 0;
+  }
+
+  empty() {
+    return new SortedMap(null, Object.assign({}, this.opts(), {
+      capacity: SortedMap.DEFAULT_CAP
+    }));
+  }
+
+  copy() {
+    return new SortedMap(this, this.opts());
+  }
+
+  compare(o) {
+    const n = this.size;
+    const m = o.size;
+    if (n < m) return -1;
+    if (n > m) return 1;
+    const i = this.entries();
+    const j = o.entries();
+    let x, y;
+    let c;
+
+    while (x = i.next(), y = j.next(), !x.done && !y.done) {
+      if ((c = (0, _compare.compare)(x.value[0], y.value[0])) !== 0 || (c = (0, _compare.compare)(x.value[1], y.value[1])) !== 0) {
+        return c;
+      }
+    }
+
+    return 0;
+  }
+
+  equiv(o) {
+    return (0, _equiv.equivMap)(this, o);
+  }
+
+  first() {
+    const node = __private.get(this).head.next[0];
+
+    return node ? [node.k, node.v] : undefined;
+  }
+
+  get(k, notFound) {
+    const node = this.findPredNode(k).next[0];
+    return node && __private.get(this).cmp(node.k, k) === 0 ? node.v : notFound;
+  }
+
+  has(key) {
+    return this.get(key, _api.SEMAPHORE) !== _api.SEMAPHORE;
+  }
+
+  set(k, v) {
+    const $this = __private.get(this);
+
+    let node = $this.head;
+    let level = $this.h;
+    let stack = new Array(level);
+    const cmp = $this.cmp;
+    let code;
+
+    while (level >= 0) {
+      while (node.next[level] && (code = cmp(node.next[level].k, k)) < 0) {
+        node = node.next[level];
+      }
+
+      if (node.next[level] && code === 0) {
+        do {
+          node.next[level].v = v;
+        } while (--level >= 0);
+
+        return this;
+      }
+
+      stack[level--] = node;
+    }
+
+    const h = this.pickHeight($this.maxh, $this.h, $this.p);
+    node = new Node(k, v, h);
+
+    while ($this.h < h) {
+      stack[++$this.h] = $this.head;
+    }
+
+    for (let i = 0; i <= h; i++) {
+      node.next[i] = stack[i].next[i];
+      stack[i].next[i] = node;
+    }
+
+    $this.length++;
+
+    if ($this.length >= $this.cap) {
+      $this.cap *= 2;
+      $this.maxh++;
+    }
+
+    return this;
+  }
+
+  delete(k) {
+    const $this = __private.get(this);
+
+    let node = $this.head;
+    let level = $this.h;
+    let removed = false;
+    const cmp = $this.cmp;
+    let code;
+
+    while (level >= 0) {
+      while (node.next[level] && (code = cmp(node.next[level].k, k)) < 0) {
+        node = node.next[level];
+      }
+
+      if (node.next[level] && code === 0) {
+        removed = true;
+        node.next[level] = node.next[level].next[level];
+
+        if (node == $this.head && !node.next[level]) {
+          $this.h = Math.max(0, $this.h - 1);
+        }
+      }
+
+      level--;
+    }
+
+    if (removed) $this.length--;
+    return removed;
+  }
+
+  into(pairs) {
+    return (0, _into.into)(this, pairs);
+  }
+
+  dissoc(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  forEach(fn, thisArg) {
+    for (let p of this) {
+      fn.call(thisArg, p[1], p[0], this);
+    }
+  }
+
+  $reduce(rfn, acc) {
+    let node = __private.get(this).head;
+
+    while ((node = node.next[0]) && !(0, _transducers.isReduced)(acc)) {
+      acc = rfn(acc, [node.k, node.v]);
+    }
+
+    return acc;
+  }
+
+  opts() {
+    const $this = __private.get(this);
+
+    return {
+      capacity: $this.cap,
+      compare: $this.cmp,
+      probability: $this.p
+    };
+  }
+
+  findPredNode(k) {
+    const $this = __private.get(this);
+
+    const cmp = $this.cmp;
+    let node = $this.head;
+    let level = $this.h;
+
+    while (level >= 0) {
+      while (node.next[level] && cmp(node.next[level].k, k) < 0) {
+        node = node.next[level];
+      }
+
+      level--;
+    }
+
+    return node;
+  }
+
+  pickHeight(maxh, h, p) {
+    const max = Math.min(maxh, h + 1);
+    let level = 0;
+
+    while (Math.random() < p && level < max) {
+      level++;
+    }
+
+    return level;
+  }
+
+}
+
+exports.SortedMap = SortedMap;
+SortedMap.DEFAULT_CAP = 8;
+SortedMap.DEFAULT_P = 1 / Math.E;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/compare":"../node_modules/@thi.ng/compare/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/sorted-set.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SortedSet = void 0;
+
+var _compare = require("@thi.ng/compare");
+
+var _transducers = require("@thi.ng/transducers");
+
+var _dissoc = require("./dissoc");
+
+var _equiv = require("./internal/equiv");
+
+var _into = require("./into");
+
+var _sortedMap = require("./sorted-map");
+
+const __private = new WeakMap();
+/**
+ * Sorted set implementation with standard ES6 Set API, customizable
+ * value equality and comparison semantics and additional functionality:
+ *
+ * - range queries (via `entries`, `keys`, `values`)
+ * - multiple value addition/deletion via `into()` and `disj()`
+ *
+ * Furthermore, this class implements the `ICopy`, IEmpty`, `ICompare`
+ * and `IEquiv` interfaces defined by `@thi.ng/api`. The latter two
+ * allow instances to be used as keys themselves in other data types
+ * defined in this (and other) package(s).
+ *
+ * This set uses a `SortedMap` as backing store and therefore has the
+ * same resizing characteristics.
+ */
+
+
+class SortedSet extends Set {
+  /**
+   * Creates new instance with optional given values and/or
+   * implementation options. The options are the same as used by
+   * `SortedMap`.
+   *
+   * @param values
+   * @param opts
+   */
+  constructor(values, opts) {
+    super();
+
+    __private.set(this, new _sortedMap.SortedMap(values ? (0, _transducers.map)(x => [x, x], values) : null, opts));
+  }
+
+  [Symbol.iterator]() {
+    return this.keys();
+  }
+
+  get [Symbol.species]() {
+    return SortedSet;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "SortedSet";
+  }
+
+  get size() {
+    return __private.get(this).size;
+  }
+
+  copy() {
+    return new SortedSet(this.keys(), this.opts());
+  }
+
+  empty() {
+    return new SortedSet(null, Object.assign({}, this.opts(), {
+      capacity: _sortedMap.SortedMap.DEFAULT_CAP
+    }));
+  }
+
+  compare(o) {
+    const n = this.size;
+    const m = o.size;
+    if (n < m) return -1;
+    if (n > m) return 1;
+    const i = this.entries();
+    const j = o.entries();
+    let x, y;
+    let c;
+
+    while (x = i.next(), y = j.next(), !x.done && !y.done) {
+      if ((c = (0, _compare.compare)(x.value[0], y.value[0])) !== 0) {
+        return c;
+      }
+    }
+
+    return 0;
+  }
+
+  equiv(o) {
+    return (0, _equiv.equivSet)(this, o);
+  }
+
+  $reduce(rfn, acc) {
+    return __private.get(this).$reduce((_acc, x) => rfn(_acc, x[0]), acc);
+  }
+
+  entries(key, max = false) {
+    return __private.get(this).entries(key, max);
+  }
+
+  keys(key, max = false) {
+    return __private.get(this).keys(key, max);
+  }
+
+  values(key, max = false) {
+    return __private.get(this).values(key, max);
+  }
+
+  add(key) {
+    __private.get(this).set(key, key);
+
+    return this;
+  }
+
+  into(keys) {
+    return (0, _into.into)(this, keys);
+  }
+
+  clear() {
+    __private.get(this).clear();
+  }
+
+  first() {
+    const first = __private.get(this).first();
+
+    return first ? first[0] : undefined;
+  }
+
+  delete(key) {
+    return __private.get(this).delete(key);
+  }
+
+  disj(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  forEach(fn, thisArg) {
+    for (let p of this) {
+      fn.call(thisArg, p, p, this);
+    }
+  }
+
+  has(key) {
+    return __private.get(this).has(key);
+  }
+
+  get(key, notFound) {
+    return __private.get(this).get(key, notFound);
+  }
+
+  opts() {
+    return __private.get(this).opts();
+  }
+
+}
+
+exports.SortedSet = SortedSet;
+},{"@thi.ng/compare":"../node_modules/@thi.ng/compare/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js","./sorted-map":"../node_modules/@thi.ng/associative/sorted-map.js"}],"../node_modules/@thi.ng/associative/sparse-set.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.sparseSet = exports.SparseSet32 = exports.SparseSet16 = exports.SparseSet8 = exports.ASparseSet = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _errors = require("@thi.ng/errors");
+
+var _dissoc = require("./dissoc");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const fail = () => (0, _errors.illegalArgs)(`dense & sparse arrays must be of same size`);
+/**
+ * After "An Efficient Representation for Sparse Sets"
+ * Preston Briggs and Linda Torczon (1993)
+ *
+ * https://research.swtch.com/sparse
+ * https://programmingpraxis.com/2012/03/09/sparse-sets/
+ * https://blog.molecular-matters.com/2013/07/24/adventures-in-data-oriented-design-part-3c-external-references/
+ */
+
+
+class ASparseSet extends Set {
+  constructor(dense, sparse) {
+    super();
+
+    __private.set(this, {
+      dense,
+      sparse,
+      n: 0
+    });
+  }
+
+  [Symbol.iterator]() {
+    return this.keys();
+  }
+
+  get size() {
+    return __private.get(this).n;
+  }
+
+  get capacity() {
+    return __private.get(this).dense.length;
+  }
+
+  clear() {
+    __private.get(this).n = 0;
+  }
+
+  equiv(o) {
+    if (this === o) {
+      return true;
+    }
+
+    if (!(o instanceof Set) || this.size !== o.size) {
+      return false;
+    }
+
+    const $this = __private.get(this);
+
+    const d = $this.dense;
+
+    for (let i = $this.n; --i >= 0;) {
+      if (!o.has(d[i])) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  add(key) {
+    const $this = __private.get(this);
+
+    const dense = $this.dense;
+    const sparse = $this.sparse;
+    const max = dense.length;
+    const i = sparse[key];
+    const n = $this.n;
+
+    if (key < max && n < max && !(i < n && dense[i] === key)) {
+      dense[n] = key;
+      sparse[key] = n;
+      $this.n++;
+    }
+
+    return this;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    const dense = $this.dense;
+    const sparse = $this.sparse;
+    const i = sparse[key];
+
+    if (i < $this.n && dense[i] === key) {
+      const j = dense[--$this.n];
+      dense[i] = j;
+      sparse[j] = i;
+      return true;
+    }
+
+    return false;
+  }
+
+  has(key) {
+    const $this = __private.get(this);
+
+    const i = $this.sparse[key];
+    return i < $this.n && $this.dense[i] === key;
+  }
+
+  get(key, notFound = -1) {
+    return this.has(key) ? key : notFound;
+  }
+
+  first() {
+    const $this = __private.get(this);
+
+    return $this.n ? $this.dense[0] : undefined;
+  }
+
+  into(keys) {
+    return (0, _into.into)(this, keys);
+  }
+
+  disj(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  forEach(fn, thisArg) {
+    const $this = __private.get(this);
+
+    const d = $this.dense;
+    const n = $this.n;
+
+    for (let i = 0; i < n; i++) {
+      const v = d[i];
+      fn.call(thisArg, v, v, this);
+    }
+  }
+
+  *entries() {
+    const $this = __private.get(this);
+
+    const d = $this.dense;
+    const n = $this.n;
+
+    for (let i = 0; i < n; i++) {
+      yield [d[i], d[i]];
+    }
+  }
+
+  *keys() {
+    const $this = __private.get(this);
+
+    const d = $this.dense;
+    const n = $this.n;
+
+    for (let i = 0; i < n; i++) {
+      yield d[i];
+    }
+  }
+
+  values() {
+    return this.keys();
+  }
+
+  __copyTo(dest) {
+    const $this = __private.get(this);
+
+    const $c = __private.get(dest);
+
+    $c.dense = $this.dense.slice();
+    $c.sparse = $this.sparse.slice();
+    $c.n = $this.n;
+    return dest;
+  }
+
+}
+
+exports.ASparseSet = ASparseSet;
+
+class SparseSet8 extends ASparseSet {
+  constructor(n, sparse) {
+    (0, _checks.isNumber)(n) ? super(new Uint8Array(n), new Uint8Array(n)) : n.length === sparse.length ? super(n, sparse) : fail();
+  }
+
+  get [Symbol.species]() {
+    return SparseSet8;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "SparseSet8";
+  }
+
+  copy() {
+    return this.__copyTo(new SparseSet8(0));
+  }
+
+  empty() {
+    return new SparseSet8(this.capacity);
+  }
+
+}
+
+exports.SparseSet8 = SparseSet8;
+
+class SparseSet16 extends ASparseSet {
+  constructor(n, sparse) {
+    (0, _checks.isNumber)(n) ? super(new Uint16Array(n), new Uint16Array(n)) : n.length === sparse.length ? super(n, sparse) : fail();
+  }
+
+  get [Symbol.species]() {
+    return SparseSet16;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "SparseSet16";
+  }
+
+  copy() {
+    return this.__copyTo(new SparseSet16(0));
+  }
+
+  empty() {
+    return new SparseSet16(this.capacity);
+  }
+
+}
+
+exports.SparseSet16 = SparseSet16;
+
+class SparseSet32 extends ASparseSet {
+  constructor(n, sparse) {
+    (0, _checks.isNumber)(n) ? super(new Uint32Array(n), new Uint32Array(n)) : n.length === sparse.length ? super(n, sparse) : fail();
+  }
+
+  get [Symbol.species]() {
+    return SparseSet32;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "SparseSet32";
+  }
+
+  copy() {
+    return this.__copyTo(new SparseSet32(0));
+  }
+
+  empty() {
+    return new SparseSet32(this.capacity);
+  }
+
+}
+/**
+ * Creates a new sparse set with given max. capacity (max ID + 1) and
+ * chooses most memory efficient implementation, e.g. if `n` <= 256
+ * returns a `SparseSet8` instance.
+ *
+ * @param n
+ */
+
+
+exports.SparseSet32 = SparseSet32;
+
+const sparseSet = n => n < 0x100 ? new SparseSet8(n) : n < 0x10000 ? new SparseSet16(n) : new SparseSet32(n);
+
+exports.sparseSet = sparseSet;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/union.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.union = void 0;
+
+var _into = require("./into");
+
+var _utils = require("./utils");
+
+/**
+ * Computes union of sets `a` and `b` and writes results to new set or
+ * optionally given set `out` (assumed to be empty for correct results).
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const union = (a, b, out) => {
+  out = out ? (0, _into.into)(out, a) : (0, _utils.copy)(a, Set);
+  return a === b ? out : (0, _into.into)(out, b);
+};
+
+exports.union = union;
+},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/without-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.withoutKeysObj = exports.withoutKeysMap = void 0;
+
+var _utils = require("./utils");
+
+const withoutKeysMap = (src, keys) => {
+  const ks = (0, _utils.ensureSet)(keys);
+  const dest = (0, _utils.empty)(src, Map);
+
+  for (let p of src.entries()) {
+    const k = p[0];
+    !ks.has(k) && dest.set(k, p[1]);
+  }
+
+  return dest;
+};
+
+exports.withoutKeysMap = withoutKeysMap;
+
+const withoutKeysObj = (src, keys) => {
+  const ks = (0, _utils.ensureSet)(keys);
+  const dest = {};
+
+  for (let k in src) {
+    src.hasOwnProperty(k) && !ks.has(k) && (dest[k] = src[k]);
+  }
+
+  return dest;
+};
+
+exports.withoutKeysObj = withoutKeysObj;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _arraySet = require("./array-set");
+
+Object.keys(_arraySet).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _arraySet[key];
+    }
+  });
+});
+
+var _commonKeys = require("./common-keys");
+
+Object.keys(_commonKeys).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _commonKeys[key];
+    }
+  });
+});
+
+var _difference = require("./difference");
+
+Object.keys(_difference).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _difference[key];
+    }
+  });
+});
+
+var _dissoc = require("./dissoc");
+
+Object.keys(_dissoc).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _dissoc[key];
+    }
+  });
+});
+
+var _equivMap = require("./equiv-map");
+
+Object.keys(_equivMap).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _equivMap[key];
+    }
+  });
+});
+
+var _hashMap = require("./hash-map");
+
+Object.keys(_hashMap).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _hashMap[key];
+    }
+  });
+});
+
+var _indexed = require("./indexed");
+
+Object.keys(_indexed).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _indexed[key];
+    }
+  });
+});
+
+var _intersection = require("./intersection");
+
+Object.keys(_intersection).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _intersection[key];
+    }
+  });
+});
+
+var _into = require("./into");
+
+Object.keys(_into).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _into[key];
+    }
+  });
+});
+
+var _invert = require("./invert");
+
+Object.keys(_invert).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _invert[key];
+    }
+  });
+});
+
+var _join = require("./join");
+
+Object.keys(_join).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _join[key];
+    }
+  });
+});
+
+var _llSet = require("./ll-set");
+
+Object.keys(_llSet).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _llSet[key];
+    }
+  });
+});
+
+var _mergeApply = require("./merge-apply");
+
+Object.keys(_mergeApply).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mergeApply[key];
+    }
+  });
+});
+
+var _mergeDeep = require("./merge-deep");
+
+Object.keys(_mergeDeep).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mergeDeep[key];
+    }
+  });
+});
+
+var _mergeWith = require("./merge-with");
+
+Object.keys(_mergeWith).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mergeWith[key];
+    }
+  });
+});
+
+var _merge = require("./merge");
+
+Object.keys(_merge).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _merge[key];
+    }
+  });
+});
+
+var _renameKeys = require("./rename-keys");
+
+Object.keys(_renameKeys).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _renameKeys[key];
+    }
+  });
+});
+
+var _selectKeys = require("./select-keys");
+
+Object.keys(_selectKeys).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _selectKeys[key];
+    }
+  });
+});
+
+var _sortedMap = require("./sorted-map");
+
+Object.keys(_sortedMap).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sortedMap[key];
+    }
+  });
+});
+
+var _sortedSet = require("./sorted-set");
+
+Object.keys(_sortedSet).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sortedSet[key];
+    }
+  });
+});
+
+var _sparseSet = require("./sparse-set");
+
+Object.keys(_sparseSet).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _sparseSet[key];
+    }
+  });
+});
+
+var _union = require("./union");
+
+Object.keys(_union).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _union[key];
+    }
+  });
+});
+
+var _withoutKeys = require("./without-keys");
+
+Object.keys(_withoutKeys).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _withoutKeys[key];
+    }
+  });
+});
+},{"./array-set":"../node_modules/@thi.ng/associative/array-set.js","./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./difference":"../node_modules/@thi.ng/associative/difference.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./hash-map":"../node_modules/@thi.ng/associative/hash-map.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./intersection":"../node_modules/@thi.ng/associative/intersection.js","./into":"../node_modules/@thi.ng/associative/into.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./join":"../node_modules/@thi.ng/associative/join.js","./ll-set":"../node_modules/@thi.ng/associative/ll-set.js","./merge-apply":"../node_modules/@thi.ng/associative/merge-apply.js","./merge-deep":"../node_modules/@thi.ng/associative/merge-deep.js","./merge-with":"../node_modules/@thi.ng/associative/merge-with.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./sorted-map":"../node_modules/@thi.ng/associative/sorted-map.js","./sorted-set":"../node_modules/@thi.ng/associative/sorted-set.js","./sparse-set":"../node_modules/@thi.ng/associative/sparse-set.js","./union":"../node_modules/@thi.ng/associative/union.js","./without-keys":"../node_modules/@thi.ng/associative/without-keys.js"}],"../node_modules/@styled-system/css/dist/index.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15626,19 +19730,35 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.fireStyles = void 0;
 
+var A = _interopRequireWildcard(require("@thi.ng/associative"));
+
+var rand = _interopRequireWildcard(require("@thi.ng/random"));
+
+var _atom = require("@thi.ng/atom");
+
+var _paths = require("@thi.ng/paths");
+
 var _css = _interopRequireDefault(require("@styled-system/css"));
 
 var _decamelizeKeysDeep = _interopRequireDefault(require("decamelize-keys-deep"));
 
 var C = _interopRequireWildcard(require("@thi.ng/checks"));
 
-var _hiccupCss = require("@thi.ng/hiccup-css");
+var E = _interopRequireWildcard(require("@thi.ng/equiv"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+var _hiccupCss = require("@thi.ng/hiccup-css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -15648,15 +19768,123 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /**
  *@todo: Test with Router.. tomato
  **/
+var queries = new _atom.Atom({});
+var queries_table = new _atom.Transacted(queries);
+queries_table.begin(); // test
+
+var swap_depth_0 = function swap_depth_0(atom) {
+  var x0 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  return x0 ? atom.swap(function (v) {
+    return _objectSpread(_defineProperty({}, x0, {}), v);
+  }) : null;
+}; // test for existence then...
+
+
+var swap_depth_1 = function swap_depth_1(atom, x1) {
+  var x0 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return x0 ? atom.swapIn(x0, function (v) {
+    return _objectSpread(_defineProperty({}, x1, {}), v);
+  }) : swap_depth_0(atom, x1);
+};
+
+var swap_depth_2 = function swap_depth_2(atom, x2, x1) {
+  var x0 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  return x0 ? atom.swapIn([x0, x1], function (v) {
+    return _objectSpread({}, x2, {}, v);
+  }) : atom.swapIn([x1], function (v) {
+    return _objectSpread({}, x2, {}, v);
+  });
+};
+
+var mergeInStyles = function mergeInStyles(atom, x2, x1, x0) {
+  var state = atom.deref();
+  var lv_1s = Object.keys(state);
+  var has_lv_1s = !!state[x0];
+  var has_lv_2s = has_lv_1s && !!state[x0][x1];
+  return has_lv_1s && has_lv_2s ? swap_depth_2(atom, x2, x1, x0) : has_lv_1s ? (swap_depth_1(atom, x1, x0), swap_depth_2(atom, x2, x1, x0)) : (swap_depth_0(atom, x0), swap_depth_1(atom, x1, x0), swap_depth_2(atom, x2, x1, x0));
+}; // mergeInStyles(
+//   queries_table,
+//   {
+//     'font-size': '2rem',
+//     margin: '24px'
+//   },
+//   'asd-1'
+// ) //?
+// mergeInStyles(
+//   queries_table,
+//   {
+//     'font-size': '2m',
+//     'margin-right': '24px'
+//   },
+//   'asd-2'
+// )
+// mergeInStyles(
+//   queries_table,
+//   {
+//     'font-size': '2rem',
+//     margin: '24px'
+//   },
+//   'asd-1',
+//   'min-width: 640px'
+// )
+// mergeInStyles(
+//   queries_table,
+//   {
+//     'font-size': '2rem',
+//     margin: '24px'
+//   },
+//   'asd-2',
+//   'min-width: 640px'
+// )
+// mergeInStyles(
+//   queries_table,
+//   {
+//     'font-size': '2rem',
+//     margin: '24px'
+//   },
+//   'asd-2',
+//   'min-width: 650px'
+// ) //?
+
+/**
+entries: [ [ 'padding-top', '0.5rem' ], 
+  [ 'padding-bottom', '0.5rem' ], 
+  [ 'padding-left', '1rem' ], 
+  [ 'padding-right', '1rem' ], 
+  [ 'cursor', 'pointer' ], 
+  [ 'line-height', 'inherit' ], 
+  [ 'background-color', '#2b6cb0' ], 
+  [ 'border', 'none' ], 
+  [ 'color', '#fff' ], 
+  [ 'font-weight', '700' ], 
+  [ 'border-radius', '0.25rem' ], 
+  [ '&:hover', { 'background-color': '#2c5282' } ], 
+  [ 'font-size', '100px' ], 
+  [ '@media screen and (min-width: 640px)', 
+    { 'font-size': '2rem', margin: '24px' } ], 
+  [ '@media screen and (min-width: 768px)', 
+    { 'font-size': '32px', margin: '48px' } ], 
+  [ '@media screen and (min-width: 1024px)', 
+    { 'font-size': '44px' } ], 
+  [ 'margin', '18px' ] ] 
+
+**/
+
+
 var fireStyles = function fireStyles(theme) {
-  return function (styles, hash) {
+  return function (styles, classname) {
+    var hash = "".concat(classname, "_").concat(rand.randomID(5, 'id-', '0123456789abcdefghijklmnopqrstuvwxyz'));
+    var dot_hash = ".".concat(hash);
     var entries = Object.entries((0, _decamelizeKeysDeep.default)((0, _css.default)(styles)(theme), '-'));
-    console.log('entries:', entries);
-    var first = [];
-    var last = [];
 
     for (var _i = 0, _entries = entries; _i < _entries.length; _i++) {
       var _entries$_i = _slicedToArray(_entries[_i], 2),
@@ -15665,42 +19893,97 @@ var fireStyles = function fireStyles(theme) {
 
       // pseudo selector
       if (C.isObject(spec) && prop.slice(0, 1) === '&') {
-        last.push([prop.slice(1), spec]); // media query
+        // last.push([prop.slice(1), spec])
+        mergeInStyles(queries_table, spec, dot_hash, prop); // media query
       } else if (C.isObject(spec) && prop.slice(0, 6) === '@media') {
-        var _Object$entries$ = _slicedToArray(Object.entries(spec)[0], 2),
-            key = _Object$entries$[0],
-            val = _Object$entries$[1]; // console.log('entry of interest:', [key, val])
+        var rgx = /\(.*?\)/g; // const [media, query] = prop
 
+        var media_query = prop.match(rgx)[0].slice(1, -1); // .split(': ')
+        // const props = last.push(
+        //   at_media({ screen: true, [media]: query }, [dot_hash, spec])
+        // )
 
-        var rgx = /(\()(.*)(?=\))/g;
-
-        var _prop$match$0$slice$s = prop.match(rgx)[0].slice(1).split(': '),
-            _prop$match$0$slice$s2 = _slicedToArray(_prop$match$0$slice$s, 2),
-            media = _prop$match$0$slice$s2[0],
-            query = _prop$match$0$slice$s2[1]; // console.log('match:', [media, query])
-
-
-        last.push((0, _hiccupCss.at_media)(_defineProperty({
-          screen: true
-        }, media, query), [".".concat(hash), _defineProperty({}, key, val)])); // nested object
-      } else if (C.isObject(spec)) {
-        first.push(['', _defineProperty({}, prop, spec)]);
+        mergeInStyles(queries_table, spec, dot_hash, media_query); // nested object
       } else {
-        first.push(_defineProperty({}, prop, spec));
+        // first.push({ [prop]: spec })
+        mergeInStyles(queries_table, _defineProperty({}, prop, spec), dot_hash);
       }
     }
 
-    var low_style = (0, _hiccupCss.css)([".".concat(hash)].concat(first), {// format: PRETTY
-    });
-    var high_style = (0, _hiccupCss.css)([".".concat(hash)].concat(last), {// format: PRETTY
-    });
-    (0, _hiccupCss.injectStyleSheet)(low_style);
-    (0, _hiccupCss.injectStyleSheet)(high_style);
+    return hash;
   };
 };
 
 exports.fireStyles = fireStyles;
-},{"@styled-system/css":"../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../node_modules/decamelize-keys-deep/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/hiccup-css":"../node_modules/@thi.ng/hiccup-css/index.js"}],"styles/theme.js":[function(require,module,exports) {
+
+var unwrap_mediaQueries = function unwrap_mediaQueries(atom) {
+  atom.commit();
+  var init = atom.deref();
+  var entries = Object.entries(init);
+  var queries = [];
+  var basics = [];
+  var pseudos = [];
+
+  for (var _i2 = 0, _entries2 = entries; _i2 < _entries2.length; _i2++) {
+    var entry = _entries2[_i2];
+    var query = entry[0];
+    var hashes = entry[1];
+    var hash_list = Object.entries(hashes);
+
+    var _query$split = query.split(':'),
+        _query$split2 = _slicedToArray(_query$split, 2),
+        m = _query$split2[0],
+        q = _query$split2[1];
+
+    if (m === '&') {
+      console.log('q:', q); //? hover
+
+      console.log('query:', query); //? &:hover
+
+      console.log('hashes:', hashes); //? {".button_id-ru4ao": {background-color: "#feb2b2"}
+
+      console.log('hash_list:', hash_list); //? [".button_id-ru4ao", {background-color: "#2c5282"}]
+
+      pseudos.push([hash_list[0][0], [":".concat(q), hash_list[0][1]]]);
+    } else if (q) {
+      queries.push([(0, _hiccupCss.at_media)(_defineProperty({
+        screen: true
+      }, m, q), hash_list)]);
+    } else {
+      basics.push([query, hashes]);
+    }
+  }
+
+  return [basics, queries, pseudos];
+}; // <style type="text/css">.no-fouc {display: none;}</style>
+// injectStyleSheet('.no-fouc {visibility: hidden;}')
+// const s = injectStyleSheet(globalCSS)
+
+
+window.addEventListener('DOMContentLoaded', function (e) {
+  var _unwrap_mediaQueries = unwrap_mediaQueries(queries_table),
+      _unwrap_mediaQueries2 = _slicedToArray(_unwrap_mediaQueries, 3),
+      basics = _unwrap_mediaQueries2[0],
+      queries = _unwrap_mediaQueries2[1],
+      pseudos = _unwrap_mediaQueries2[2];
+
+  console.log('pseudos:', JSON.stringify(pseudos));
+  var basic_styles = (0, _hiccupCss.css)(basics, {
+    format: _hiccupCss.PRETTY
+  });
+  var media_queries = (0, _hiccupCss.css)(queries, {
+    format: _hiccupCss.PRETTY
+  });
+
+  var pseudo_styles = _hiccupCss.css.apply(void 0, _toConsumableArray(pseudos).concat([{
+    format: _hiccupCss.PRETTY
+  }]));
+
+  (0, _hiccupCss.injectStyleSheet)(basic_styles);
+  (0, _hiccupCss.injectStyleSheet)(pseudo_styles);
+  (0, _hiccupCss.injectStyleSheet)(media_queries);
+});
+},{"@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","@thi.ng/random":"../node_modules/@thi.ng/random/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@styled-system/css":"../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../node_modules/decamelize-keys-deep/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","@thi.ng/hiccup-css":"../node_modules/@thi.ng/hiccup-css/index.js"}],"styles/theme.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15950,7 +20233,7 @@ var theme = {
       py: 2,
       px: 3,
       cursor: 'pointer',
-      // fontSize: '100%',
+      fontSize: '100%',
       lineHeight: 'inherit',
       backgroundColor: 'primary',
       border: 'none',
@@ -15958,7 +20241,9 @@ var theme = {
       fontWeight: 'bold',
       borderRadius: 'default',
       '&:hover': {
-        backgroundColor: 'primaryHover'
+        backgroundColor: 'primaryHover',
+        border: 'solid',
+        borderColor: 'red.3'
       }
     },
     pill: {
@@ -16173,9 +20458,8 @@ var default_cfg = {
   tag: 'button',
   tagDisabled: 'span'
 };
-var hash = 'button_xyz';
+var name = 'button';
 var att = {
-  class: hash,
   onclick: function onclick() {
     return console.warn("no handler assigned to button 'onclick' event");
   } // a HOF that takes a config and returns an HDOM node function
@@ -16184,16 +20468,19 @@ var att = {
 
 var button_x = function button_x(thm, cfg) {
   cfg = _objectSpread({}, default_cfg, {}, cfg);
-  (0, _styles.fireStyles)(thm)(_objectSpread({}, thm.buttons.simple, {
-    fontSize: ['100px', '2rem', '32px', '44px']
-  }), hash); // the returned node has some default styles and
+  var hash = (0, _styles.fireStyles)(thm)(_objectSpread({}, thm.buttons.simple, {
+    fontSize: ['23px', '29px', '52px', '14px'],
+    m: ['18px', '24px', '48px']
+  }), name); // the returned node has some default styles and
 
   return function (ctx, attrs) {
-    for (var _len = arguments.length, body = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      body[_key - 2] = arguments[_key];
+    for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      children[_key - 2] = arguments[_key];
     }
 
-    return [cfg.tag, _objectSpread({}, att, {}, attrs)].concat(body);
+    return [cfg.tag, _objectSpread({}, att, {
+      class: hash
+    }, attrs)].concat(children);
   };
 };
 
@@ -16273,7 +20560,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57977" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63722" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
