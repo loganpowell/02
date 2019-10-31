@@ -19752,14 +19752,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -19777,107 +19769,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /**
  *@todo: Test with Router.. tomato
  **/
-var queries = new _atom.Atom({});
-var queries_table = new _atom.Transacted(queries);
-queries_table.begin(); // test
+var queries_atom = new _atom.Atom({});
+var queries_table = new _atom.Transacted(queries_atom);
+queries_table.begin();
 
-var swap_depth_0 = function swap_depth_0(atom) {
-  var x0 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  return x0 ? atom.swap(function (v) {
-    return _objectSpread(_defineProperty({}, x0, {}), v);
-  }) : null;
-}; // test for existence then...
-
-
-var swap_depth_1 = function swap_depth_1(atom, x1) {
-  var x0 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  return x0 ? atom.swapIn(x0, function (v) {
-    return _objectSpread(_defineProperty({}, x1, {}), v);
-  }) : swap_depth_0(atom, x1);
-};
-
-var swap_depth_2 = function swap_depth_2(atom, x2, x1) {
-  var x0 = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-  return x0 ? atom.swapIn([x0, x1], function (v) {
-    return _objectSpread({}, x2, {}, v);
-  }) : atom.swapIn([x1], function (v) {
-    return _objectSpread({}, x2, {}, v);
+var swap_depth_0 = function swap_depth_0(atom, hier) {
+  return atom.swap(function (v) {
+    return _objectSpread(_defineProperty({}, hier, {}), v);
   });
 };
 
-var mergeInStyles = function mergeInStyles(atom, x2, x1, x0) {
+var swap_depth_1 = function swap_depth_1(atom, hash, hier) {
+  return atom.swapIn(hier, function (v) {
+    return _objectSpread(_defineProperty({}, hash, {}), v);
+  });
+};
+
+var swap_depth_2 = function swap_depth_2(atom, spec, hash, hier) {
+  return atom.swapIn([hier, hash], function (v) {
+    return _objectSpread({}, spec, {}, v);
+  });
+};
+/**
+ * @param {Atom} atom - a Transacted Atom
+ * @param {Object} spec - CSS style object
+ * @param {string} hash - a unique class-name
+ * @param {string} heir - if a nested rule, the parent
+ * Takes in a transacted atom and stores CSS rules
+ * so that shared heirarchies can be reused instead of
+ * naively storing every pseudo-selector and media-query
+ * reduntantly for every class-name
+ * */
+
+
+var mergeInStyles = function mergeInStyles(atom, spec, hash, hier) {
   var state = atom.deref();
   var lv_1s = Object.keys(state);
-  var has_lv_1s = !!state[x0];
-  var has_lv_2s = has_lv_1s && !!state[x0][x1];
-  return has_lv_1s && has_lv_2s ? swap_depth_2(atom, x2, x1, x0) : has_lv_1s ? (swap_depth_1(atom, x1, x0), swap_depth_2(atom, x2, x1, x0)) : (swap_depth_0(atom, x0), swap_depth_1(atom, x1, x0), swap_depth_2(atom, x2, x1, x0));
-}; // mergeInStyles(
-//   queries_table,
-//   {
-//     'font-size': '2rem',
-//     margin: '24px'
-//   },
-//   'asd-1'
-// ) //?
-// mergeInStyles(
-//   queries_table,
-//   {
-//     'font-size': '2m',
-//     'margin-right': '24px'
-//   },
-//   'asd-2'
-// )
-// mergeInStyles(
-//   queries_table,
-//   {
-//     'font-size': '2rem',
-//     margin: '24px'
-//   },
-//   'asd-1',
-//   'min-width: 640px'
-// )
-// mergeInStyles(
-//   queries_table,
-//   {
-//     'font-size': '2rem',
-//     margin: '24px'
-//   },
-//   'asd-2',
-//   'min-width: 640px'
-// )
-// mergeInStyles(
-//   queries_table,
-//   {
-//     'font-size': '2rem',
-//     margin: '24px'
-//   },
-//   'asd-2',
-//   'min-width: 650px'
-// ) //?
-
+  var has_lv_1s = !!state[hier];
+  var has_lv_2s = has_lv_1s && !!state[hier][hash];
+  return has_lv_1s && has_lv_2s ? swap_depth_2(atom, spec, hash, hier) : has_lv_1s ? (swap_depth_1(atom, hash, hier), swap_depth_2(atom, spec, hash, hier)) : (swap_depth_0(atom, hier), swap_depth_1(atom, hash, hier), swap_depth_2(atom, spec, hash, hier));
+};
 /**
-entries: [ [ 'padding-top', '0.5rem' ], 
-  [ 'padding-bottom', '0.5rem' ], 
-  [ 'padding-left', '1rem' ], 
-  [ 'padding-right', '1rem' ], 
-  [ 'cursor', 'pointer' ], 
-  [ 'line-height', 'inherit' ], 
-  [ 'background-color', '#2b6cb0' ], 
-  [ 'border', 'none' ], 
-  [ 'color', '#fff' ], 
-  [ 'font-weight', '700' ], 
-  [ 'border-radius', '0.25rem' ], 
-  [ '&:hover', { 'background-color': '#2c5282' } ], 
-  [ 'font-size', '100px' ], 
-  [ '@media screen and (min-width: 640px)', 
-    { 'font-size': '2rem', margin: '24px' } ], 
-  [ '@media screen and (min-width: 768px)', 
-    { 'font-size': '32px', margin: '48px' } ], 
-  [ '@media screen and (min-width: 1024px)', 
-    { 'font-size': '44px' } ], 
-  [ 'margin', '18px' ] ] 
-
-**/
+ * A HOF that takes in a theme object and returns
+ * a custom hash. This hash is used to save css rules
+ * under a unique class-name.
+ * This function tests against a few rules to decide
+ * how the CSS should be stored in the Atom
+ * */
 
 
 var fireStyles = function fireStyles(theme) {
@@ -19891,21 +19829,16 @@ var fireStyles = function fireStyles(theme) {
           prop = _entries$_i[0],
           spec = _entries$_i[1];
 
-      // pseudo selector
       if (C.isObject(spec) && prop.slice(0, 1) === '&') {
-        // last.push([prop.slice(1), spec])
-        mergeInStyles(queries_table, spec, dot_hash, prop); // media query
+        // pseudo selector
+        mergeInStyles(queries_table, spec, dot_hash, prop);
       } else if (C.isObject(spec) && prop.slice(0, 6) === '@media') {
-        var rgx = /\(.*?\)/g; // const [media, query] = prop
-
-        var media_query = prop.match(rgx)[0].slice(1, -1); // .split(': ')
-        // const props = last.push(
-        //   at_media({ screen: true, [media]: query }, [dot_hash, spec])
-        // )
-
-        mergeInStyles(queries_table, spec, dot_hash, media_query); // nested object
+        // media query
+        var rgx = /\(.*?\)/g;
+        var media_query = prop.match(rgx)[0].slice(1, -1);
+        mergeInStyles(queries_table, spec, dot_hash, media_query);
       } else {
-        // first.push({ [prop]: spec })
+        // nested object
         mergeInStyles(queries_table, _defineProperty({}, prop, spec), dot_hash);
       }
     }
@@ -19913,22 +19846,31 @@ var fireStyles = function fireStyles(theme) {
     return hash;
   };
 };
+/**
+ * takes a CSS Transacted Atom and commits all
+ * pending mutations at once, then buckets the
+ * CSS in order so that precedence rules are
+ * applied correctly (e.g., media-queries are reversed)
+ * when mapped over in final application
+ * */
+
 
 exports.fireStyles = fireStyles;
 
 var unwrap_mediaQueries = function unwrap_mediaQueries(atom) {
   atom.commit();
-  var init = atom.deref();
-  var entries = Object.entries(init);
-  var queries = [];
-  var basics = [];
-  var pseudos = [];
+  var init = queries_atom.deref();
+  var entries = Object.entries(init); // console.table(entries)
+
+  var m_queries = [];
+  var css_basics = [];
+  var css_pseudos = [];
 
   for (var _i2 = 0, _entries2 = entries; _i2 < _entries2.length; _i2++) {
     var entry = _entries2[_i2];
     var query = entry[0];
     var hashes = entry[1];
-    var hash_list = Object.entries(hashes);
+    var hash_list = Object.entries(hashes)[0]; // console.log('hash_list:', hash_list)
 
     var _query$split = query.split(':'),
         _query$split2 = _slicedToArray(_query$split, 2),
@@ -19936,52 +19878,52 @@ var unwrap_mediaQueries = function unwrap_mediaQueries(atom) {
         q = _query$split2[1];
 
     if (m === '&') {
-      console.log('q:', q); //? hover
-
-      console.log('query:', query); //? &:hover
-
-      console.log('hashes:', hashes); //? {".button_id-ru4ao": {background-color: "#feb2b2"}
-
-      console.log('hash_list:', hash_list); //? [".button_id-ru4ao", {background-color: "#2c5282"}]
-
-      pseudos.push([hash_list[0][0], [":".concat(q), hash_list[0][1]]]);
+      css_pseudos.push([hash_list[0], [":".concat(q), hash_list[1]]]);
     } else if (q) {
-      queries.push([(0, _hiccupCss.at_media)(_defineProperty({
+      m_queries.push([(0, _hiccupCss.at_media)(_defineProperty({
         screen: true
       }, m, q), hash_list)]);
     } else {
-      basics.push([query, hashes]);
+      css_basics.push([hash_list]);
     }
   }
 
-  return [basics, queries, pseudos];
-}; // <style type="text/css">.no-fouc {display: none;}</style>
-// injectStyleSheet('.no-fouc {visibility: hidden;}')
-// const s = injectStyleSheet(globalCSS)
+  return [m_queries.reverse(), css_pseudos, css_basics];
+};
+/**
+ * Upon DOM content load, unwraps the CSS Atom and
+ * injects styles for all registered components into
+ * the <head> of the document
+ * */
 
 
-window.addEventListener('DOMContentLoaded', function (e) {
-  var _unwrap_mediaQueries = unwrap_mediaQueries(queries_table),
-      _unwrap_mediaQueries2 = _slicedToArray(_unwrap_mediaQueries, 3),
-      basics = _unwrap_mediaQueries2[0],
-      queries = _unwrap_mediaQueries2[1],
-      pseudos = _unwrap_mediaQueries2[2];
+window.addEventListener('DOMContentLoaded', function (ev) {
+  var ordered = unwrap_mediaQueries(queries_table);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
 
-  console.log('pseudos:', JSON.stringify(pseudos));
-  var basic_styles = (0, _hiccupCss.css)(basics, {
-    format: _hiccupCss.PRETTY
-  });
-  var media_queries = (0, _hiccupCss.css)(queries, {
-    format: _hiccupCss.PRETTY
-  });
-
-  var pseudo_styles = _hiccupCss.css.apply(void 0, _toConsumableArray(pseudos).concat([{
-    format: _hiccupCss.PRETTY
-  }]));
-
-  (0, _hiccupCss.injectStyleSheet)(basic_styles);
-  (0, _hiccupCss.injectStyleSheet)(pseudo_styles);
-  (0, _hiccupCss.injectStyleSheet)(media_queries);
+  try {
+    for (var _iterator = ordered[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var ready = _step.value;
+      (0, _hiccupCss.injectStyleSheet)((0, _hiccupCss.css)(ready), {
+        format: _hiccupCss.PRETTY
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return != null) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
 });
 },{"@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","@thi.ng/random":"../node_modules/@thi.ng/random/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@styled-system/css":"../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../node_modules/decamelize-keys-deep/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","@thi.ng/hiccup-css":"../node_modules/@thi.ng/hiccup-css/index.js"}],"styles/theme.js":[function(require,module,exports) {
 "use strict";
@@ -20560,7 +20502,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63722" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64928" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
