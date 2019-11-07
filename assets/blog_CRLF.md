@@ -58,7 +58,7 @@ Some of these are considered, though currently not high priority...
 > -- Anonymous
 
 ![image alt tag](https://media.giphy.com/media/f6qMGmXuOdkwU/giphy.gif)
-
+![surprise](https://www.fappenist.com/Uploads/Media/Mar19/Thu21/590/0fed88dd.jpg)
 and something
 
 ### Other features
@@ -87,7 +87,7 @@ for reference...
 
 ## Parsing & serializing to HTML
 
-```ts
+```js
 import { iterator } from "@thi.ng/transducers";
 import { serialize } from "@thi.ng/hiccup";
 
@@ -145,7 +145,7 @@ interface TagFactories {
 
 Example with custom link elements:
 
-```ts
+```js
 const tags = {
     link: (href, body) => ["a.link.blue", { href }, body]
 };

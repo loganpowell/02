@@ -1,10 +1,13 @@
 import { start } from "@thi.ng/hdom"
 import { bus, state } from "./bus"
 import { button } from "./components"
-import { theme } from "./styles"
+import { theme, themer } from "./styles"
 import fs from "fs"
 import { test_blog_CRLF, test_blog_LF } from "./pages/blog"
 
+export const [THEME, fireStyles] = themer(theme)
+
+THEME //?
 // const data = fetch('../assets/blog.md').then(r => console.log(r))
 
 // import md from '../assets/blog.md'
@@ -18,9 +21,8 @@ start(
     ctx.bus.processQueue()
       ? [
           "div",
-          [button, null, "hello world"],
-          [button, null, "hello -> ()"],
-          test_blog_CRLF
+          { style: { padding: "20px" } },
+          ["div", [button, null, "hello world"], [button, null, "hello -> ()"], test_blog_CRLF]
         ]
       : null,
   {

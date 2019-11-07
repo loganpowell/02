@@ -264,7 +264,7 @@ export const baseFonts = {
 export const fonts = {
   ...baseFonts,
   body: baseFonts.sans,
-  heading: "inherit",
+  heading: baseFonts.serif,
   monospace: baseFonts.mono
 }
 
@@ -445,25 +445,14 @@ export const shadows = {
   default: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
   md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
   lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-  xl:
-    "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+  xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
   "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
   inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
   outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
   none: "none"
 }
 
-export const space = [
-  0,
-  "0.25rem",
-  "0.5rem",
-  "1rem",
-  "2rem",
-  "4rem",
-  "8rem",
-  "16rem",
-  "32rem"
-]
+export const space = [0, "0.25rem", "0.5rem", "1rem", "2rem", "4rem", "8rem", "16rem", "32rem"]
 
 export const zIndices = {
   auto: "auto",
@@ -496,24 +485,39 @@ export const styles = {
       textDecoration: "underline"
     }
   },
+  p: {
+    lineHeight: 2
+  },
+  ul: {
+    mb: 3
+  },
+  li: {
+    listStyle: "inside",
+    lineHeight: 1.5
+  },
   h1: {
     ...heading,
     fontSize: 6,
-    mt: 2
+    mt: 4,
+    mb: 3
   },
   h2: {
     ...heading,
     fontSize: 5,
-    mt: 2
+    mt: 4,
+    mb: 3
   },
   h3: {
     ...heading,
     fontSize: 4,
-    mt: 3
+    mt: 4,
+    mb: 3
   },
   h4: {
     ...heading,
-    fontSize: 3
+    fontSize: 3,
+    mt: 4,
+    mb: 3
   },
   h5: {
     ...heading,
@@ -524,13 +528,61 @@ export const styles = {
     fontSize: 1,
     mb: 2
   },
-  code: {},
-  pre: {},
+  pre: {
+    fontFamily: baseFonts.mono,
+    lineHeight: 1.5,
+    my: 3,
+    mx: -2,
+    fontSize: [0, 1]
+  },
+  code: {
+    borderRadius: radii.lg,
+    outline: "heavy solid black"
+  },
   hr: {
     bg: "muted",
     border: 0,
     height: "1px",
     m: 3
+  },
+  blockquote: {
+    fontFamily: baseFonts.serif,
+    fontStyle: "italic",
+    fontSize: [2, 3],
+    lineHeight: 1.5,
+    borderLeft: "medium solid",
+    borderColor: "primary",
+    my: 3,
+    p: 3
+  },
+  table: {
+    width: "100%",
+    mt: 2,
+    mb: 4
+  },
+  tr: {
+    "&:first-child": {
+      fontWeight: "bold",
+      backgroundColor: "primary",
+      color: "muted"
+    },
+    lineHeight: 2,
+    "&:nth-child(2n)": {
+      backgroundColor: "muted"
+    }
+  },
+  td: {
+    border: "thin solid",
+    borderColor: "muted",
+    p: 2
+  },
+  img: {
+    display: "block",
+    my: [2, 3],
+    width: "100%",
+    maxHeight: "500px",
+    objectFit: "cover",
+    borderRadius: radii.default
   }
 }
 

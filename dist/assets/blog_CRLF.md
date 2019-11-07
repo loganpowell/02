@@ -3,6 +3,10 @@
 This project is part of the
 [@thi.ng/umbrella](https://github.com/thi-ng/umbrella/) monorepo.
 
+I ~~am amazing~~ really messed up
+
+This _is emphasized_ inline
+
 ## About
 
 This example is a test environment for the new & minimal
@@ -53,6 +57,10 @@ Some of these are considered, though currently not high priority...
 > "Weeks of coding can **save hours** of planning."
 > -- Anonymous
 
+![image alt tag](https://media.giphy.com/media/f6qMGmXuOdkwU/giphy.gif)
+
+and something
+
 ### Other features
 
 - **Functional:** parser entirely built using
@@ -79,7 +87,7 @@ for reference...
 
 ## Parsing & serializing to HTML
 
-```ts
+```js
 import { iterator } from "@thi.ng/transducers";
 import { serialize } from "@thi.ng/hiccup";
 
@@ -114,7 +122,7 @@ The following interface defines factory functions for all supported
 elements. User implementations / overrides can be given to the
 `parseMD()` transducer to customize output.
 
-```ts
+```js
 interface TagFactories {
     blockquote(...children: any[]): any[];
     code(body: string): any[];
@@ -137,7 +145,7 @@ interface TagFactories {
 
 Example with custom link elements:
 
-```ts
+```js
 const tags = {
     link: (href, body) => ["a.link.blue", { href }, body]
 };

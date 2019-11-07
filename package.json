@@ -25,7 +25,8 @@
     "@thi.ng/paths": "^2.1.5",
     "@thi.ng/rstream": "^2.5.5",
     "@thi.ng/transducers-hdom": "^2.0.30",
-    "decamelize-keys-deep": "^0.1.1"
+    "decamelize-keys-deep": "^0.1.1",
+    "highlight.js": "^9.16.2"
   },
   "prettier": {
     "tabWidth": 2,

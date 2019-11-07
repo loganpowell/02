@@ -7092,1222 +7092,849 @@ Object.keys(_context).forEach(function (key) {
     }
   });
 });
-},{"./context":"bus/context.js"}],"../node_modules/@thi.ng/associative/dissoc.js":[function(require,module,exports) {
+},{"./context":"bus/context.js"}],"styles/theme.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dissoc = dissoc;
-exports.dissocObj = void 0;
+exports.default = exports.theme = exports.styles = exports.zIndices = exports.space = exports.shadows = exports.sizes = exports.radii = exports.lineHeights = exports.baseLineHeights = exports.letterSpacings = exports.inputs = exports.fontWeights = exports.baseFontWeights = exports.fontSizes = exports.fonts = exports.baseFonts = exports.colors = exports.buttons = exports.baseColors = exports.breakpoints = exports.borderWidths = void 0;
 
-function dissoc(coll, keys) {
-  for (let k of keys) {
-    coll.delete(k);
-  }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-  return coll;
-}
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
-const dissocObj = (obj, keys) => {
-  for (let k of keys) {
-    delete obj[k];
-  }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-  return obj;
+// Based on https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+// and https://tailwindcss.com/components
+var borderWidths = {
+  px: "1px",
+  "0": "0",
+  "2": "2px",
+  "4": "4px",
+  "8": "8px"
 };
-
-exports.dissocObj = dissocObj;
-},{}],"../node_modules/@thi.ng/associative/internal/equiv.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.equivSet = exports.equivMap = void 0;
-
-var _equiv = require("@thi.ng/equiv");
-
-const equivMap = (a, b) => {
-  if (a === b) {
-    return true;
-  }
-
-  if (!(b instanceof Map) || a.size !== b.size) {
-    return false;
-  }
-
-  for (let p of a.entries()) {
-    if (!(0, _equiv.equiv)(b.get(p[0]), p[1])) {
-      return false;
-    }
-  }
-
-  return true;
+exports.borderWidths = borderWidths;
+var breakpoints = ["640px", "768px", "1024px", "1280px"];
+exports.breakpoints = breakpoints;
+var baseColors = {
+  transparent: "transparent",
+  black: "#000",
+  white: "#fff",
+  gray: [null, "#f7fafc", "#edf2f7", "#e2e8f0", "#cbd5e0", "#a0aec0", "#718096", "#4a5568", "#2d3748", "#1a202c"],
+  red: [null, "#fff5f5", "#fed7d7", "#feb2b2", "#fc8181", "#f56565", "#e53e3e", "#c53030", "#9b2c2c", "#742a2a"],
+  orange: [null, "#fffaf0", "#feebc8", "#fbd38d", "#f6ad55", "#ed8936", "#dd6b20", "#c05621", "#9c4221", "#7b341e"],
+  yellow: [null, "#fffff0", "#fefcbf", "#faf089", "#f6e05e", "#ecc94b", "#d69e2e", "#b7791f", "#975a16", "#744210"],
+  green: [null, "#f0fff4", "#c6f6d5", "#9ae6b4", "#68d391", "#48bb78", "#38a169", "#2f855a", "#276749", "#22543d"],
+  teal: [null, "#e6fffa", "#b2f5ea", "#81e6d9", "#4fd1c5", "#38b2ac", "#319795", "#2c7a7b", "#285e61", "#234e52"],
+  blue: [null, "#ebf8ff", "#bee3f8", "#90cdf4", "#63b3ed", "#4299e1", "#3182ce", "#2b6cb0", "#2c5282", "#2a4365"],
+  indigo: [null, "#ebf4ff", "#c3dafe", "#a3bffa", "#7f9cf5", "#667eea", "#5a67d8", "#4c51bf", "#434190", "#3c366b"],
+  purple: [null, "#faf5ff", "#e9d8fd", "#d6bcfa", "#b794f4", "#9f7aea", "#805ad5", "#6b46c1", "#553c9a", "#44337a"],
+  pink: [null, "#fff5f7", "#fed7e2", "#fbb6ce", "#f687b3", "#ed64a6", "#d53f8c", "#b83280", "#97266d", "#702459"]
 };
-
-exports.equivMap = equivMap;
-
-const equivSet = (a, b) => {
-  if (a === b) {
-    return true;
-  }
-
-  if (!(b instanceof Set) || a.size !== b.size) {
-    return false;
-  }
-
-  for (let k of a.keys()) {
-    if (!b.has(k)) {
-      return false;
-    }
-  }
-
-  return true;
+exports.baseColors = baseColors;
+var commonButtonStyles = {
+  py: 2,
+  px: 3,
+  cursor: "pointer",
+  fontSize: "100%",
+  lineHeight: "inherit"
 };
+var buttons = {
+  simple: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "primary",
+    border: "none",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "default",
+    "&:hover": {
+      backgroundColor: "primaryHover"
+    }
+  }),
+  pill: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "primary",
+    border: "none",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "full",
+    "&:hover": {
+      backgroundColor: "primaryHover"
+    }
+  }),
+  outline: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "transparent",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "primary",
+    color: "primary",
+    fontWeight: "semibold",
+    borderRadius: "default",
+    "&:hover": {
+      backgroundColor: "primary",
+      color: "white",
+      borderColor: "transparent"
+    }
+  }),
+  bordered: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "primary",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "primaryHover",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "default",
+    "&:hover": {
+      backgroundColor: "primaryHover"
+    }
+  }),
+  disabled: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "primary",
+    border: "none",
+    opacity: 0.5,
+    cursor: "not-allowed",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "default"
+  }),
+  "3D": _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "primary",
+    border: "none",
+    borderBottomWidth: "4px",
+    borderBottomStyle: "solid",
+    borderBottomColor: "primaryHover",
+    color: "white",
+    fontWeight: "bold",
+    borderRadius: "default",
+    transition: "transform 0.3s ease-in-out",
+    "&:hover": {
+      transform: "translateY(-1px)"
+    }
+  }),
+  elevated: _objectSpread({}, commonButtonStyles, {
+    backgroundColor: "white",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: "gray.4",
+    color: "text",
+    fontWeight: "bold",
+    borderRadius: "default",
+    boxShadow: "default",
+    "&:hover": {
+      backgroundColor: "gray.1"
+    }
+  })
+};
+exports.buttons = buttons;
 
-exports.equivSet = equivSet;
-},{"@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js"}],"../node_modules/@thi.ng/associative/into.js":[function(require,module,exports) {
+var colors = _objectSpread({}, baseColors, {
+  grayDark: baseColors.gray[8],
+  text: baseColors.gray[8],
+  background: baseColors.white,
+  primary: baseColors.blue[7],
+  primaryHover: baseColors.blue[8],
+  secondary: baseColors.gray[6],
+  muted: baseColors.gray[3],
+  success: baseColors.green[3],
+  info: baseColors.blue[4],
+  warning: baseColors.yellow[3],
+  danger: baseColors.red[3],
+  light: baseColors.gray[1],
+  dark: baseColors.gray[8],
+  textMuted: baseColors.gray[6]
+});
+
+exports.colors = colors;
+var baseFonts = {
+  sans: '"Open Sans", system-ui',
+  serif: "Merriweather, system-ui",
+  mono: '"Fira Code",monospace'
+};
+exports.baseFonts = baseFonts;
+
+var fonts = _objectSpread({}, baseFonts, {
+  body: baseFonts.sans,
+  heading: baseFonts.serif,
+  monospace: baseFonts.mono
+});
+
+exports.fonts = fonts;
+var fontSizes = ["0.875rem", "1rem", "1.25rem", "1.5rem", "1.875rem", "2.25rem", "3rem", "4rem", "4.5rem"];
+exports.fontSizes = fontSizes;
+var baseFontWeights = {
+  hairline: "100",
+  thin: "200",
+  light: "300",
+  normal: "400",
+  medium: "500",
+  semibold: "600",
+  bold: "700",
+  extrabold: "800",
+  black: "900"
+};
+exports.baseFontWeights = baseFontWeights;
+
+var fontWeights = _objectSpread({}, baseFontWeights, {
+  body: baseFontWeights.normal,
+  heading: baseFontWeights.bold
+});
+
+exports.fontWeights = fontWeights;
+var commonInputStyles = {
+  py: 2,
+  px: 3,
+  fontSize: "100%",
+  borderRadius: "default",
+  appearance: "none",
+  lineHeight: "tight"
+};
+var inputs = {
+  shadow: _objectSpread({}, commonInputStyles, {
+    border: "none",
+    color: "gray.7",
+    boxShadow: "default",
+    "&:focus": {
+      outline: "none",
+      boxShadow: "outline"
+    }
+  }),
+  inline: _objectSpread({}, commonInputStyles, {
+    backgroundColor: "gray.2",
+    borderWidth: "2px",
+    borderStyle: "solid",
+    borderColor: "gray.2",
+    color: "gray.7",
+    "&:focus": {
+      outline: "none",
+      borderColor: "primary",
+      backgroundColor: "white"
+    }
+  }),
+  underline: _objectSpread({}, commonInputStyles, {
+    backgroundColor: "transparent",
+    border: "none",
+    borderBottomWidth: "2px",
+    borderBottomStyle: "solid",
+    borderBottomColor: "primary",
+    borderRadius: "0px",
+    color: "gray.7",
+    "&:focus": {
+      outline: "none",
+      borderColor: "primary",
+      backgroundColor: "white"
+    }
+  })
+};
+exports.inputs = inputs;
+var letterSpacings = {
+  tighter: "-0.05em",
+  tight: "-0.025em",
+  normal: "0",
+  wide: "0.025em",
+  wider: "0.05em",
+  widest: "0.1em"
+};
+exports.letterSpacings = letterSpacings;
+var baseLineHeights = {
+  none: "1",
+  tight: "1.25",
+  snug: "1.375",
+  normal: "1.5",
+  relaxed: "1.625",
+  loose: "2"
+};
+exports.baseLineHeights = baseLineHeights;
+
+var lineHeights = _objectSpread({}, baseLineHeights, {
+  body: baseLineHeights.relaxed,
+  heading: baseLineHeights.tight
+});
+
+exports.lineHeights = lineHeights;
+var radii = {
+  none: "0",
+  sm: "0.125rem",
+  default: "0.25rem",
+  lg: "0.5rem",
+  full: "9999px"
+};
+exports.radii = radii;
+var sizes = {
+  px: "1px",
+  "0": "0",
+  "1": "0.25rem",
+  "2": "0.5rem",
+  "3": "0.75rem",
+  "4": "1rem",
+  "5": "1.25rem",
+  "6": "1.5rem",
+  "8": "2rem",
+  "10": "2.5rem",
+  "12": "3rem",
+  "16": "4rem",
+  "20": "5rem",
+  "24": "6rem",
+  "32": "8rem",
+  "40": "10rem",
+  "48": "12rem",
+  "56": "14rem",
+  "64": "16rem",
+  xs: "20rem",
+  sm: "24rem",
+  md: "28rem",
+  lg: "32rem",
+  xl: "36rem",
+  "2xl": "42rem",
+  "3xl": "48rem",
+  "4xl": "56rem",
+  "5xl": "64rem",
+  "6xl": "72rem",
+  "1/2": "50%",
+  "1/3": "33.333333%",
+  "2/3": "66.666667%",
+  "1/4": "25%",
+  "2/4": "50%",
+  "3/4": "75%",
+  "1/5": "20%",
+  "2/5": "40%",
+  "3/5": "60%",
+  "4/5": "80%",
+  "1/6": "16.666667%",
+  "2/6": "33.333333%",
+  "3/6": "50%",
+  "4/6": "66.666667%",
+  "5/6": "83.333333%",
+  "1/12": "8.333333%",
+  "2/12": "16.666667%",
+  "3/12": "25%",
+  "4/12": "33.333333%",
+  "5/12": "41.666667%",
+  "6/12": "50%",
+  "7/12": "58.333333%",
+  "8/12": "66.666667%",
+  "9/12": "75%",
+  "10/12": "83.333333%",
+  "11/12": "91.666667%",
+  full: "100%",
+  screenHeight: "100vh",
+  screenWidth: "100vw"
+};
+exports.sizes = sizes;
+var shadows = {
+  default: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+  md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+  lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
+  xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+  "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+  inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
+  outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
+  none: "none"
+};
+exports.shadows = shadows;
+var space = [0, "0.25rem", "0.5rem", "1rem", "2rem", "4rem", "8rem", "16rem", "32rem"];
+exports.space = space;
+var zIndices = {
+  auto: "auto",
+  "0": "0",
+  "10": "10",
+  "20": "20",
+  "30": "30",
+  "40": "40",
+  "50": "50"
+};
+exports.zIndices = zIndices;
+var heading = {
+  fontFamily: "heading",
+  fontWeight: "heading",
+  lineHeight: "heading",
+  m: 0,
+  mb: 1
+};
+var styles = {
+  root: {
+    fontFamily: "body",
+    lineHeight: "body",
+    fontWeight: "body"
+  },
+  a: {
+    color: "primary",
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline"
+    }
+  },
+  p: {
+    lineHeight: 2
+  },
+  ul: {
+    mb: 3
+  },
+  li: {
+    listStyle: "inside",
+    lineHeight: 1.5
+  },
+  h1: _objectSpread({}, heading, {
+    fontSize: 6,
+    mt: 4,
+    mb: 3
+  }),
+  h2: _objectSpread({}, heading, {
+    fontSize: 5,
+    mt: 4,
+    mb: 3
+  }),
+  h3: _objectSpread({}, heading, {
+    fontSize: 4,
+    mt: 4,
+    mb: 3
+  }),
+  h4: _objectSpread({}, heading, {
+    fontSize: 3,
+    mt: 4,
+    mb: 3
+  }),
+  h5: _objectSpread({}, heading, {
+    fontSize: 2
+  }),
+  h6: _objectSpread({}, heading, {
+    fontSize: 1,
+    mb: 2
+  }),
+  pre: {
+    fontFamily: baseFonts.mono,
+    lineHeight: 1.5,
+    my: 3,
+    mx: -2,
+    fontSize: [0, 1]
+  },
+  code: {
+    borderRadius: radii.lg,
+    outline: "heavy solid black"
+  },
+  hr: {
+    bg: "muted",
+    border: 0,
+    height: "1px",
+    m: 3
+  },
+  blockquote: {
+    fontFamily: baseFonts.serif,
+    fontStyle: "italic",
+    fontSize: [2, 3],
+    lineHeight: 1.5,
+    borderLeft: "medium solid",
+    borderColor: "primary",
+    my: 3,
+    p: 3
+  },
+  table: {
+    width: "100%",
+    mt: 2,
+    mb: 4
+  },
+  tr: {
+    "&:first-child": {
+      fontWeight: "bold",
+      backgroundColor: "primary",
+      color: "muted"
+    },
+    lineHeight: 2,
+    "&:nth-child(2n)": {
+      backgroundColor: "muted"
+    }
+  },
+  td: {
+    border: "thin solid",
+    borderColor: "muted",
+    p: 2
+  },
+  img: {
+    display: "block",
+    my: [2, 3],
+    width: "100%",
+    maxHeight: "500px",
+    objectFit: "cover",
+    borderRadius: radii.default
+  }
+};
+exports.styles = styles;
+var theme = {
+  borderWidths: borderWidths,
+  breakpoints: breakpoints,
+  colors: colors,
+  fonts: fonts,
+  fontSizes: fontSizes,
+  fontWeights: fontWeights,
+  letterSpacings: letterSpacings,
+  lineHeights: lineHeights,
+  sizes: sizes,
+  shadows: shadows,
+  space: space,
+  radii: radii,
+  zIndices: zIndices,
+  styles: styles,
+  buttons: buttons,
+  inputs: inputs
+};
+exports.theme = theme;
+var _default = theme;
+exports.default = _default;
+},{}],"../node_modules/@thi.ng/random/api.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.into = into;
+exports.ARandom = void 0;
+const INV_MAX = 1 / 0xffffffff;
 
-var _checks = require("@thi.ng/checks");
-
-function into(dest, src) {
-  if ((0, _checks.isMap)(dest)) {
-    for (let x of src) {
-      dest.set(x[0], x[1]);
-    }
-  } else {
-    for (let x of src) {
-      dest.add(x);
-    }
+class ARandom {
+  float(norm = 1) {
+    return this.int() * INV_MAX * norm;
   }
 
-  return dest;
-}
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/array-set.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ArraySet = void 0;
-
-var _api = require("@thi.ng/api");
-
-var _equiv = require("@thi.ng/equiv");
-
-var _dissoc = require("./dissoc");
-
-var _equiv2 = require("./internal/equiv");
-
-var _into = require("./into");
-
-const __private = new WeakMap();
-
-const __vals = inst => __private.get(inst).vals;
-/**
- * An alternative set implementation to the native ES6 Set type. Uses
- * customizable equality/equivalence predicate and so is more useful
- * when dealing with structured data. Implements full API of native Set
- * and by the default uses `@thi.ng/equiv` for equivalence checking.
- *
- * Additionally, the type also implements the `ICopy`, `IEmpty` and
- * `IEquiv` interfaces itself.
- */
-
-
-class ArraySet extends Set {
-  constructor(vals, opts = {}) {
-    super();
-
-    __private.set(this, {
-      equiv: opts.equiv || _equiv.equiv,
-      vals: []
-    });
-
-    vals && this.into(vals);
+  norm(norm = 1) {
+    return this.int() * INV_MAX * norm * 2 - norm;
   }
 
-  *[Symbol.iterator]() {
-    yield* __vals(this);
-  }
-
-  get [Symbol.species]() {
-    return ArraySet;
-  }
-
-  get [Symbol.toStringTag]() {
-    return "ArraySet";
-  }
-
-  get size() {
-    return __vals(this).length;
-  }
-
-  copy() {
-    const $this = __private.get(this);
-
-    const s = new ArraySet(null, {
-      equiv: $this.equiv
-    });
-    __private.get(s).vals = $this.vals.slice();
-    return s;
-  }
-
-  empty() {
-    return new ArraySet(null, this.opts());
-  }
-
-  clear() {
-    __vals(this).length = 0;
-  }
-
-  first() {
-    if (this.size) {
-      return __vals(this)[0];
-    }
-  }
-
-  add(key) {
-    !this.has(key) && __vals(this).push(key);
-    return this;
-  }
-
-  into(keys) {
-    return (0, _into.into)(this, keys);
-  }
-
-  has(key) {
-    return this.get(key, _api.SEMAPHORE) !== _api.SEMAPHORE;
+  minmax(min, max) {
+    return this.float() * (max - min) + min;
   }
   /**
-   * Returns the canonical value for `x`, if present. If the set
-   * contains no equivalent for `x`, returns `notFound`.
+   * Returns approx. normal distribution using CLT.
    *
-   * @param key
-   * @param notFound
+   * https://en.wikipedia.org/wiki/Central_limit_theorem
+   *
+   * @param n
+   * @param offset
+   * @param scale
    */
 
 
-  get(key, notFound) {
-    const $this = __private.get(this);
+  gaussian(n = 10, offset = -0.5, scale = 1) {
+    let sum = 0;
+    let m = n;
 
-    const eq = $this.equiv;
-    const vals = $this.vals;
+    while (m-- > 0) sum += this.float(scale);
 
-    for (let i = vals.length; --i >= 0;) {
-      if (eq(vals[i], key)) {
-        return vals[i];
-      }
-    }
-
-    return notFound;
-  }
-
-  delete(key) {
-    const $this = __private.get(this);
-
-    const eq = $this.equiv;
-    const vals = $this.vals;
-
-    for (let i = vals.length; --i >= 0;) {
-      if (eq(vals[i], key)) {
-        vals.splice(i, 1);
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  disj(keys) {
-    return (0, _dissoc.dissoc)(this, keys);
-  }
-
-  equiv(o) {
-    return (0, _equiv2.equivSet)(this, o);
-  }
-
-  forEach(fn, thisArg) {
-    const vals = __vals(this);
-
-    for (let i = vals.length; --i >= 0;) {
-      const v = vals[i];
-      fn.call(thisArg, v, v, this);
-    }
-  }
-
-  *entries() {
-    for (let v of __vals(this)) {
-      yield [v, v];
-    }
-  }
-
-  *keys() {
-    yield* __vals(this);
-  }
-
-  *values() {
-    yield* __vals(this);
-  }
-
-  opts() {
-    return {
-      equiv: __private.get(this).equiv
-    };
+    return sum / n + offset;
   }
 
 }
 
-exports.ArraySet = ArraySet;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/common-keys.js":[function(require,module,exports) {
+exports.ARandom = ARandom;
+},{}],"../node_modules/@thi.ng/random/smush32.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.commonKeysObj = exports.commonKeysMap = void 0;
-
-/**
- * Like `commonKeysObj()`, but for ES6 Maps.
- *
- * @param a
- * @param b
- * @param out
- */
-const commonKeysMap = (a, b, out = []) => {
-  for (let k of a.keys()) {
-    b.has(k) && out.push(k);
-  }
-
-  return out;
-};
-/**
- * Returns array of keys present in both args, i.e. the set intersection
- * of the given objects' key / property sets.
- *
- * ```
- * commonKeys({ a: 1, b: 2 }, { c: 10, b: 20, a: 30 })
- * // [ "a", "b" ]
- * ```
- *
- * @param a
- * @param b
- * @param out
- */
-
-
-exports.commonKeysMap = commonKeysMap;
-
-const commonKeysObj = (a, b, out = []) => {
-  for (let k in a) {
-    b.hasOwnProperty(k) && out.push(k);
-  }
-
-  return out;
-};
-
-exports.commonKeysObj = commonKeysObj;
-},{}],"../node_modules/@thi.ng/associative/utils.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ensureSet = exports.ensureMap = exports.objValues = exports.first = exports.copy = exports.empty = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-const empty = (x, ctor) => (0, _checks.implementsFunction)(x, "empty") ? x.empty() : new (x[Symbol.species] || ctor)();
-
-exports.empty = empty;
-
-const copy = (x, ctor) => (0, _checks.implementsFunction)(x, "copy") ? x.copy() : new (x[Symbol.species] || ctor)(x);
-
-exports.copy = copy;
-
-const first = x => x[Symbol.iterator]().next().value;
-
-exports.first = first;
-
-const objValues = src => {
-  const vals = [];
-
-  for (let k in src) {
-    src.hasOwnProperty(k) && vals.push(src[k]);
-  }
-
-  return vals;
-};
-
-exports.objValues = objValues;
-
-const ensureMap = x => (0, _checks.isMap)(x) ? x : new Map(x);
-
-exports.ensureMap = ensureMap;
-
-const ensureSet = x => (0, _checks.isSet)(x) ? x : new Set(x);
-
-exports.ensureSet = ensureSet;
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/difference.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.difference = void 0;
-
-var _into = require("./into");
-
-var _utils = require("./utils");
-
-/**
- * Computes the difference of sets `a - b` and writes results to new set
- * or optionally given set `out` (assumed to be empty for correct
- * results).
- *
- * @param a
- * @param b
- * @param out
- */
-const difference = (a, b, out) => {
-  if (a === b) {
-    return out || (0, _utils.empty)(a, Set);
-  }
-
-  out = out ? (0, _into.into)(out, a) : (0, _utils.copy)(a, Set);
-
-  for (let i of b) {
-    out.delete(i);
-  }
-
-  return out;
-};
-
-exports.difference = difference;
-},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/equiv-map.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EquivMap = void 0;
-
-var _api = require("@thi.ng/api");
-
-var _equiv = require("@thi.ng/equiv");
-
-var _arraySet = require("./array-set");
-
-var _dissoc = require("./dissoc");
-
-var _equiv2 = require("./internal/equiv");
-
-var _into = require("./into");
-
-const __private = new WeakMap();
-
-const __map = map => __private.get(map).map;
-
-class EquivMap extends Map {
-  /**
-   * Creates a new instance with optional initial key-value pairs and
-   * provided options. If no `opts` are given, uses `ArraySet` for
-   * storing canonical keys and `@thi.ng/equiv` for checking key
-   * equivalence.
-   *
-   * @param pairs
-   * @param opts
-   */
-  constructor(pairs, opts) {
-    super();
-
-    const _opts = Object.assign({
-      equiv: _equiv.equiv,
-      keys: _arraySet.ArraySet
-    }, opts);
-
-    __private.set(this, {
-      keys: new _opts.keys(null, {
-        equiv: _opts.equiv
-      }),
-      map: new Map(),
-      opts: _opts
-    });
-
-    if (pairs) {
-      this.into(pairs);
-    }
-  }
-  /**
-   * Converts given vanilla object into an `EquivMap` instance with
-   * default (or optionally provided) options and returns it. By
-   * default uses strict `===` equality check for `equiv` option.
-   *
-   * @param obj
-   * @param opts
-   */
-
-
-  static fromObject(obj, opts) {
-    const m = new EquivMap(null, Object.assign({
-      equiv: (a, b) => a === b
-    }, opts));
-
-    for (let k in obj) {
-      obj.hasOwnProperty(k) && m.set(k, obj[k]);
-    }
-
-    return m;
-  }
-
-  [Symbol.iterator]() {
-    return this.entries();
-  }
-
-  get [Symbol.species]() {
-    return EquivMap;
-  }
-
-  get [Symbol.toStringTag]() {
-    return "EquivMap";
-  }
-
-  get size() {
-    return __private.get(this).keys.size;
-  }
-
-  clear() {
-    const $this = __private.get(this);
-
-    $this.keys.clear();
-    $this.map.clear();
-  }
-
-  empty() {
-    return new EquivMap(null, __private.get(this).opts);
-  }
-
-  copy() {
-    const $this = __private.get(this);
-
-    const m = new EquivMap();
-
-    __private.set(m, {
-      keys: $this.keys.copy(),
-      map: new Map($this.map),
-      opts: $this.opts
-    });
-
-    return m;
-  }
-
-  equiv(o) {
-    return (0, _equiv2.equivMap)(this, o);
-  }
-
-  delete(key) {
-    const $this = __private.get(this);
-
-    key = $this.keys.get(key, _api.SEMAPHORE);
-
-    if (key !== _api.SEMAPHORE) {
-      $this.map.delete(key);
-      $this.keys.delete(key);
-      return true;
-    }
-
-    return false;
-  }
-
-  dissoc(keys) {
-    return (0, _dissoc.dissoc)(this, keys);
-  }
-
-  forEach(fn, thisArg) {
-    for (let pair of __map(this)) {
-      fn.call(thisArg, pair[1], pair[0], this);
-    }
-  }
-
-  get(key, notFound) {
-    const $this = __private.get(this);
-
-    key = $this.keys.get(key, _api.SEMAPHORE);
-
-    if (key !== _api.SEMAPHORE) {
-      return $this.map.get(key);
-    }
-
-    return notFound;
-  }
-
-  has(key) {
-    return __private.get(this).keys.has(key);
-  }
-
-  set(key, value) {
-    const $this = __private.get(this);
-
-    const k = $this.keys.get(key, _api.SEMAPHORE);
-
-    if (k !== _api.SEMAPHORE) {
-      $this.map.set(k, value);
-    } else {
-      $this.keys.add(key);
-      $this.map.set(key, value);
-    }
-
-    return this;
-  }
-
-  into(pairs) {
-    return (0, _into.into)(this, pairs);
-  }
-
-  entries() {
-    return __map(this).entries();
-  }
-
-  keys() {
-    return __map(this).keys();
-  }
-
-  values() {
-    return __map(this).values();
-  }
-
-  opts() {
-    return __private.get(this).opts;
-  }
-
-}
-
-exports.EquivMap = EquivMap;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./array-set":"../node_modules/@thi.ng/associative/array-set.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/binary/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MASKS = void 0;
-const MASKS = new Array(33).fill(0).map((_, i) => Math.pow(2, i) - 1);
-exports.MASKS = MASKS;
-},{}],"../node_modules/@thi.ng/binary/align.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.isAligned = exports.align = void 0;
-
-/**
- * Aligns `addr` to next multiple of `size`. The latter must be a power
- * of 2.
- *
- * @param addr
- * @param size
- */
-const align = (addr, size) => (size--, addr + size & ~size);
-/**
- * Returns true if `addr` is aligned to wordsize `size`.
- */
-
-
-exports.align = align;
-
-const isAligned = (addr, size) => !(addr & size - 1);
-
-exports.isAligned = isAligned;
-},{}],"../node_modules/@thi.ng/binary/count.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ctz32 = exports.clz32 = exports.hammingDist = exports.popCount = void 0;
-
-/**
- * Returns number of 1 bits in `x`.
- *
- * @param x
- */
-const popCount = x => (x = x - (x >>> 1 & 0x55555555), x = (x & 0x33333333) + (x >>> 2 & 0x33333333), (x + (x >>> 4) & 0xf0f0f0f) * 0x1010101 >>> 24);
-/**
- * https://en.wikipedia.org/wiki/Hamming_distance
- *
- * @param x
- * @param y
- */
-
-
-exports.popCount = popCount;
-
-const hammingDist = (x, y) => popCount(x ^ y);
-/**
- * Math.clz32() polyfill (corrected).
- *
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32$revision/1426816
- *
- * @param x
- */
-
-
-exports.hammingDist = hammingDist;
-
-const clz32 = x => x !== 0 ? 31 - (Math.log(x >>> 0) / Math.LN2 | 0) : 32;
-
-exports.clz32 = clz32;
-
-const ctz32 = x => {
-  let c = 32;
-  x &= -x;
-  x && c--;
-  x & 0x0000ffff && (c -= 16);
-  x & 0x00ff00ff && (c -= 8);
-  x & 0x0f0f0f0f && (c -= 4);
-  x & 0x33333333 && (c -= 2);
-  x & 0x55555555 && (c -= 1);
-  return c;
-};
-
-exports.ctz32 = ctz32;
-},{}],"../node_modules/@thi.ng/binary/mask.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.maskH = exports.maskL = exports.defMask = void 0;
+exports.Smush32 = void 0;
 
 var _api = require("./api");
 
+// https://github.com/thi-ng/ct-head/blob/master/random.h
+// https://gist.github.com/voidqk/d112165a26b45244a65298933c0349a4
+const DEFAULT_SEED = 0xdecafbad;
+
+class Smush32 extends _api.ARandom {
+  constructor(seed = DEFAULT_SEED) {
+    super();
+    this.buffer = new Uint32Array([seed, 0]);
+  }
+
+  copy() {
+    const gen = new Smush32();
+    gen.buffer.set(this.buffer);
+    return gen;
+  }
+
+  seed(s) {
+    this.buffer.set([s, 0]);
+    return this;
+  }
+
+  int() {
+    const b = this.buffer;
+    const m = 0x5bd1e995;
+    const k = b[1]++ * m >>> 0;
+    const s = b[0] = (k ^ k >> 24 ^ b[0] * m >>> 0) * m >>> 0;
+    return (s ^ s >>> 13) >>> 0;
+  }
+
+}
+
+exports.Smush32 = Smush32;
+},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/system.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SYSTEM = exports.SystemRandom = void 0;
+
+var _api = require("./api");
+
+const random = Math.random;
+
+class SystemRandom extends _api.ARandom {
+  int() {
+    return random() * 0xffffffff >>> 0;
+  }
+
+  float(norm = 1) {
+    return random() * norm;
+  }
+
+}
+
+exports.SystemRandom = SystemRandom;
+const SYSTEM = new SystemRandom();
+exports.SYSTEM = SYSTEM;
+},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xorshift128.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.XorShift128 = void 0;
+
+var _api = require("./api");
+
+// https://en.wikipedia.org/wiki/Xorshift
+const DEFAULT_SEED = [0xdecafbad, 0x2fa9d75b, 0xe41f67e3, 0x5c83ec1a];
+
+class XorShift128 extends _api.ARandom {
+  constructor(seed = DEFAULT_SEED) {
+    super();
+    this.buffer = new Uint32Array(4);
+    this.seed(seed);
+  }
+
+  copy() {
+    return new XorShift128(this.buffer);
+  }
+
+  bytes() {
+    return new Uint8Array(this.buffer.buffer);
+  }
+
+  seed(seed) {
+    this.buffer.set(seed);
+    return this;
+  }
+
+  int() {
+    const s = this.buffer;
+    let t = s[3];
+    let w;
+    t ^= t << 11;
+    t ^= t >>> 8;
+    s[3] = s[2];
+    s[2] = s[1];
+    w = s[1] = s[0];
+    return s[0] = (t ^ w ^ w >>> 19) >>> 0;
+  }
+
+}
+
+exports.XorShift128 = XorShift128;
+},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xorwow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.XorWow = void 0;
+
+var _api = require("./api");
+
+// https://en.wikipedia.org/wiki/Xorshift#xorwow
+const DEFAULT_SEED = [0xdecafbad, 0x2fa9d75b, 0xe41f67e3, 0x5c83ec1a, 0xf69a5c71];
+
+class XorWow extends _api.ARandom {
+  constructor(seed = DEFAULT_SEED) {
+    super();
+    this.buffer = new Uint32Array(5);
+    this.seed(seed);
+  }
+
+  copy() {
+    return new XorWow(this.buffer);
+  }
+
+  seed(seed) {
+    this.buffer.set(seed);
+    return this;
+  }
+
+  bytes() {
+    return new Uint8Array(this.buffer.buffer);
+  }
+
+  int() {
+    const s = this.buffer;
+    let t = s[3];
+    let w;
+    t ^= t >>> 2;
+    t ^= t << 1;
+    s[3] = s[2];
+    s[2] = s[1];
+    w = s[1] = s[0];
+    t ^= w;
+    t ^= w << 4;
+    s[0] = t;
+    return t + (s[4] += 0x587c5) >>> 0;
+  }
+
+}
+
+exports.XorWow = XorWow;
+},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xsadd.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.XsAdd = void 0;
+
+var _api = require("./api");
+
+// https://github.com/MersenneTwister-Lab/XSadd/blob/master/xsadd.h
+const DEFAULT_SEED = 0xdecafbad;
+
+class XsAdd extends _api.ARandom {
+  constructor(seed = DEFAULT_SEED) {
+    super();
+    this.buffer = new Uint32Array(4);
+    this.seed(seed);
+  }
+
+  bytes() {
+    return new Uint8Array(this.buffer.buffer);
+  }
+
+  copy() {
+    const gen = new XsAdd();
+    gen.buffer.set(this.buffer);
+    return gen;
+  }
+
+  seed(seed) {
+    const s = this.buffer;
+    s.set([seed, 0, 0, 0]);
+
+    for (let j = 0, i = 1; i < 8; j = i++) {
+      let x = (s[j & 3] ^ s[j & 3] >>> 30) >>> 0;
+      x = 0x8965 * x + ((0x6c07 * x & 0xffff) << 16) >>> 0;
+      s[i & 3] ^= i + x >>> 0;
+    }
+
+    return this;
+  }
+
+  int() {
+    const s = this.buffer;
+    let t = s[0];
+    t ^= t << 15;
+    t ^= t >>> 18;
+    t ^= s[3] << 11;
+    s[0] = s[1];
+    s[1] = s[2];
+    s[2] = s[3];
+    s[3] = t;
+    return t + s[2] >>> 0;
+  }
+
+}
+
+exports.XsAdd = XsAdd;
+},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/random-id.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.randomID = void 0;
+
+var _system = require("./system");
+
 /**
- * Creates bit mask by enabling bit `a` to bit `b-1`, both in range
- * 0-32. `b` MUST be >= `a`.
+ * Generates and returns a random string of `len` characters (default
+ * 4), plus optional given `prefix` and using only provided `syms`
+ * characters (default lowercase a-z).
  *
  * ```
- * defMask(1,31).toString(16) // 7ffffffe
- * defMask(3,8).toString(16)  // f8
+ * randomID()
+ * "qgdt"
+ *
+ * randomID(8, "id-", "0123456789ABCDEF")
+ * "id-94EF6E1A"
  * ```
  *
- * @param a
- * @param b
+ * @param len
+ * @param prefix
+ * @param syms
+ * @param rnd
  */
-const defMask = (a, b) => (~_api.MASKS[a] & _api.MASKS[b]) >>> 0;
-/**
- * Returns unsigned version of `x` with only lowest `n` bits.
- *
- * @param n
- * @param x
- */
+const randomID = (len = 4, prefix = "", syms = "abcdefghijklmnopqrstuvwxyz", rnd = _system.SYSTEM) => {
+  for (const n = syms.length; --len >= 0;) {
+    prefix += syms[rnd.float(n) | 0];
+  }
 
+  return prefix;
+};
 
-exports.defMask = defMask;
-
-const maskL = (n, x) => (x & _api.MASKS[n]) >>> 0;
-/**
- * Returns unsigned version of `x` with only highest `n` bits.
- *
- * @param n
- * @param x
- */
-
-
-exports.maskL = maskL;
-
-const maskH = (n, x) => (x & ~_api.MASKS[n]) >>> 0;
-
-exports.maskH = maskH;
-},{"./api":"../node_modules/@thi.ng/binary/api.js"}],"../node_modules/@thi.ng/binary/edit.js":[function(require,module,exports) {
+exports.randomID = randomID;
+},{"./system":"../node_modules/@thi.ng/random/system.js"}],"../node_modules/@thi.ng/random/weighted-random.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.bitClearWindow = exports.bitSetWindow = exports.bitSet = exports.bitFlip = exports.bitClear = void 0;
+exports.weightedRandom = void 0;
 
-var _mask = require("./mask");
+var _system = require("./system");
 
 /**
- * Clears bit in given uint `x`.
+ * Returns a no-arg function which produces a random choice of given
+ * weighted `choices` and using given `IRandom` instance (default:
+ * `SYSTEM`). If `weights` are given, it must be the same size as
+ * `choices`. If omitted, each choice will have same probability.
  *
- * @param x value
- * @param bit bit number (0..31)
- */
-const bitClear = (x, bit) => (x & ~(1 << bit)) >>> 0;
-/**
- * Toggles bit in given uint `x`.
+ * https://www.electricmonk.nl/log/2009/12/23/weighted-random-distribution/
  *
- * @param x
- * @param bit
+ * @param choices
+ * @param weights
  */
+const weightedRandom = (choices, weights, rnd = _system.SYSTEM) => {
+  const opts = choices.map(weights ? (x, i) => [x, weights[i]] : x => [x, 1]).sort((a, b) => b[1] - a[1]);
+  const n = choices.length;
+  let total = 0,
+      i,
+      r,
+      sum;
 
+  for (i = 0; i < n; i++) {
+    total += opts[i][1];
+  }
 
-exports.bitClear = bitClear;
+  return () => {
+    r = rnd.float(total);
+    sum = total;
 
-const bitFlip = (x, bit) => (x ^ 1 << bit) >>> 0;
-/**
- * Sets bit in given uint `x`.
- *
- * @param x value
- * @param bit bit number (0..31)
- */
+    for (i = 0; i < n; i++) {
+      sum -= opts[i][1];
 
-
-exports.bitFlip = bitFlip;
-
-const bitSet = (x, bit) => (x | 1 << bit) >>> 0;
-
-exports.bitSet = bitSet;
-
-const bitSetWindow = (x, y, from, to) => {
-  const m = (0, _mask.defMask)(from, to);
-  return x & ~m | y << (1 << from) & m;
+      if (sum <= r) {
+        return opts[i][0];
+      }
+    }
+  };
 };
 
-exports.bitSetWindow = bitSetWindow;
-
-const bitClearWindow = (x, from, to) => x & ~(0, _mask.defMask)(from, to);
-
-exports.bitClearWindow = bitClearWindow;
-},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/float.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.floatToSortableInt = exports.uintBitsToFloat = exports.intBitsToFloat = exports.floatToUintBits = exports.floatToIntBits = void 0;
-const F32 = new Float32Array(1);
-const I32 = new Int32Array(F32.buffer);
-const U32 = new Uint32Array(F32.buffer);
-
-const floatToIntBits = x => (F32[0] = x, I32[0]);
-
-exports.floatToIntBits = floatToIntBits;
-
-const floatToUintBits = x => (F32[0] = x, U32[0]);
-
-exports.floatToUintBits = floatToUintBits;
-
-const intBitsToFloat = x => (I32[0] = x, F32[0]);
-
-exports.intBitsToFloat = intBitsToFloat;
-
-const uintBitsToFloat = x => (U32[0] = x, F32[0]);
-/**
- * Converts given float into a sortable integer representation, using
- * raw bitwise conversion via `floatToIntBits()`.
- *
- * https://github.com/tzaeschke/phtree/blob/master/PhTreeRevisited.pdf
- * (page 3)
- *
- * @param x
- */
-
-
-exports.uintBitsToFloat = uintBitsToFloat;
-
-const floatToSortableInt = x => {
-  if (x === -0) x = 0;
-  const i = floatToIntBits(x);
-  return x < 0 ? ~i | 1 << 31 : i;
-};
-
-exports.floatToSortableInt = floatToSortableInt;
-},{}],"../node_modules/@thi.ng/binary/gray.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.decodeGray32 = exports.encodeGray32 = void 0;
-
-/**
- * Converts 32bit unsigned int to Gray code (reflected binary). Gray
- * codes of successive values always have a Hamming distance of 1 (i.e.
- * only 1 bit changes at a time).
- *
- * https://en.wikipedia.org/wiki/Gray_code
- *
- * @param x u32
- */
-const encodeGray32 = x => (x ^ x >>> 1) >>> 0;
-/**
- * Converts 32bit Gray code to binary / unsigned int.
- *
- * https://en.wikipedia.org/wiki/Gray_code
- */
-
-
-exports.encodeGray32 = encodeGray32;
-
-const decodeGray32 = x => {
-  x = x ^ x >>> 16;
-  x = x ^ x >>> 8;
-  x = x ^ x >>> 4;
-  x = x ^ x >>> 2;
-  x = x ^ x >>> 1;
-  return x >>> 0;
-};
-
-exports.decodeGray32 = decodeGray32;
-},{}],"../node_modules/@thi.ng/binary/logic.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.bitDemux = exports.bitMux = exports.bitOai22 = exports.bitAoi22 = exports.bitOai21 = exports.bitAoi21 = exports.bitImply = exports.bitXnor = exports.bitXor = exports.bitNor = exports.bitOr = exports.bitNand = exports.bitAnd = exports.bitNot = void 0;
-
-var _mask = require("./mask");
-
-const bitNot = (n, x) => (0, _mask.maskL)(n, ~x);
-
-exports.bitNot = bitNot;
-
-const bitAnd = (n, a, b) => (0, _mask.maskL)(n, a & b);
-
-exports.bitAnd = bitAnd;
-
-const bitNand = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
-
-exports.bitNand = bitNand;
-
-const bitOr = (n, a, b) => (0, _mask.maskL)(n, a | b);
-
-exports.bitOr = bitOr;
-
-const bitNor = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
-
-exports.bitNor = bitNor;
-
-const bitXor = (n, a, b) => (0, _mask.maskL)(n, a ^ b);
-
-exports.bitXor = bitXor;
-
-const bitXnor = (n, a, b) => (0, _mask.maskL)(n, ~(a ^ b));
-
-exports.bitXnor = bitXnor;
-
-const bitImply = (n, a, b) => (0, _mask.maskL)(n, ~a | b);
-
-exports.bitImply = bitImply;
-
-const bitAoi21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a | b & c));
-
-exports.bitAoi21 = bitAoi21;
-
-const bitOai21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a & (b | c)));
-
-exports.bitOai21 = bitOai21;
-
-const bitAoi22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~(a & b | c & d));
-
-exports.bitAoi22 = bitAoi22;
-
-const bitOai22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~((a | b) & (c | d)));
-
-exports.bitOai22 = bitOai22;
-
-const bitMux = (n, a, b, s) => (0, _mask.maskL)(n, a & ~s | b & s);
-
-exports.bitMux = bitMux;
-
-const bitDemux = (n, a, b, s) => [(0, _mask.maskL)(n, a & ~s), (0, _mask.maskL)(n, b & s)];
-
-exports.bitDemux = bitDemux;
-},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/pow.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.floorPow2 = exports.ceilPow2 = exports.isPow2 = void 0;
-
-// http://graphics.stanford.edu/~seander/bithacks.html
-const isPow2 = x => !!x && !(x & x - 1);
-
-exports.isPow2 = isPow2;
-
-const ceilPow2 = x => {
-  x += x === 0;
-  --x;
-  x |= x >>> 1;
-  x |= x >>> 2;
-  x |= x >>> 4;
-  x |= x >>> 8;
-  x |= x >>> 16;
-  return x + 1;
-};
-
-exports.ceilPow2 = ceilPow2;
-
-const floorPow2 = x => {
-  x |= x >>> 1;
-  x |= x >>> 2;
-  x |= x >>> 4;
-  x |= x >>> 8;
-  x |= x >>> 16;
-  return x - (x >>> 1);
-};
-
-exports.floorPow2 = floorPow2;
-},{}],"../node_modules/@thi.ng/binary/rotate.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.rotateRight = exports.rotateLeft = void 0;
-
-/**
- * Rotates `x` `n` bits to the left.
- *
- * @param x
- * @param n
- */
-const rotateLeft = (x, n) => (x << n | x >>> 32 - n) >>> 0;
-/**
- * Rotates `x` `n` bits to the right.
- *
- * @param x
- * @param n
- */
-
-
-exports.rotateLeft = rotateLeft;
-
-const rotateRight = (x, n) => (x >>> n | x << 32 - n) >>> 0;
-
-exports.rotateRight = rotateRight;
-},{}],"../node_modules/@thi.ng/binary/splat.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.same8 = exports.same4 = exports.splat16_32 = exports.splat8_32 = exports.splat8_24 = exports.splat4_32 = exports.splat4_24 = void 0;
-
-/**
- * Repeats lowest nibble of `x` as 24 bit uint.
- *
- * @param x
- */
-const splat4_24 = x => (x & 0xf) * 0x111111;
-/**
- * Repeats lowest nibble of `x` as 32 bit uint.
- *
- * @param x
- */
-
-
-exports.splat4_24 = splat4_24;
-
-const splat4_32 = x => (x & 0xf) * 0x11111111 >>> 0;
-/**
- * Repeats lowest byte of `x` as 24 bit uint.
- *
- * @param x
- */
-
-
-exports.splat4_32 = splat4_32;
-
-const splat8_24 = x => (x & 0xff) * 0x010101;
-/**
- * Repeats lowest byte of `x` as 32 bit uint.
- *
- * @param x
- */
-
-
-exports.splat8_24 = splat8_24;
-
-const splat8_32 = x => (x & 0xff) * 0x01010101 >>> 0;
-/**
- * Repeats lowest 16bit of `x` as 32 bit uint.
- *
- * @param x
- */
-
-
-exports.splat8_32 = splat8_32;
-
-const splat16_32 = x => (x &= 0xffff, (x << 16 | x) >>> 0);
-/**
- * Returns true if bits 0-3 are same as bits 4-7.
- *
- * @param x
- */
-
-
-exports.splat16_32 = splat16_32;
-
-const same4 = x => (x >> 4 & 0xf) === (x & 0xf);
-/**
- * Returns true if bits 0-7 are same as bits 8-15.
- *
- * @param x
- */
-
-
-exports.same4 = same4;
-
-const same8 = x => (x >> 8 & 0xff) === (x & 0xff);
-
-exports.same8 = same8;
-},{}],"../node_modules/@thi.ng/binary/swizzle.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.flipBytes = exports.swizzle4 = exports.swizzle8 = exports.setLane2 = exports.setLane4 = exports.setLane8 = exports.lane2 = exports.lane4 = exports.lane8 = void 0;
-
-/**
- * Extracts 8-bit lane from given 32bit uint.
- *
- * - Lane #0: bits 24-31
- * - Lane #1: bits 16-23
- * - Lane #2: bits 8-15
- * - Lane #3: bits 0-7
- *
- * @param x
- * @param lane
- */
-const lane8 = (x, lane) => x >>> (3 - lane << 3) & 0xff;
-/**
- * Extracts 4-bit lane from given 32bit uint.
- *
- * - Lane #0: bits 28-31
- * - Lane #1: bits 24-27
- * - Lane #2: bits 20-23
- * - Lane #3: bits 16-19
- * - Lane #4: bits 12-15
- * - Lane #5: bits 8-11
- * - Lane #6: bits 4-7
- * - Lane #7: bits 0-3
- *
- * @param x
- * @param lane
- */
-
-
-exports.lane8 = lane8;
-
-const lane4 = (x, lane) => x >>> (7 - lane << 2) & 0xf;
-
-exports.lane4 = lane4;
-
-const lane2 = (x, lane) => x >>> (15 - lane << 1) & 0x3;
-/**
- * Sets 8-bit `lane` with value`y` in `x`.
- *
- * @see lane8
- *
- * @param x
- * @param y
- * @param lane
- */
-
-
-exports.lane2 = lane2;
-
-const setLane8 = (x, y, lane) => {
-  const l = 3 - lane << 3;
-  return (~(0xff << l) & x | (y & 0xff) << l) >>> 0;
-};
-/**
- * Sets 4-bit `lane` with value `y` in `x`.
- *
- * @see lane4
- *
- * @param x
- * @param y
- * @param lane
- */
-
-
-exports.setLane8 = setLane8;
-
-const setLane4 = (x, y, lane) => {
-  const l = 7 - lane << 2;
-  return (~(0xf << l) & x | (y & 0xf) << l) >>> 0;
-};
-/**
- * Sets 2-bit `lane` with value `y` in `x`.
- *
- * @see lane2
- *
- * @param x
- * @param y
- * @param lane
- */
-
-
-exports.setLane4 = setLane4;
-
-const setLane2 = (x, y, lane) => {
-  const l = 15 - lane << 1;
-  return (~(0x3 << l) & x | (y & 0x3) << l) >>> 0;
-};
-/**
- * Re-orders byte lanes in given order (MSB).
- *
- * ```
- * swizzle(0x12345678, 3, 2, 1, 0) // 0x78563412
- * swizzle(0x12345678, 1, 0, 3, 2) // 0x34127856
- * swizzle(0x12345678, 2, 2, 0, 0) // 0x56561212
- * ```
- *
- * @param x
- * @param a
- * @param b
- * @param c
- * @param d
- */
-
-
-exports.setLane2 = setLane2;
-
-const swizzle8 = (x, a, b, c, d) => (lane8(x, a) << 24 | lane8(x, b) << 16 | lane8(x, c) << 8 | lane8(x, d)) >>> 0;
-/**
- *
- * @param x
- * @param a
- * @param b
- * @param c
- * @param d
- * @param e
- * @param f
- * @param g
- * @param h
- */
-
-
-exports.swizzle8 = swizzle8;
-
-const swizzle4 = (x, a, b, c, d, e, f, g, h) => (lane4(x, a) << 28 | lane4(x, b) << 24 | lane4(x, c) << 20 | lane4(x, d) << 16 | lane4(x, e) << 12 | lane4(x, f) << 8 | lane4(x, g) << 4 | lane4(x, h)) >>> 0;
-/**
- * Same as `swizzle8(x, 3, 2, 1, 0)`, but faster.
- *
- * @param x
- */
-
-
-exports.swizzle4 = swizzle4;
-
-const flipBytes = x => (x >>> 24 | x >> 8 & 0xff00 | (x & 0xff00) << 8 | x << 24) >>> 0;
-
-exports.flipBytes = flipBytes;
-},{}],"../node_modules/@thi.ng/binary/index.js":[function(require,module,exports) {
+exports.weightedRandom = weightedRandom;
+},{"./system":"../node_modules/@thi.ng/random/system.js"}],"../node_modules/@thi.ng/random/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8326,861 +7953,416 @@ Object.keys(_api).forEach(function (key) {
   });
 });
 
-var _align = require("./align");
+var _smush = require("./smush32");
 
-Object.keys(_align).forEach(function (key) {
+Object.keys(_smush).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _align[key];
+      return _smush[key];
     }
   });
 });
 
-var _count = require("./count");
+var _system = require("./system");
 
-Object.keys(_count).forEach(function (key) {
+Object.keys(_system).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _count[key];
+      return _system[key];
     }
   });
 });
 
-var _edit = require("./edit");
+var _xorshift = require("./xorshift128");
 
-Object.keys(_edit).forEach(function (key) {
+Object.keys(_xorshift).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _edit[key];
+      return _xorshift[key];
     }
   });
 });
 
-var _float = require("./float");
+var _xorwow = require("./xorwow");
 
-Object.keys(_float).forEach(function (key) {
+Object.keys(_xorwow).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _float[key];
+      return _xorwow[key];
     }
   });
 });
 
-var _gray = require("./gray");
+var _xsadd = require("./xsadd");
 
-Object.keys(_gray).forEach(function (key) {
+Object.keys(_xsadd).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _gray[key];
+      return _xsadd[key];
     }
   });
 });
 
-var _logic = require("./logic");
+var _randomId = require("./random-id");
 
-Object.keys(_logic).forEach(function (key) {
+Object.keys(_randomId).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _logic[key];
+      return _randomId[key];
     }
   });
 });
 
-var _mask = require("./mask");
+var _weightedRandom = require("./weighted-random");
 
-Object.keys(_mask).forEach(function (key) {
+Object.keys(_weightedRandom).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
-      return _mask[key];
+      return _weightedRandom[key];
     }
   });
 });
-
-var _pow = require("./pow");
-
-Object.keys(_pow).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _pow[key];
-    }
-  });
-});
-
-var _rotate = require("./rotate");
-
-Object.keys(_rotate).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _rotate[key];
-    }
-  });
-});
-
-var _splat = require("./splat");
-
-Object.keys(_splat).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _splat[key];
-    }
-  });
-});
-
-var _swizzle = require("./swizzle");
-
-Object.keys(_swizzle).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _swizzle[key];
-    }
-  });
-});
-},{"./api":"../node_modules/@thi.ng/binary/api.js","./align":"../node_modules/@thi.ng/binary/align.js","./count":"../node_modules/@thi.ng/binary/count.js","./edit":"../node_modules/@thi.ng/binary/edit.js","./float":"../node_modules/@thi.ng/binary/float.js","./gray":"../node_modules/@thi.ng/binary/gray.js","./logic":"../node_modules/@thi.ng/binary/logic.js","./mask":"../node_modules/@thi.ng/binary/mask.js","./pow":"../node_modules/@thi.ng/binary/pow.js","./rotate":"../node_modules/@thi.ng/binary/rotate.js","./splat":"../node_modules/@thi.ng/binary/splat.js","./swizzle":"../node_modules/@thi.ng/binary/swizzle.js"}],"../node_modules/@thi.ng/associative/hash-map.js":[function(require,module,exports) {
+},{"./api":"../node_modules/@thi.ng/random/api.js","./smush32":"../node_modules/@thi.ng/random/smush32.js","./system":"../node_modules/@thi.ng/random/system.js","./xorshift128":"../node_modules/@thi.ng/random/xorshift128.js","./xorwow":"../node_modules/@thi.ng/random/xorwow.js","./xsadd":"../node_modules/@thi.ng/random/xsadd.js","./random-id":"../node_modules/@thi.ng/random/random-id.js","./weighted-random":"../node_modules/@thi.ng/random/weighted-random.js"}],"../node_modules/@styled-system/css/dist/index.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.HashMap = void 0;
+exports.default = exports.css = exports.responsive = exports.get = void 0;
 
-var _binary = require("@thi.ng/binary");
+var _scales;
 
-var _equiv = require("@thi.ng/equiv");
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
 
-var _dissoc = require("./dissoc");
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
 
-var _equiv2 = require("./internal/equiv");
+    return target;
+  };
 
-var _into = require("./into");
+  return _extends.apply(this, arguments);
+} // based on https://github.com/developit/dlv
 
-const __private = new WeakMap();
 
-const __iterator = (map, id) => function* () {
-  for (let p of __private.get(map).bins) {
-    if (p) yield p[id];
+var get = function get(obj, key, def, p, undef) {
+  key = key && key.split ? key.split('.') : [key];
+
+  for (p = 0; p < key.length; p++) {
+    obj = obj ? obj[key[p]] : undef;
   }
+
+  return obj === undef ? def : obj;
 };
 
-const DEFAULT_CAP = 16;
-/**
- * Configurable hash map implementation w/ ES6 Map API. Uses open
- * addressing / linear probing to resolve key collisions. Supports any
- * key types via mandatory user supplied hash function.
- *
- * See `HashMapOpts` for further configuration & behavior details.
- *
- * ```
- * import { HashMap } from "@thi.ng/associative"
- * import { hash } from "@thi.ng/vectors"
- *
- * m = new HashMap([], { hash })
- * m.set([1, 2], "a");
- * m.set([3, 4], "b");
- * m.set([1, 2], "c");
- * // HashMap { [ 1, 2 ] => 'c', [ 3, 4 ] => 'b' }
- * ```
- *
- */
+exports.get = get;
+var defaultBreakpoints = [40, 52, 64].map(function (n) {
+  return n + 'em';
+});
+var defaultTheme = {
+  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
+  fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72]
+};
+var aliases = {
+  bg: 'backgroundColor',
+  m: 'margin',
+  mt: 'marginTop',
+  mr: 'marginRight',
+  mb: 'marginBottom',
+  ml: 'marginLeft',
+  mx: 'marginX',
+  my: 'marginY',
+  p: 'padding',
+  pt: 'paddingTop',
+  pr: 'paddingRight',
+  pb: 'paddingBottom',
+  pl: 'paddingLeft',
+  px: 'paddingX',
+  py: 'paddingY'
+};
+var multiples = {
+  marginX: ['marginLeft', 'marginRight'],
+  marginY: ['marginTop', 'marginBottom'],
+  paddingX: ['paddingLeft', 'paddingRight'],
+  paddingY: ['paddingTop', 'paddingBottom'],
+  size: ['width', 'height']
+};
+var scales = (_scales = {
+  color: 'colors',
+  backgroundColor: 'colors',
+  borderColor: 'colors',
+  margin: 'space',
+  marginTop: 'space',
+  marginRight: 'space',
+  marginBottom: 'space',
+  marginLeft: 'space',
+  marginX: 'space',
+  marginY: 'space',
+  padding: 'space',
+  paddingTop: 'space',
+  paddingRight: 'space',
+  paddingBottom: 'space',
+  paddingLeft: 'space',
+  paddingX: 'space',
+  paddingY: 'space',
+  top: 'space',
+  right: 'space',
+  bottom: 'space',
+  left: 'space',
+  gridGap: 'space',
+  gridColumnGap: 'space',
+  gridRowGap: 'space',
+  gap: 'space',
+  columnGap: 'space',
+  rowGap: 'space',
+  fontFamily: 'fonts',
+  fontSize: 'fontSizes',
+  fontWeight: 'fontWeights',
+  lineHeight: 'lineHeights',
+  letterSpacing: 'letterSpacings',
+  border: 'borders',
+  borderTop: 'borders',
+  borderRight: 'borders',
+  borderBottom: 'borders',
+  borderLeft: 'borders',
+  borderWidth: 'borderWidths',
+  borderStyle: 'borderStyles',
+  borderRadius: 'radii',
+  borderTopRightRadius: 'radii',
+  borderTopLeftRadius: 'radii',
+  borderBottomRightRadius: 'radii',
+  borderBottomLeftRadius: 'radii',
+  borderTopWidth: 'borderWidths',
+  borderTopColor: 'colors',
+  borderTopStyle: 'borderStyles'
+}, _scales["borderTopLeftRadius"] = 'radii', _scales["borderTopRightRadius"] = 'radii', _scales.borderBottomWidth = 'borderWidths', _scales.borderBottomColor = 'colors', _scales.borderBottomStyle = 'borderStyles', _scales["borderBottomLeftRadius"] = 'radii', _scales["borderBottomRightRadius"] = 'radii', _scales.borderLeftWidth = 'borderWidths', _scales.borderLeftColor = 'colors', _scales.borderLeftStyle = 'borderStyles', _scales.borderRightWidth = 'borderWidths', _scales.borderRightColor = 'colors', _scales.borderRightStyle = 'borderStyles', _scales.boxShadow = 'shadows', _scales.textShadow = 'shadows', _scales.zIndex = 'zIndices', _scales.width = 'sizes', _scales.minWidth = 'sizes', _scales.maxWidth = 'sizes', _scales.height = 'sizes', _scales.minHeight = 'sizes', _scales.maxHeight = 'sizes', _scales.flexBasis = 'sizes', _scales.size = 'sizes', _scales.fill = 'colors', _scales.stroke = 'colors', _scales);
 
-class HashMap extends Map {
-  constructor(pairs, opts) {
-    super();
-    const m = (0, _binary.ceilPow2)(Math.min(opts.cap || DEFAULT_CAP, 4)) - 1;
-
-    __private.set(this, {
-      hash: opts.hash,
-      equiv: opts.equiv || _equiv.equiv,
-      load: opts.load || 0.75,
-      mask: m,
-      bins: new Array(m + 1),
-      size: 0
-    });
-
-    if (pairs) {
-      this.into(pairs);
-    }
+var positiveOrNegative = function positiveOrNegative(scale, value) {
+  if (typeof value !== 'number' || value >= 0) {
+    return get(scale, value, value);
   }
 
-  get [Symbol.species]() {
-    return HashMap;
-  }
+  var absolute = Math.abs(value);
+  var n = get(scale, absolute, absolute);
+  if (typeof n === 'string') return '-' + n;
+  return n * -1;
+};
 
-  get [Symbol.toStringTag]() {
-    return "HashMap";
-  }
+var transforms = ['margin', 'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'marginX', 'marginY', 'top', 'bottom', 'left', 'right'].reduce(function (acc, curr) {
+  var _extends2;
 
-  get size() {
-    return __private.get(this).size;
-  }
+  return _extends({}, acc, (_extends2 = {}, _extends2[curr] = positiveOrNegative, _extends2));
+}, {});
 
-  [Symbol.iterator]() {
-    return this.entries();
-  }
-
-  *entries() {
-    for (let p of __private.get(this).bins) {
-      if (p) yield [p[0], p[1]];
-    }
-  }
-
-  keys() {
-    return __iterator(this, 0)();
-  }
-
-  values() {
-    return __iterator(this, 1)();
-  }
-
-  forEach(fn, thisArg) {
-    for (let pair of __private.get(this).bins) {
-      fn.call(thisArg, pair[1], pair[0], this);
-    }
-  }
-
-  clear() {
-    const $this = __private.get(this);
-
-    $this.bins = new Array(DEFAULT_CAP);
-    $this.mask = 15;
-    $this.size = 0;
-  }
-
-  empty() {
-    return new HashMap(null, this.opts({
-      cap: DEFAULT_CAP
+var responsive = function responsive(styles) {
+  return function (theme) {
+    var next = {};
+    var breakpoints = get(theme, 'breakpoints', defaultBreakpoints);
+    var mediaQueries = [null].concat(breakpoints.map(function (n) {
+      return "@media screen and (min-width: " + n + ")";
     }));
+
+    for (var key in styles) {
+      var value = typeof styles[key] === 'function' ? styles[key](theme) : styles[key];
+      if (value == null) continue;
+
+      if (!Array.isArray(value)) {
+        next[key] = value;
+        continue;
+      }
+
+      for (var i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
+        var media = mediaQueries[i];
+        if (value[i] == null) continue;
+
+        if (!media) {
+          next[key] = value[i];
+          continue;
+        }
+
+        next[media] = next[media] || {};
+        next[media][key] = value[i];
+      }
+    }
+
+    return next;
+  };
+};
+
+exports.responsive = responsive;
+
+var css = function css(args) {
+  return function (props) {
+    if (props === void 0) {
+      props = {};
+    }
+
+    var theme = _extends({}, defaultTheme, {}, props.theme || props);
+
+    var result = {};
+    var obj = typeof args === 'function' ? args(theme) : args;
+    var styles = responsive(obj)(theme);
+
+    for (var key in styles) {
+      var x = styles[key];
+      var val = typeof x === 'function' ? x(theme) : x;
+
+      if (key === 'variant') {
+        var variant = css(get(theme, val))(theme);
+        result = _extends({}, result, {}, variant);
+        continue;
+      }
+
+      if (val && typeof val === 'object') {
+        result[key] = css(val)(theme);
+        continue;
+      }
+
+      var prop = get(aliases, key, key);
+      var scaleName = get(scales, prop);
+      var scale = get(theme, scaleName, get(theme, prop, {}));
+      var transform = get(transforms, prop, get);
+      var value = transform(scale, val, val);
+
+      if (multiples[prop]) {
+        var dirs = multiples[prop];
+
+        for (var i = 0; i < dirs.length; i++) {
+          result[dirs[i]] = value;
+        }
+      } else {
+        result[prop] = value;
+      }
+    }
+
+    return result;
+  };
+};
+
+exports.css = css;
+var _default = css;
+exports.default = _default;
+},{}],"../node_modules/decamelize/index.js":[function(require,module,exports) {
+'use strict';
+
+module.exports = function (str, sep) {
+  if (typeof str !== 'string') {
+    throw new TypeError('Expected a string');
   }
 
-  copy() {
-    const $this = __private.get(this);
+  sep = typeof sep === 'undefined' ? '_' : sep;
+  return str.replace(/([a-z\d])([A-Z])/g, '$1' + sep + '$2').replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + sep + '$2').toLowerCase();
+};
+},{}],"../node_modules/map-obj/index.js":[function(require,module,exports) {
+'use strict';
 
-    const m = new HashMap(null, this.opts({
-      cap: 4
-    }));
-    Object.assign(__private.get(m), {
-      bins: $this.bins.slice(),
-      mask: $this.mask,
-      size: $this.size
+module.exports = function (obj, cb) {
+  var ret = {};
+  var keys = Object.keys(obj);
+
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    var res = cb(key, obj[key], obj);
+    ret[res[0]] = res[1];
+  }
+
+  return ret;
+};
+},{}],"../node_modules/decamelize-keys-deep/index.js":[function(require,module,exports) {
+var decamelize = require("decamelize");
+var mapObj = require("map-obj");
+
+module.exports = function decamelizeKeysDeep(obj, options) {
+  // Any falsy, which includes `null` whose typeof is `object`.
+  if (!obj) {
+    return obj;
+  }
+  // Date, whose typeof is `object` too.
+  if (obj instanceof Date) {
+    return obj;
+  }
+  // Array, whose typeof is `object` too.
+  if (Array.isArray(obj)) {
+    return obj.map(function(element) {
+      return decamelizeKeysDeep(element, options);
     });
-    return m;
   }
-
-  equiv(o) {
-    return (0, _equiv2.equivMap)(this, o);
+  // So, if this is still an `object`, we might be interested in it.
+  if (typeof obj === "object") {
+    return mapObj(obj, function(key, value) {
+      var newKey = decamelize(key, options);
+      if (key !== newKey && newKey in obj) {
+        throw new Error("Decamelized key `" + newKey + "` would overwrite existing key of the given JSON object");
+      }
+      return [newKey, decamelizeKeysDeep(value, options)];
+    });
   }
-
-  has(key) {
-    const $this = __private.get(this);
-
-    const i = this.find(key, $this);
-    return i >= 0 && $this.bins[i] != undefined;
-  }
-
-  get(key, notFound) {
-    const $this = __private.get(this);
-
-    const i = this.find(key, $this);
-    return i >= 0 && $this.bins[i] ? $this.bins[i][1] : notFound;
-  }
-
-  set(key, val) {
-    const $this = __private.get(this);
-
-    let i = this.find(key, $this);
-
-    if (i >= 0 && $this.bins[i]) {
-      $this.bins[i][1] = val;
-      return this;
-    }
-
-    if ($this.size > $this.mask * $this.load) {
-      this.resize($this);
-      i = this.find(key, $this);
-    }
-
-    $this.bins[i] = [key, val];
-    $this.size++;
-    return this;
-  }
-
-  delete(key) {
-    const $this = __private.get(this);
-
-    let i = this.find(key, $this);
-    const bins = $this.bins;
-
-    if (i >= 0 && !bins[i]) {
-      return false;
-    }
-
-    $this.size--;
-    const m = $this.mask;
-    let j = i;
-    let k;
-
-    while (true) {
-      delete bins[i];
-
-      do {
-        j = j + 1 & m;
-        if (!bins[j]) return true;
-        k = $this.hash(bins[j][0]) & m;
-      } while (i <= j ? i < k && k <= j : i < k || k <= j);
-
-      bins[i] = bins[j];
-      i = j;
-    }
-  }
-
-  into(pairs) {
-    return (0, _into.into)(this, pairs);
-  }
-
-  dissoc(keys) {
-    return (0, _dissoc.dissoc)(this, keys);
-  }
-
-  opts(overrides) {
-    const $this = __private.get(this);
-
-    return Object.assign({
-      hash: $this.hash,
-      equiv: $this.equiv,
-      load: $this.load,
-      cap: $this.mask + 1
-    }, overrides);
-  }
-
-  find(key, $this) {
-    const m = $this.mask;
-    const bins = $this.bins;
-    const equiv = $this.equiv;
-    let i = m;
-    let h = $this.hash(key) & m;
-
-    while (bins[h] && !equiv(bins[h][0], key)) {
-      i--;
-      if (i < 0) return -1;
-      h = h + 1 & $this.mask;
-    }
-
-    return h;
-  }
-
-  resize($this) {
-    const src = $this.bins;
-    const cap = ($this.mask + 1) * 2;
-    $this.bins = new Array(cap);
-    $this.mask = cap - 1;
-    $this.size = 0;
-
-    for (let p of src) {
-      if (p) this.set(p[0], p[1]);
-    }
-  }
-
+  // Something else like a String or Number.
+  return obj;
 }
 
-exports.HashMap = HashMap;
-},{"@thi.ng/binary":"../node_modules/@thi.ng/binary/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/select-keys.js":[function(require,module,exports) {
+},{"decamelize":"../node_modules/decamelize/index.js","map-obj":"../node_modules/map-obj/index.js"}],"../node_modules/@thi.ng/hiccup-css/api.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.selectKeysObj = exports.selectKeysMap = void 0;
-
-var _utils = require("./utils");
-
+exports.PRETTY = exports.COMPACT = exports.DEFAULT_VENDORS = void 0;
+const DEFAULT_VENDORS = ["-moz-", "-ms-", "-o-", "-webkit-"];
 /**
- * Returns a new map of same type as input only containing given keys
- * (and only if they existed in the original map).
- *
- * @param src
- * @param ks selected keys
- */
-const selectKeysMap = (src, ks) => {
-  const dest = (0, _utils.empty)(src, Map);
-
-  for (let k of ks) {
-    src.has(k) && dest.set(k, src.get(k));
-  }
-
-  return dest;
-};
-/**
- * Returns a new object only containing given keys (and only if they
- * existed in the original).
- *
- * @param src
- * @param ks
+ * Default format config used by `css()` function.
+ * Forms "minimized" CSS without obsolete white space
+ * and omits comments unless they were forced.
  */
 
-
-exports.selectKeysMap = selectKeysMap;
-
-const selectKeysObj = (src, ks) => {
-  const dest = {};
-
-  for (let k of ks) {
-    src.hasOwnProperty(k) && (dest[k] = src[k]);
-  }
-
-  return dest;
-};
-
-exports.selectKeysObj = selectKeysObj;
-},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/indexed.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.indexed = void 0;
-
-var _equivMap = require("./equiv-map");
-
-var _selectKeys = require("./select-keys");
-
-var _utils = require("./utils");
-
-/**
- * Takes an iterable of plain objects and array of indexing keys. Calls
- * `selectKeysObj` on each value and uses returned objects as new keys
- * to group original values. Returns a new `EquivMap` of sets.
- *
- * ```
- * indexed(
- *   new Set([{a: 1, b: 1}, {a: 1, b: 2}, {a: 1, b: 1, c: 2}]),
- *   ["a","b"]
- * )
- * // EquivMap {
- * //   { a: 1, b: 1 } => Set { { a: 1, b: 1 }, { a: 1, b: 1, c: 2 } },
- * //   { a: 1, b: 2 } => Set { { a: 1, b: 2 } } }
- * ```
- *
- * @param records objects to index
- * @param ks keys used for indexing
- */
-const indexed = (records, ks) => {
-  const res = new _equivMap.EquivMap();
-  let x, ik, rv;
-
-  for (x of records) {
-    ik = (0, _selectKeys.selectKeysObj)(x, ks);
-    rv = res.get(ik);
-    !rv && res.set(ik, rv = (0, _utils.empty)(records, Set));
-    rv.add(x);
-  }
-
-  return res;
-};
-
-exports.indexed = indexed;
-},{"./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/intersection.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.intersection = void 0;
-
-var _into = require("./into");
-
-var _utils = require("./utils");
-
-/**
- * Computes the intersection of sets `a` and `b` and writes results into
- * new set or optionally given set `out` (assumed to be empty for
- * correct results). If `out` is *not* given, the returned Set type will
- * be that of `a` (provided it defines `Symbol.species`).
- *
- * @param a
- * @param b
- * @param out
- */
-const intersection = (a, b, out) => {
-  out = out || (0, _utils.empty)(a, Set);
-
-  if (a === b) {
-    return (0, _into.into)(out, a);
-  }
-
-  if (b.size < a.size) {
-    return intersection(b, a, out);
-  }
-
-  for (let i of b) {
-    if (a.has(i)) {
-      out.add(i);
-    }
-  }
-
-  return out;
-};
-
-exports.intersection = intersection;
-},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/invert.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.invertObj = exports.invertMap = void 0;
-
-/**
- * Returns a new map in which the original values are used as keys and
- * original keys as values. If `dest` is given, writes results in that
- * map instead. Depending on the value type of `src` and/or if the
- * inverted map should use custom key equality semantics as provided by
- * the Map types in this package, you MUST provide a `dest` map, since
- * the default `dest` will only be a standard ES6 Map.
- *
- * ```
- * invertMap(new Map(), new Map([["a", 1], ["b", 2]]));
- * // Map { 1 => 'a', 2 => 'b' }
- * ```
- *
- * @param src
- * @param dest
- */
-const invertMap = (src, dest) => {
-  dest = dest || new Map();
-
-  for (let p of src) {
-    dest.set(p[1], p[0]);
-  }
-
-  return dest;
+exports.DEFAULT_VENDORS = DEFAULT_VENDORS;
+const COMPACT = {
+  rules: "",
+  ruleSep: ",",
+  valSep: "",
+  decls: "",
+  declStart: "{",
+  declEnd: "}",
+  indent: "",
+  comments: false
 };
 /**
- * Returns a new object in which the original values are used as keys
- * and original keys as values. If `dest` is given, writes results in
- * that object instead.
- *
- * ```
- * invertObj({a: 1, b: 2})
- * // { '1': 'a', '2': 'b' }
- * ```
- *
- * @param src
- * @param dest
+ * Pretty printing format config with line breaks
+ * and indentation.
  */
 
-
-exports.invertMap = invertMap;
-
-const invertObj = (src, dest = {}) => {
-  for (let k in src) {
-    dest[src[k]] = k;
-  }
-
-  return dest;
+exports.COMPACT = COMPACT;
+const PRETTY = {
+  rules: "\n",
+  ruleSep: ", ",
+  valSep: " ",
+  decls: "\n",
+  declStart: " {\n",
+  declEnd: "}\n",
+  indent: "    ",
+  comments: true
 };
-
-exports.invertObj = invertObj;
-},{}],"../node_modules/@thi.ng/associative/merge.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.mergeObj = exports.mergeMap = void 0;
-
-/**
- * Merges all given maps in left-to-right order into `dest`.
- * Returns `dest`.
- *
- * @param dest
- * @param xs
- */
-const mergeMap = (dest, ...xs) => {
-  for (let x of xs) {
-    for (let pair of x) {
-      dest.set(pair[0], pair[1]);
-    }
-  }
-
-  return dest;
-};
-/**
- * Merges all given objects in left-to-right order into `dest`.
- * Returns `dest`.
- *
- * @param dest
- * @param xs
- */
-
-
-exports.mergeMap = mergeMap;
-
-const mergeObj = (dest, ...xs) => Object.assign(dest, ...xs);
-
-exports.mergeObj = mergeObj;
-},{}],"../node_modules/@thi.ng/associative/rename-keys.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.renameKeysObj = exports.renameKeysMap = void 0;
-
-var _utils = require("./utils");
-
-/**
- * Renames keys in `src` using mapping provided by key map `km`. Does
- * support key swapping / swizzling. Does not modify original.
- *
- * @param src
- * @param km
- * @param out
- */
-const renameKeysMap = (src, km, out) => {
-  out = out || (0, _utils.empty)(src, Map);
-
-  for (let [k, v] of src) {
-    out.set(km.has(k) ? km.get(k) : k, v);
-  }
-
-  return out;
-};
-/**
- * Renames keys in `src` using mapping provided by key map `km`. Does
- * support key swapping / swizzling. Does not modify original.
- *
- * ```
- * // swap a & b, rename c
- * renameKeysObj({a: 1, b: 2, c: 3}, {a: "b", b: "a", c: "cc"})
- * // {b: 1, a: 2, cc: 3}
- * ```
- *
- * @param src
- * @param km
- */
-
-
-exports.renameKeysMap = renameKeysMap;
-
-const renameKeysObj = (src, km, out = {}) => {
-  for (let k in src) {
-    out[km.hasOwnProperty(k) ? km[k] : k] = src[k];
-  }
-
-  return out;
-};
-
-exports.renameKeysObj = renameKeysObj;
-},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/join.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.joinWith = exports.join = void 0;
-
-var _commonKeys = require("./common-keys");
-
-var _indexed = require("./indexed");
-
-var _invert = require("./invert");
-
-var _merge = require("./merge");
-
-var _renameKeys = require("./rename-keys");
-
-var _selectKeys = require("./select-keys");
-
-var _utils = require("./utils");
-
-/**
- * Computes the natural join between the two sets of relations. Each set
- * is assumed to have plain objects as values with at least one of the
- * keys present in both sides. Furthermore the objects in each set are
- * assumed to have the same internal structure (i.e. sets of keys).
- * Returns new set of same type as `a`.
- *
- * ```
- * join(
- *   new Set([
- *     {id: 1, name: "foo"},
- *     {id: 2, name: "bar"},
- *     {id: 3, name: "baz"}]),
- *   new Set([
- *     {id: 1, color: "red"},
- *     {id: 2, color: "blue"}])
- * )
- * // Set {
- * //   { id: 1, color: 'red', name: 'foo' },
- * //   { id: 2, color: 'blue', name: 'bar' }
- * // }
- * ```
- *
- * @param a
- * @param b
- */
-const join = (a, b) => {
-  if (a.size && b.size) {
-    const ks = (0, _commonKeys.commonKeysObj)((0, _utils.first)(a) || {}, (0, _utils.first)(b) || {});
-    let aa, bb;
-
-    if (a.size <= b.size) {
-      aa = a;
-      bb = b;
-    } else {
-      aa = b;
-      bb = a;
-    }
-
-    const idx = (0, _indexed.indexed)(aa, ks);
-    const res = (0, _utils.empty)(a, Set);
-
-    for (let x of bb) {
-      const found = idx.get((0, _selectKeys.selectKeysObj)(x, ks));
-
-      if (found) {
-        for (let f of found) {
-          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
-        }
-      }
-    }
-
-    return res;
-  }
-
-  return (0, _utils.empty)(a, Set);
-};
-/**
- * Similar to `join()`, computes the join between two sets of relations,
- * using the given keys in `kmap` only for joining and ignoring others.
- * `kmap` can also be used to translate join keys in `b` where
- * needed. Else, if no renaming is desired, the values in `kmap` should
- * be the same as their respective keys, e.g. `{id: "id"}`. Returns new
- * set of same type as `a`.
- *
- * ```
- * joinWith(
- *   new Set([
- *     {id: 1, name: "foo"},
- *     {id: 2, name: "bar"},
- *     {id: 3, name: "baz"}]),
- *   new Set([
- *     {type: 1, color: "red"},
- *     {type: 2, color: "blue"}]),
- *   {id: "type"}
- * )
- * // Set {
- * //   { type: 1, color: 'red', id: 1, name: 'foo' },
- * //   { type: 2, color: 'blue', id: 2, name: 'bar' } }
- * ```
- *
- * @param a
- * @param b
- * @param kmap keys to compute join for
- */
-
-
-exports.join = join;
-
-const joinWith = (a, b, kmap) => {
-  if (a.size && b.size) {
-    let aa, bb;
-    let k;
-
-    if (a.size <= b.size) {
-      aa = a;
-      bb = b;
-      k = (0, _invert.invertObj)(kmap);
-    } else {
-      aa = b;
-      bb = a;
-      k = kmap;
-    }
-
-    const idx = (0, _indexed.indexed)(aa, (0, _utils.objValues)(k));
-    const ks = Object.keys(k);
-    const res = (0, _utils.empty)(a, Set);
-
-    for (let x of bb) {
-      const found = idx.get((0, _renameKeys.renameKeysObj)((0, _selectKeys.selectKeysObj)(x, ks), k));
-
-      if (found) {
-        for (let f of found) {
-          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
-        }
-      }
-    }
-
-    return res;
-  }
-
-  return (0, _utils.empty)(a, Set);
-};
-
-exports.joinWith = joinWith;
-joinWith(new Set([{
-  a: 1,
-  b: 2
-}]), new Set([{
-  id: 1,
-  c: 2
-}]), {
-  a: "id"
-});
-},{"./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/compare/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.compare = void 0;
-
-const compare = (a, b) => {
-  if (a === b) {
-    return 0;
-  }
-
-  if (a == null) {
-    return b == null ? 0 : -1;
-  }
-
-  if (b == null) {
-    return a == null ? 0 : 1;
-  }
-
-  if (typeof a.compare === "function") {
-    return a.compare(b);
-  }
-
-  if (typeof b.compare === "function") {
-    return -b.compare(a);
-  }
-
-  return a < b ? -1 : a > b ? 1 : 0;
-};
-
-exports.compare = compare;
+exports.PRETTY = PRETTY;
 },{}],"../node_modules/@thi.ng/transducers/reduced.js":[function(require,module,exports) {
 "use strict";
 
@@ -10461,7 +9643,40 @@ var _reduce = require("../reduce");
 function last(xs) {
   return xs ? (0, _reduce.reduce)(last(), xs) : (0, _reduce.reducer)(_api.NO_OP, (_, x) => x);
 }
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","../reduce":"../node_modules/@thi.ng/transducers/reduce.js"}],"../node_modules/@thi.ng/transducers/rfn/max-compare.js":[function(require,module,exports) {
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","../reduce":"../node_modules/@thi.ng/transducers/reduce.js"}],"../node_modules/@thi.ng/compare/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.compare = void 0;
+
+const compare = (a, b) => {
+  if (a === b) {
+    return 0;
+  }
+
+  if (a == null) {
+    return b == null ? 0 : -1;
+  }
+
+  if (b == null) {
+    return a == null ? 0 : 1;
+  }
+
+  if (typeof a.compare === "function") {
+    return a.compare(b);
+  }
+
+  if (typeof b.compare === "function") {
+    return -b.compare(a);
+  }
+
+  return a < b ? -1 : a > b ? 1 : 0;
+};
+
+exports.compare = compare;
+},{}],"../node_modules/@thi.ng/transducers/rfn/max-compare.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -11472,464 +10687,7 @@ exports.peek = void 0;
 const peek = x => x[x.length - 1];
 
 exports.peek = peek;
-},{}],"../node_modules/@thi.ng/random/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.ARandom = void 0;
-const INV_MAX = 1 / 0xffffffff;
-
-class ARandom {
-  float(norm = 1) {
-    return this.int() * INV_MAX * norm;
-  }
-
-  norm(norm = 1) {
-    return this.int() * INV_MAX * norm * 2 - norm;
-  }
-
-  minmax(min, max) {
-    return this.float() * (max - min) + min;
-  }
-  /**
-   * Returns approx. normal distribution using CLT.
-   *
-   * https://en.wikipedia.org/wiki/Central_limit_theorem
-   *
-   * @param n
-   * @param offset
-   * @param scale
-   */
-
-
-  gaussian(n = 10, offset = -0.5, scale = 1) {
-    let sum = 0;
-    let m = n;
-
-    while (m-- > 0) sum += this.float(scale);
-
-    return sum / n + offset;
-  }
-
-}
-
-exports.ARandom = ARandom;
-},{}],"../node_modules/@thi.ng/random/smush32.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Smush32 = void 0;
-
-var _api = require("./api");
-
-// https://github.com/thi-ng/ct-head/blob/master/random.h
-// https://gist.github.com/voidqk/d112165a26b45244a65298933c0349a4
-const DEFAULT_SEED = 0xdecafbad;
-
-class Smush32 extends _api.ARandom {
-  constructor(seed = DEFAULT_SEED) {
-    super();
-    this.buffer = new Uint32Array([seed, 0]);
-  }
-
-  copy() {
-    const gen = new Smush32();
-    gen.buffer.set(this.buffer);
-    return gen;
-  }
-
-  seed(s) {
-    this.buffer.set([s, 0]);
-    return this;
-  }
-
-  int() {
-    const b = this.buffer;
-    const m = 0x5bd1e995;
-    const k = b[1]++ * m >>> 0;
-    const s = b[0] = (k ^ k >> 24 ^ b[0] * m >>> 0) * m >>> 0;
-    return (s ^ s >>> 13) >>> 0;
-  }
-
-}
-
-exports.Smush32 = Smush32;
-},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/system.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.SYSTEM = exports.SystemRandom = void 0;
-
-var _api = require("./api");
-
-const random = Math.random;
-
-class SystemRandom extends _api.ARandom {
-  int() {
-    return random() * 0xffffffff >>> 0;
-  }
-
-  float(norm = 1) {
-    return random() * norm;
-  }
-
-}
-
-exports.SystemRandom = SystemRandom;
-const SYSTEM = new SystemRandom();
-exports.SYSTEM = SYSTEM;
-},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xorshift128.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.XorShift128 = void 0;
-
-var _api = require("./api");
-
-// https://en.wikipedia.org/wiki/Xorshift
-const DEFAULT_SEED = [0xdecafbad, 0x2fa9d75b, 0xe41f67e3, 0x5c83ec1a];
-
-class XorShift128 extends _api.ARandom {
-  constructor(seed = DEFAULT_SEED) {
-    super();
-    this.buffer = new Uint32Array(4);
-    this.seed(seed);
-  }
-
-  copy() {
-    return new XorShift128(this.buffer);
-  }
-
-  bytes() {
-    return new Uint8Array(this.buffer.buffer);
-  }
-
-  seed(seed) {
-    this.buffer.set(seed);
-    return this;
-  }
-
-  int() {
-    const s = this.buffer;
-    let t = s[3];
-    let w;
-    t ^= t << 11;
-    t ^= t >>> 8;
-    s[3] = s[2];
-    s[2] = s[1];
-    w = s[1] = s[0];
-    return s[0] = (t ^ w ^ w >>> 19) >>> 0;
-  }
-
-}
-
-exports.XorShift128 = XorShift128;
-},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xorwow.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.XorWow = void 0;
-
-var _api = require("./api");
-
-// https://en.wikipedia.org/wiki/Xorshift#xorwow
-const DEFAULT_SEED = [0xdecafbad, 0x2fa9d75b, 0xe41f67e3, 0x5c83ec1a, 0xf69a5c71];
-
-class XorWow extends _api.ARandom {
-  constructor(seed = DEFAULT_SEED) {
-    super();
-    this.buffer = new Uint32Array(5);
-    this.seed(seed);
-  }
-
-  copy() {
-    return new XorWow(this.buffer);
-  }
-
-  seed(seed) {
-    this.buffer.set(seed);
-    return this;
-  }
-
-  bytes() {
-    return new Uint8Array(this.buffer.buffer);
-  }
-
-  int() {
-    const s = this.buffer;
-    let t = s[3];
-    let w;
-    t ^= t >>> 2;
-    t ^= t << 1;
-    s[3] = s[2];
-    s[2] = s[1];
-    w = s[1] = s[0];
-    t ^= w;
-    t ^= w << 4;
-    s[0] = t;
-    return t + (s[4] += 0x587c5) >>> 0;
-  }
-
-}
-
-exports.XorWow = XorWow;
-},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/xsadd.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.XsAdd = void 0;
-
-var _api = require("./api");
-
-// https://github.com/MersenneTwister-Lab/XSadd/blob/master/xsadd.h
-const DEFAULT_SEED = 0xdecafbad;
-
-class XsAdd extends _api.ARandom {
-  constructor(seed = DEFAULT_SEED) {
-    super();
-    this.buffer = new Uint32Array(4);
-    this.seed(seed);
-  }
-
-  bytes() {
-    return new Uint8Array(this.buffer.buffer);
-  }
-
-  copy() {
-    const gen = new XsAdd();
-    gen.buffer.set(this.buffer);
-    return gen;
-  }
-
-  seed(seed) {
-    const s = this.buffer;
-    s.set([seed, 0, 0, 0]);
-
-    for (let j = 0, i = 1; i < 8; j = i++) {
-      let x = (s[j & 3] ^ s[j & 3] >>> 30) >>> 0;
-      x = 0x8965 * x + ((0x6c07 * x & 0xffff) << 16) >>> 0;
-      s[i & 3] ^= i + x >>> 0;
-    }
-
-    return this;
-  }
-
-  int() {
-    const s = this.buffer;
-    let t = s[0];
-    t ^= t << 15;
-    t ^= t >>> 18;
-    t ^= s[3] << 11;
-    s[0] = s[1];
-    s[1] = s[2];
-    s[2] = s[3];
-    s[3] = t;
-    return t + s[2] >>> 0;
-  }
-
-}
-
-exports.XsAdd = XsAdd;
-},{"./api":"../node_modules/@thi.ng/random/api.js"}],"../node_modules/@thi.ng/random/random-id.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.randomID = void 0;
-
-var _system = require("./system");
-
-/**
- * Generates and returns a random string of `len` characters (default
- * 4), plus optional given `prefix` and using only provided `syms`
- * characters (default lowercase a-z).
- *
- * ```
- * randomID()
- * "qgdt"
- *
- * randomID(8, "id-", "0123456789ABCDEF")
- * "id-94EF6E1A"
- * ```
- *
- * @param len
- * @param prefix
- * @param syms
- * @param rnd
- */
-const randomID = (len = 4, prefix = "", syms = "abcdefghijklmnopqrstuvwxyz", rnd = _system.SYSTEM) => {
-  for (const n = syms.length; --len >= 0;) {
-    prefix += syms[rnd.float(n) | 0];
-  }
-
-  return prefix;
-};
-
-exports.randomID = randomID;
-},{"./system":"../node_modules/@thi.ng/random/system.js"}],"../node_modules/@thi.ng/random/weighted-random.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.weightedRandom = void 0;
-
-var _system = require("./system");
-
-/**
- * Returns a no-arg function which produces a random choice of given
- * weighted `choices` and using given `IRandom` instance (default:
- * `SYSTEM`). If `weights` are given, it must be the same size as
- * `choices`. If omitted, each choice will have same probability.
- *
- * https://www.electricmonk.nl/log/2009/12/23/weighted-random-distribution/
- *
- * @param choices
- * @param weights
- */
-const weightedRandom = (choices, weights, rnd = _system.SYSTEM) => {
-  const opts = choices.map(weights ? (x, i) => [x, weights[i]] : x => [x, 1]).sort((a, b) => b[1] - a[1]);
-  const n = choices.length;
-  let total = 0,
-      i,
-      r,
-      sum;
-
-  for (i = 0; i < n; i++) {
-    total += opts[i][1];
-  }
-
-  return () => {
-    r = rnd.float(total);
-    sum = total;
-
-    for (i = 0; i < n; i++) {
-      sum -= opts[i][1];
-
-      if (sum <= r) {
-        return opts[i][0];
-      }
-    }
-  };
-};
-
-exports.weightedRandom = weightedRandom;
-},{"./system":"../node_modules/@thi.ng/random/system.js"}],"../node_modules/@thi.ng/random/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _api = require("./api");
-
-Object.keys(_api).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _api[key];
-    }
-  });
-});
-
-var _smush = require("./smush32");
-
-Object.keys(_smush).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _smush[key];
-    }
-  });
-});
-
-var _system = require("./system");
-
-Object.keys(_system).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _system[key];
-    }
-  });
-});
-
-var _xorshift = require("./xorshift128");
-
-Object.keys(_xorshift).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _xorshift[key];
-    }
-  });
-});
-
-var _xorwow = require("./xorwow");
-
-Object.keys(_xorwow).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _xorwow[key];
-    }
-  });
-});
-
-var _xsadd = require("./xsadd");
-
-Object.keys(_xsadd).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _xsadd[key];
-    }
-  });
-});
-
-var _randomId = require("./random-id");
-
-Object.keys(_randomId).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _randomId[key];
-    }
-  });
-});
-
-var _weightedRandom = require("./weighted-random");
-
-Object.keys(_weightedRandom).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _weightedRandom[key];
-    }
-  });
-});
-},{"./api":"../node_modules/@thi.ng/random/api.js","./smush32":"../node_modules/@thi.ng/random/smush32.js","./system":"../node_modules/@thi.ng/random/system.js","./xorshift128":"../node_modules/@thi.ng/random/xorshift128.js","./xorwow":"../node_modules/@thi.ng/random/xorwow.js","./xsadd":"../node_modules/@thi.ng/random/xsadd.js","./random-id":"../node_modules/@thi.ng/random/random-id.js","./weighted-random":"../node_modules/@thi.ng/random/weighted-random.js"}],"../node_modules/@thi.ng/arrays/shuffle.js":[function(require,module,exports) {
+},{}],"../node_modules/@thi.ng/arrays/shuffle.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -15836,7 +14594,5613 @@ Object.keys(_zip).forEach(function (key) {
     }
   });
 });
-},{"./iterator":"../node_modules/@thi.ng/transducers/iterator.js","./reduce":"../node_modules/@thi.ng/transducers/reduce.js","./reduced":"../node_modules/@thi.ng/transducers/reduced.js","./run":"../node_modules/@thi.ng/transducers/run.js","./step":"../node_modules/@thi.ng/transducers/step.js","./transduce":"../node_modules/@thi.ng/transducers/transduce.js","./rfn/add":"../node_modules/@thi.ng/transducers/rfn/add.js","./rfn/assoc-map":"../node_modules/@thi.ng/transducers/rfn/assoc-map.js","./rfn/assoc-obj":"../node_modules/@thi.ng/transducers/rfn/assoc-obj.js","./rfn/conj":"../node_modules/@thi.ng/transducers/rfn/conj.js","./rfn/count":"../node_modules/@thi.ng/transducers/rfn/count.js","./rfn/div":"../node_modules/@thi.ng/transducers/rfn/div.js","./rfn/every":"../node_modules/@thi.ng/transducers/rfn/every.js","./rfn/fill":"../node_modules/@thi.ng/transducers/rfn/fill.js","./rfn/frequencies":"../node_modules/@thi.ng/transducers/rfn/frequencies.js","./rfn/group-binary":"../node_modules/@thi.ng/transducers/rfn/group-binary.js","./rfn/group-by-map":"../node_modules/@thi.ng/transducers/rfn/group-by-map.js","./rfn/group-by-obj":"../node_modules/@thi.ng/transducers/rfn/group-by-obj.js","./rfn/last":"../node_modules/@thi.ng/transducers/rfn/last.js","./rfn/max-compare":"../node_modules/@thi.ng/transducers/rfn/max-compare.js","./rfn/max":"../node_modules/@thi.ng/transducers/rfn/max.js","./rfn/mean":"../node_modules/@thi.ng/transducers/rfn/mean.js","./rfn/min-compare":"../node_modules/@thi.ng/transducers/rfn/min-compare.js","./rfn/min":"../node_modules/@thi.ng/transducers/rfn/min.js","./rfn/mul":"../node_modules/@thi.ng/transducers/rfn/mul.js","./rfn/push-copy":"../node_modules/@thi.ng/transducers/rfn/push-copy.js","./rfn/push":"../node_modules/@thi.ng/transducers/rfn/push.js","./rfn/reductions":"../node_modules/@thi.ng/transducers/rfn/reductions.js","./rfn/some":"../node_modules/@thi.ng/transducers/rfn/some.js","./rfn/str":"../node_modules/@thi.ng/transducers/rfn/str.js","./rfn/sub":"../node_modules/@thi.ng/transducers/rfn/sub.js","./xform/benchmark":"../node_modules/@thi.ng/transducers/xform/benchmark.js","./xform/cat":"../node_modules/@thi.ng/transducers/xform/cat.js","./xform/converge":"../node_modules/@thi.ng/transducers/xform/converge.js","./xform/convolve":"../node_modules/@thi.ng/transducers/xform/convolve.js","./xform/dedupe":"../node_modules/@thi.ng/transducers/xform/dedupe.js","./xform/delayed":"../node_modules/@thi.ng/transducers/xform/delayed.js","./xform/distinct":"../node_modules/@thi.ng/transducers/xform/distinct.js","./xform/drop-nth":"../node_modules/@thi.ng/transducers/xform/drop-nth.js","./xform/drop-while":"../node_modules/@thi.ng/transducers/xform/drop-while.js","./xform/drop":"../node_modules/@thi.ng/transducers/xform/drop.js","./xform/duplicate":"../node_modules/@thi.ng/transducers/xform/duplicate.js","./xform/filter":"../node_modules/@thi.ng/transducers/xform/filter.js","./xform/filter-fuzzy":"../node_modules/@thi.ng/transducers/xform/filter-fuzzy.js","./xform/flatten-with":"../node_modules/@thi.ng/transducers/xform/flatten-with.js","./xform/flatten":"../node_modules/@thi.ng/transducers/xform/flatten.js","./xform/indexed":"../node_modules/@thi.ng/transducers/xform/indexed.js","./xform/interleave":"../node_modules/@thi.ng/transducers/xform/interleave.js","./xform/interpose":"../node_modules/@thi.ng/transducers/xform/interpose.js","./xform/keep":"../node_modules/@thi.ng/transducers/xform/keep.js","./xform/labeled":"../node_modules/@thi.ng/transducers/xform/labeled.js","./xform/map-deep":"../node_modules/@thi.ng/transducers/xform/map-deep.js","./xform/map-indexed":"../node_modules/@thi.ng/transducers/xform/map-indexed.js","./xform/map-keys":"../node_modules/@thi.ng/transducers/xform/map-keys.js","./xform/map-nth":"../node_modules/@thi.ng/transducers/xform/map-nth.js","./xform/map-vals":"../node_modules/@thi.ng/transducers/xform/map-vals.js","./xform/map":"../node_modules/@thi.ng/transducers/xform/map.js","./xform/mapcat":"../node_modules/@thi.ng/transducers/xform/mapcat.js","./xform/match-first":"../node_modules/@thi.ng/transducers/xform/match-first.js","./xform/match-last":"../node_modules/@thi.ng/transducers/xform/match-last.js","./xform/moving-average":"../node_modules/@thi.ng/transducers/xform/moving-average.js","./xform/moving-median":"../node_modules/@thi.ng/transducers/xform/moving-median.js","./xform/multiplex":"../node_modules/@thi.ng/transducers/xform/multiplex.js","./xform/multiplex-obj":"../node_modules/@thi.ng/transducers/xform/multiplex-obj.js","./xform/noop":"../node_modules/@thi.ng/transducers/xform/noop.js","./xform/pad-last":"../node_modules/@thi.ng/transducers/xform/pad-last.js","./xform/page":"../node_modules/@thi.ng/transducers/xform/page.js","./xform/partition-by":"../node_modules/@thi.ng/transducers/xform/partition-by.js","./xform/partition-of":"../node_modules/@thi.ng/transducers/xform/partition-of.js","./xform/partition-sort":"../node_modules/@thi.ng/transducers/xform/partition-sort.js","./xform/partition-sync":"../node_modules/@thi.ng/transducers/xform/partition-sync.js","./xform/partition":"../node_modules/@thi.ng/transducers/xform/partition.js","./xform/pluck":"../node_modules/@thi.ng/transducers/xform/pluck.js","./xform/rename":"../node_modules/@thi.ng/transducers/xform/rename.js","./xform/sample":"../node_modules/@thi.ng/transducers/xform/sample.js","./xform/scan":"../node_modules/@thi.ng/transducers/xform/scan.js","./xform/select-keys":"../node_modules/@thi.ng/transducers/xform/select-keys.js","./xform/side-effect":"../node_modules/@thi.ng/transducers/xform/side-effect.js","./xform/sliding-window":"../node_modules/@thi.ng/transducers/xform/sliding-window.js","./xform/stream-shuffle":"../node_modules/@thi.ng/transducers/xform/stream-shuffle.js","./xform/stream-sort":"../node_modules/@thi.ng/transducers/xform/stream-sort.js","./xform/struct":"../node_modules/@thi.ng/transducers/xform/struct.js","./xform/swizzle":"../node_modules/@thi.ng/transducers/xform/swizzle.js","./xform/take-nth":"../node_modules/@thi.ng/transducers/xform/take-nth.js","./xform/take-last":"../node_modules/@thi.ng/transducers/xform/take-last.js","./xform/take-while":"../node_modules/@thi.ng/transducers/xform/take-while.js","./xform/take":"../node_modules/@thi.ng/transducers/xform/take.js","./xform/throttle":"../node_modules/@thi.ng/transducers/xform/throttle.js","./xform/throttle-time":"../node_modules/@thi.ng/transducers/xform/throttle-time.js","./xform/toggle":"../node_modules/@thi.ng/transducers/xform/toggle.js","./xform/trace":"../node_modules/@thi.ng/transducers/xform/trace.js","./xform/word-wrap":"../node_modules/@thi.ng/transducers/xform/word-wrap.js","./func/comp":"../node_modules/@thi.ng/transducers/func/comp.js","./func/compr":"../node_modules/@thi.ng/transducers/func/compr.js","./func/deep-transform":"../node_modules/@thi.ng/transducers/func/deep-transform.js","./func/juxtr":"../node_modules/@thi.ng/transducers/func/juxtr.js","./func/key-selector":"../node_modules/@thi.ng/transducers/func/key-selector.js","./func/lookup":"../node_modules/@thi.ng/transducers/func/lookup.js","./func/renamer":"../node_modules/@thi.ng/transducers/func/renamer.js","./iter/as-iterable":"../node_modules/@thi.ng/transducers/iter/as-iterable.js","./iter/choices":"../node_modules/@thi.ng/transducers/iter/choices.js","./iter/concat":"../node_modules/@thi.ng/transducers/iter/concat.js","./iter/cycle":"../node_modules/@thi.ng/transducers/iter/cycle.js","./iter/interpolate":"../node_modules/@thi.ng/transducers/iter/interpolate.js","./iter/iterate":"../node_modules/@thi.ng/transducers/iter/iterate.js","./iter/keys":"../node_modules/@thi.ng/transducers/iter/keys.js","./iter/norm-range":"../node_modules/@thi.ng/transducers/iter/norm-range.js","./iter/pairs":"../node_modules/@thi.ng/transducers/iter/pairs.js","./iter/permutations":"../node_modules/@thi.ng/transducers/iter/permutations.js","./iter/range":"../node_modules/@thi.ng/transducers/iter/range.js","./iter/range2d":"../node_modules/@thi.ng/transducers/iter/range2d.js","./iter/range3d":"../node_modules/@thi.ng/transducers/iter/range3d.js","./iter/repeat":"../node_modules/@thi.ng/transducers/iter/repeat.js","./iter/repeatedly":"../node_modules/@thi.ng/transducers/iter/repeatedly.js","./iter/reverse":"../node_modules/@thi.ng/transducers/iter/reverse.js","./iter/vals":"../node_modules/@thi.ng/transducers/iter/vals.js","./iter/wrap":"../node_modules/@thi.ng/transducers/iter/wrap.js","./iter/zip":"../node_modules/@thi.ng/transducers/iter/zip.js"}],"../node_modules/@thi.ng/dcons/index.js":[function(require,module,exports) {
+},{"./iterator":"../node_modules/@thi.ng/transducers/iterator.js","./reduce":"../node_modules/@thi.ng/transducers/reduce.js","./reduced":"../node_modules/@thi.ng/transducers/reduced.js","./run":"../node_modules/@thi.ng/transducers/run.js","./step":"../node_modules/@thi.ng/transducers/step.js","./transduce":"../node_modules/@thi.ng/transducers/transduce.js","./rfn/add":"../node_modules/@thi.ng/transducers/rfn/add.js","./rfn/assoc-map":"../node_modules/@thi.ng/transducers/rfn/assoc-map.js","./rfn/assoc-obj":"../node_modules/@thi.ng/transducers/rfn/assoc-obj.js","./rfn/conj":"../node_modules/@thi.ng/transducers/rfn/conj.js","./rfn/count":"../node_modules/@thi.ng/transducers/rfn/count.js","./rfn/div":"../node_modules/@thi.ng/transducers/rfn/div.js","./rfn/every":"../node_modules/@thi.ng/transducers/rfn/every.js","./rfn/fill":"../node_modules/@thi.ng/transducers/rfn/fill.js","./rfn/frequencies":"../node_modules/@thi.ng/transducers/rfn/frequencies.js","./rfn/group-binary":"../node_modules/@thi.ng/transducers/rfn/group-binary.js","./rfn/group-by-map":"../node_modules/@thi.ng/transducers/rfn/group-by-map.js","./rfn/group-by-obj":"../node_modules/@thi.ng/transducers/rfn/group-by-obj.js","./rfn/last":"../node_modules/@thi.ng/transducers/rfn/last.js","./rfn/max-compare":"../node_modules/@thi.ng/transducers/rfn/max-compare.js","./rfn/max":"../node_modules/@thi.ng/transducers/rfn/max.js","./rfn/mean":"../node_modules/@thi.ng/transducers/rfn/mean.js","./rfn/min-compare":"../node_modules/@thi.ng/transducers/rfn/min-compare.js","./rfn/min":"../node_modules/@thi.ng/transducers/rfn/min.js","./rfn/mul":"../node_modules/@thi.ng/transducers/rfn/mul.js","./rfn/push-copy":"../node_modules/@thi.ng/transducers/rfn/push-copy.js","./rfn/push":"../node_modules/@thi.ng/transducers/rfn/push.js","./rfn/reductions":"../node_modules/@thi.ng/transducers/rfn/reductions.js","./rfn/some":"../node_modules/@thi.ng/transducers/rfn/some.js","./rfn/str":"../node_modules/@thi.ng/transducers/rfn/str.js","./rfn/sub":"../node_modules/@thi.ng/transducers/rfn/sub.js","./xform/benchmark":"../node_modules/@thi.ng/transducers/xform/benchmark.js","./xform/cat":"../node_modules/@thi.ng/transducers/xform/cat.js","./xform/converge":"../node_modules/@thi.ng/transducers/xform/converge.js","./xform/convolve":"../node_modules/@thi.ng/transducers/xform/convolve.js","./xform/dedupe":"../node_modules/@thi.ng/transducers/xform/dedupe.js","./xform/delayed":"../node_modules/@thi.ng/transducers/xform/delayed.js","./xform/distinct":"../node_modules/@thi.ng/transducers/xform/distinct.js","./xform/drop-nth":"../node_modules/@thi.ng/transducers/xform/drop-nth.js","./xform/drop-while":"../node_modules/@thi.ng/transducers/xform/drop-while.js","./xform/drop":"../node_modules/@thi.ng/transducers/xform/drop.js","./xform/duplicate":"../node_modules/@thi.ng/transducers/xform/duplicate.js","./xform/filter":"../node_modules/@thi.ng/transducers/xform/filter.js","./xform/filter-fuzzy":"../node_modules/@thi.ng/transducers/xform/filter-fuzzy.js","./xform/flatten-with":"../node_modules/@thi.ng/transducers/xform/flatten-with.js","./xform/flatten":"../node_modules/@thi.ng/transducers/xform/flatten.js","./xform/indexed":"../node_modules/@thi.ng/transducers/xform/indexed.js","./xform/interleave":"../node_modules/@thi.ng/transducers/xform/interleave.js","./xform/interpose":"../node_modules/@thi.ng/transducers/xform/interpose.js","./xform/keep":"../node_modules/@thi.ng/transducers/xform/keep.js","./xform/labeled":"../node_modules/@thi.ng/transducers/xform/labeled.js","./xform/map-deep":"../node_modules/@thi.ng/transducers/xform/map-deep.js","./xform/map-indexed":"../node_modules/@thi.ng/transducers/xform/map-indexed.js","./xform/map-keys":"../node_modules/@thi.ng/transducers/xform/map-keys.js","./xform/map-nth":"../node_modules/@thi.ng/transducers/xform/map-nth.js","./xform/map-vals":"../node_modules/@thi.ng/transducers/xform/map-vals.js","./xform/map":"../node_modules/@thi.ng/transducers/xform/map.js","./xform/mapcat":"../node_modules/@thi.ng/transducers/xform/mapcat.js","./xform/match-first":"../node_modules/@thi.ng/transducers/xform/match-first.js","./xform/match-last":"../node_modules/@thi.ng/transducers/xform/match-last.js","./xform/moving-average":"../node_modules/@thi.ng/transducers/xform/moving-average.js","./xform/moving-median":"../node_modules/@thi.ng/transducers/xform/moving-median.js","./xform/multiplex":"../node_modules/@thi.ng/transducers/xform/multiplex.js","./xform/multiplex-obj":"../node_modules/@thi.ng/transducers/xform/multiplex-obj.js","./xform/noop":"../node_modules/@thi.ng/transducers/xform/noop.js","./xform/pad-last":"../node_modules/@thi.ng/transducers/xform/pad-last.js","./xform/page":"../node_modules/@thi.ng/transducers/xform/page.js","./xform/partition-by":"../node_modules/@thi.ng/transducers/xform/partition-by.js","./xform/partition-of":"../node_modules/@thi.ng/transducers/xform/partition-of.js","./xform/partition-sort":"../node_modules/@thi.ng/transducers/xform/partition-sort.js","./xform/partition-sync":"../node_modules/@thi.ng/transducers/xform/partition-sync.js","./xform/partition":"../node_modules/@thi.ng/transducers/xform/partition.js","./xform/pluck":"../node_modules/@thi.ng/transducers/xform/pluck.js","./xform/rename":"../node_modules/@thi.ng/transducers/xform/rename.js","./xform/sample":"../node_modules/@thi.ng/transducers/xform/sample.js","./xform/scan":"../node_modules/@thi.ng/transducers/xform/scan.js","./xform/select-keys":"../node_modules/@thi.ng/transducers/xform/select-keys.js","./xform/side-effect":"../node_modules/@thi.ng/transducers/xform/side-effect.js","./xform/sliding-window":"../node_modules/@thi.ng/transducers/xform/sliding-window.js","./xform/stream-shuffle":"../node_modules/@thi.ng/transducers/xform/stream-shuffle.js","./xform/stream-sort":"../node_modules/@thi.ng/transducers/xform/stream-sort.js","./xform/struct":"../node_modules/@thi.ng/transducers/xform/struct.js","./xform/swizzle":"../node_modules/@thi.ng/transducers/xform/swizzle.js","./xform/take-nth":"../node_modules/@thi.ng/transducers/xform/take-nth.js","./xform/take-last":"../node_modules/@thi.ng/transducers/xform/take-last.js","./xform/take-while":"../node_modules/@thi.ng/transducers/xform/take-while.js","./xform/take":"../node_modules/@thi.ng/transducers/xform/take.js","./xform/throttle":"../node_modules/@thi.ng/transducers/xform/throttle.js","./xform/throttle-time":"../node_modules/@thi.ng/transducers/xform/throttle-time.js","./xform/toggle":"../node_modules/@thi.ng/transducers/xform/toggle.js","./xform/trace":"../node_modules/@thi.ng/transducers/xform/trace.js","./xform/word-wrap":"../node_modules/@thi.ng/transducers/xform/word-wrap.js","./func/comp":"../node_modules/@thi.ng/transducers/func/comp.js","./func/compr":"../node_modules/@thi.ng/transducers/func/compr.js","./func/deep-transform":"../node_modules/@thi.ng/transducers/func/deep-transform.js","./func/juxtr":"../node_modules/@thi.ng/transducers/func/juxtr.js","./func/key-selector":"../node_modules/@thi.ng/transducers/func/key-selector.js","./func/lookup":"../node_modules/@thi.ng/transducers/func/lookup.js","./func/renamer":"../node_modules/@thi.ng/transducers/func/renamer.js","./iter/as-iterable":"../node_modules/@thi.ng/transducers/iter/as-iterable.js","./iter/choices":"../node_modules/@thi.ng/transducers/iter/choices.js","./iter/concat":"../node_modules/@thi.ng/transducers/iter/concat.js","./iter/cycle":"../node_modules/@thi.ng/transducers/iter/cycle.js","./iter/interpolate":"../node_modules/@thi.ng/transducers/iter/interpolate.js","./iter/iterate":"../node_modules/@thi.ng/transducers/iter/iterate.js","./iter/keys":"../node_modules/@thi.ng/transducers/iter/keys.js","./iter/norm-range":"../node_modules/@thi.ng/transducers/iter/norm-range.js","./iter/pairs":"../node_modules/@thi.ng/transducers/iter/pairs.js","./iter/permutations":"../node_modules/@thi.ng/transducers/iter/permutations.js","./iter/range":"../node_modules/@thi.ng/transducers/iter/range.js","./iter/range2d":"../node_modules/@thi.ng/transducers/iter/range2d.js","./iter/range3d":"../node_modules/@thi.ng/transducers/iter/range3d.js","./iter/repeat":"../node_modules/@thi.ng/transducers/iter/repeat.js","./iter/repeatedly":"../node_modules/@thi.ng/transducers/iter/repeatedly.js","./iter/reverse":"../node_modules/@thi.ng/transducers/iter/reverse.js","./iter/vals":"../node_modules/@thi.ng/transducers/iter/vals.js","./iter/wrap":"../node_modules/@thi.ng/transducers/iter/wrap.js","./iter/zip":"../node_modules/@thi.ng/transducers/iter/zip.js"}],"../node_modules/process/browser.js":[function(require,module,exports) {
+
+// shim for using process in browser
+var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+  throw new Error('setTimeout has not been defined');
+}
+
+function defaultClearTimeout() {
+  throw new Error('clearTimeout has not been defined');
+}
+
+(function () {
+  try {
+    if (typeof setTimeout === 'function') {
+      cachedSetTimeout = setTimeout;
+    } else {
+      cachedSetTimeout = defaultSetTimout;
+    }
+  } catch (e) {
+    cachedSetTimeout = defaultSetTimout;
+  }
+
+  try {
+    if (typeof clearTimeout === 'function') {
+      cachedClearTimeout = clearTimeout;
+    } else {
+      cachedClearTimeout = defaultClearTimeout;
+    }
+  } catch (e) {
+    cachedClearTimeout = defaultClearTimeout;
+  }
+})();
+
+function runTimeout(fun) {
+  if (cachedSetTimeout === setTimeout) {
+    //normal enviroments in sane situations
+    return setTimeout(fun, 0);
+  } // if setTimeout wasn't available but was latter defined
+
+
+  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+    cachedSetTimeout = setTimeout;
+    return setTimeout(fun, 0);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedSetTimeout(fun, 0);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+      return cachedSetTimeout.call(null, fun, 0);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+      return cachedSetTimeout.call(this, fun, 0);
+    }
+  }
+}
+
+function runClearTimeout(marker) {
+  if (cachedClearTimeout === clearTimeout) {
+    //normal enviroments in sane situations
+    return clearTimeout(marker);
+  } // if clearTimeout wasn't available but was latter defined
+
+
+  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+    cachedClearTimeout = clearTimeout;
+    return clearTimeout(marker);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedClearTimeout(marker);
+  } catch (e) {
+    try {
+      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+      return cachedClearTimeout.call(null, marker);
+    } catch (e) {
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+      return cachedClearTimeout.call(this, marker);
+    }
+  }
+}
+
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+  if (!draining || !currentQueue) {
+    return;
+  }
+
+  draining = false;
+
+  if (currentQueue.length) {
+    queue = currentQueue.concat(queue);
+  } else {
+    queueIndex = -1;
+  }
+
+  if (queue.length) {
+    drainQueue();
+  }
+}
+
+function drainQueue() {
+  if (draining) {
+    return;
+  }
+
+  var timeout = runTimeout(cleanUpNextTick);
+  draining = true;
+  var len = queue.length;
+
+  while (len) {
+    currentQueue = queue;
+    queue = [];
+
+    while (++queueIndex < len) {
+      if (currentQueue) {
+        currentQueue[queueIndex].run();
+      }
+    }
+
+    queueIndex = -1;
+    len = queue.length;
+  }
+
+  currentQueue = null;
+  draining = false;
+  runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+  var args = new Array(arguments.length - 1);
+
+  if (arguments.length > 1) {
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
+    }
+  }
+
+  queue.push(new Item(fun, args));
+
+  if (queue.length === 1 && !draining) {
+    runTimeout(drainQueue);
+  }
+}; // v8 likes predictible objects
+
+
+function Item(fun, array) {
+  this.fun = fun;
+  this.array = array;
+}
+
+Item.prototype.run = function () {
+  this.fun.apply(null, this.array);
+};
+
+process.title = 'browser';
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) {
+  return [];
+};
+
+process.binding = function (name) {
+  throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () {
+  return '/';
+};
+
+process.chdir = function (dir) {
+  throw new Error('process.chdir is not supported');
+};
+
+process.umask = function () {
+  return 0;
+};
+},{}],"../node_modules/@thi.ng/hiccup-css/impl.js":[function(require,module,exports) {
+var process = require("process");
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indent = exports.formatDecls = exports.expand = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _errors = require("@thi.ng/errors");
+
+var _transducers = require("@thi.ng/transducers");
+
+const EMPTY = new Set();
+const NO_SPACES = ":[";
+const xfSel = (0, _transducers.comp)((0, _transducers.flatten)(), (0, _transducers.map)(x => NO_SPACES.indexOf(x.charAt(0)) >= 0 ? x : " " + x));
+
+const withScope = (xf, scope) => (0, _transducers.comp)(xf, (0, _transducers.map)(x => (0, _checks.isString)(x) && x.indexOf(" .") == 0 ? x + scope : x));
+
+const expand = (acc, parent, rules, opts) => {
+  const n = rules.length;
+  const sel = [];
+  let curr, isFn;
+
+  const process = (i, r) => {
+    let rfn = null;
+
+    if ((0, _checks.isArray)(r)) {
+      expand(acc, makeSelector(parent, sel), r, opts);
+    } else if ((0, _checks.isIterable)(r) && !(0, _checks.isString)(r)) {
+      expand(acc, makeSelector(parent, sel), [...r], opts);
+    } else if ((isFn = (0, _checks.isFunction)(r)) || (rfn = opts.fns[r])) {
+      if (!parent.length) {
+        if (rfn) {
+          rfn.apply(null, rules.slice(i + 1))(acc, opts);
+          return true;
+        }
+
+        r(acc, opts);
+      } else if (isFn) {
+        process(i, r());
+      } else {
+        (0, _errors.illegalArgs)(`quoted fn ('${r}') only allowed at head position`);
+      }
+    } else if ((0, _checks.isPlainObject)(r)) {
+      curr = Object.assign(curr || {}, r);
+    } else if (r != null) {
+      sel.push(r);
+    }
+  };
+
+  for (let i = 0; i < n; i++) {
+    if (process(i, rules[i])) {
+      return acc;
+    }
+  }
+
+  curr && acc.push(formatRule(parent, sel, curr, opts));
+  return acc;
+};
+
+exports.expand = expand;
+
+const makeSelector = (parent, curr) => parent.length ? [...(0, _transducers.permutations)(parent, curr)] : curr;
+
+const formatRule = (parent, sel, curr, opts) => {
+  const f = opts.format;
+  const space = indent(opts);
+  const xf = opts.scope ? withScope(xfSel, opts.scope) : xfSel;
+  return [space, (0, _transducers.transduce)((0, _transducers.map)(sel => (0, _transducers.transduce)(xf, (0, _transducers.str)(), (0, _checks.isArray)(sel) ? sel : [sel]).trim()), (0, _transducers.str)(f.ruleSep), makeSelector(parent, sel)), f.declStart, formatDecls(curr, opts), space, f.declEnd].join("");
+};
+
+const formatDecls = (rules, opts) => {
+  const f = opts.format;
+  const prefixes = opts.autoprefix || EMPTY;
+  const space = indent(opts, opts.depth + 1);
+  const acc = [];
+
+  for (let r in rules) {
+    if (rules.hasOwnProperty(r)) {
+      let val = rules[r];
+
+      if ((0, _checks.isFunction)(val)) {
+        val = val(rules);
+      }
+
+      if ((0, _checks.isArray)(val)) {
+        val = val.map(v => (0, _checks.isArray)(v) ? v.join(" ") : v).join(f.ruleSep);
+      }
+
+      if (prefixes.has(r)) {
+        for (let v of opts.vendors) {
+          acc.push(`${space}${v}${r}:${f.valSep}${val};`);
+        }
+      }
+
+      acc.push(`${space}${r}:${f.valSep}${val};`);
+    }
+  }
+
+  return acc.join(f.decls) + f.decls;
+};
+
+exports.formatDecls = formatDecls;
+
+const indent = (opts, d = opts.depth) => d > 1 ? [...(0, _transducers.repeat)(opts.format.indent, d)].join("") : d > 0 ? opts.format.indent : "";
+
+exports.indent = indent;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","process":"../node_modules/process/browser.js"}],"../node_modules/@thi.ng/hiccup-css/units.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.turn = exports.rad = exports.deg = exports.sec = exports.ms = exports.vw = exports.vh = exports.px = exports.percent = exports.rem = exports.ex = exports.em = void 0;
+
+const em = x => `${x}em`;
+
+exports.em = em;
+
+const ex = x => `${x}ex`;
+
+exports.ex = ex;
+
+const rem = x => `${x}rem`;
+
+exports.rem = rem;
+
+const percent = x => `${x}%`;
+
+exports.percent = percent;
+
+const px = x => `${x >>> 0}px`;
+
+exports.px = px;
+
+const vh = x => `${x}vh`;
+
+exports.vh = vh;
+
+const vw = x => `${x}vw`;
+
+exports.vw = vw;
+
+const ms = x => `${x >>> 0}ms`;
+
+exports.ms = ms;
+
+const sec = x => `${x}s`;
+
+exports.sec = sec;
+
+const deg = x => `${x}deg`;
+
+exports.deg = deg;
+
+const rad = x => `${x}rad`;
+
+exports.rad = rad;
+
+const turn = x => `${x}turn`;
+
+exports.turn = turn;
+},{}],"../node_modules/@thi.ng/hiccup-css/keyframes.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.at_keyframes = at_keyframes;
+
+var _impl = require("./impl");
+
+var _units = require("./units");
+
+function at_keyframes(id, ...args) {
+  const stops = args.length === 1 ? args[0] : {
+    0: args[0],
+    100: args[1]
+  };
+  return (acc, opts) => {
+    const outer = (0, _impl.indent)(opts);
+    opts.depth++;
+    const inner = (0, _impl.indent)(opts);
+    acc.push(`${outer}@keyframes ${id}${opts.format.declStart}`);
+
+    for (let s in stops) {
+      if (stops.hasOwnProperty(s)) {
+        acc.push([inner, (0, _units.percent)(s), opts.format.declStart, (0, _impl.formatDecls)(stops[s], opts), inner, opts.format.declEnd].join(""));
+      }
+    }
+
+    opts.depth--;
+    acc.push(outer + opts.format.declEnd);
+    return acc;
+  };
+}
+},{"./impl":"../node_modules/@thi.ng/hiccup-css/impl.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"../node_modules/@thi.ng/hiccup-css/animation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.animation = void 0;
+
+var _keyframes = require("./keyframes");
+
+/**
+ * Defines new `@keyframes` with given `id` and creates related class of
+ * same name to configure given animation `opts`. Only the `duration`
+ * option is given a default value (250ms), all others are optional.
+ *
+ * ```
+ * css(
+ *   animation(
+ *     "fadein",
+ *     { delay: "0.5s" },
+ *     { opacity: 0 },
+ *     { opacity: 1 }
+ *   )
+ * );
+ * ```
+ *
+ * ```css
+ * @keyframes fadein {
+ *     0% {
+ *         opacity: 0;
+ *     }
+ *     100% {
+ *         opacity: 1;
+ *     }
+ * }
+ *
+ * .fadein {
+ *     animation-duration: 250ms;
+ *     animation-name: fadein;
+ *     animation-delay: 0.5s;
+ * }
+ * ```
+ *
+ * @param id
+ * @param opts
+ * @param keyframes
+ */
+const animation = (id, opts, ...keyframes) => {
+  opts = Object.assign({
+    duration: "250ms",
+    name: id
+  }, opts);
+  return [_keyframes.at_keyframes.apply(null, [id, ...keyframes]), [`.${id}`, Object.keys(opts).reduce((acc, k) => (acc[`animation-${k}`] = opts[k], acc), {})]];
+};
+
+exports.animation = animation;
+},{"./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js"}],"../node_modules/@thi.ng/hiccup-css/attribs.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.attribMatches = exports.attribSuffix = exports.attribPrefix = exports.attribContains = exports.attribEq = exports.withAttrib = void 0;
+
+const $ = op => (id, x, caseSensitve = false) => `[${id}${op}="${x}"${caseSensitve ? " i" : ""}]`;
+/**
+ * Returns attrib selector: `[id]`
+ *
+ * @param id
+ */
+
+
+const withAttrib = id => `[${id}]`;
+/**
+ * Returns attrib selector `[id=x]`
+ *
+ * @param id
+ * @param x
+ * @param caseSensitive
+ */
+
+
+exports.withAttrib = withAttrib;
+const attribEq = $("");
+/**
+ * Returns attrib selector `[id~=x]`
+ *
+ * @param id
+ * @param x
+ * @param caseSensitive
+ */
+
+exports.attribEq = attribEq;
+const attribContains = $("~");
+/**
+ * Returns attrib selector `[id^=x]`
+ *
+ * @param id
+ * @param x
+ * @param caseSensitive
+ */
+
+exports.attribContains = attribContains;
+const attribPrefix = $("^");
+/**
+ * Returns attrib selector `[id$=x]`
+ *
+ * @param id
+ * @param x
+ * @param caseSensitive
+ */
+
+exports.attribPrefix = attribPrefix;
+const attribSuffix = $("$");
+/**
+ * Returns attrib selector `[id*=x]`
+ * @param id
+ * @param x
+ * @param caseSensitive
+ */
+
+exports.attribSuffix = attribSuffix;
+const attribMatches = $("*");
+exports.attribMatches = attribMatches;
+},{}],"../node_modules/@thi.ng/hiccup-css/comment.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.comment = void 0;
+
+var _impl = require("./impl");
+
+const comment = (body, force = false) => (acc, opts) => {
+  const space = (0, _impl.indent)(opts);
+  const inner = (0, _impl.indent)(opts, opts.depth + 1);
+
+  if (opts.format.comments || force) {
+    acc.push(space + "/*", body.split("\n").map(l => inner + l).join("\n"), space + "*/");
+  }
+
+  return acc;
+};
+
+exports.comment = comment;
+},{"./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/conditional.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.conditional = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _impl = require("./impl");
+
+const conditional = (type, cond, rules) => (acc, opts) => {
+  const space = (0, _impl.indent)(opts);
+  acc.push(`${space}${type} ${formatCond(cond)}${opts.format.declStart}`);
+  opts.depth++;
+  (0, _impl.expand)(acc, [], rules, opts);
+  opts.depth--;
+  acc.push(space + opts.format.declEnd);
+  return acc;
+};
+
+exports.conditional = conditional;
+
+const formatCond = cond => {
+  if ((0, _checks.isString)(cond)) {
+    return cond;
+  }
+
+  const acc = [];
+
+  for (let c in cond) {
+    if (cond.hasOwnProperty(c)) {
+      let v = cond[c];
+
+      if (v === true) {
+        v = c;
+      } else if (v === false) {
+        v = "not " + c;
+      } else if (v === "only") {
+        v += " " + c;
+      } else {
+        v = `(${c}:${v})`;
+      }
+
+      acc.push(v);
+    }
+  }
+
+  return acc.join(" and ");
+};
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/css.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.css = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+var _api = require("./api");
+
+var _impl = require("./impl");
+
+const css = (rules, opts) => {
+  opts = Object.assign({
+    format: _api.COMPACT,
+    vendors: _api.DEFAULT_VENDORS,
+    fns: {},
+    depth: 0
+  }, opts);
+
+  if ((0, _checks.isPlainObject)(rules)) {
+    return (0, _impl.formatDecls)(rules, opts);
+  }
+
+  if ((0, _checks.isArray)(opts.autoprefix)) {
+    opts.autoprefix = new Set(opts.autoprefix);
+  }
+
+  if ((0, _checks.isIterable)(rules) && !(0, _checks.isString)(rules)) {
+    rules = [...rules];
+  }
+
+  if ((0, _checks.isArray)(rules)) {
+    return (0, _impl.expand)([], [], rules, opts).join(opts.format.rules);
+  }
+
+  if ((0, _checks.isFunction)(rules)) {
+    return rules([], opts).join(opts.format.rules);
+  }
+};
+
+exports.css = css;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./api":"../node_modules/@thi.ng/hiccup-css/api.js","./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/import.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.at_import = void 0;
+
+const at_import = (url, ...queries) => (acc, opts) => (acc.push(queries.length ? `@import url(${url}) ${queries.join(opts.format.ruleSep)};` : `@import url(${url});`), acc);
+
+exports.at_import = at_import;
+},{}],"../node_modules/@thi.ng/hiccup-css/inject.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.injectStyleSheet = void 0;
+
+// https://davidwalsh.name/add-rules-stylesheets
+
+/**
+ * Injects given CSS string as global stylesheet in DOM head. If `first`
+ * is true, inserts it as first stylesheet, else (default) appends it.
+ *
+ * Returns created style DOM element.
+ *
+ * @param css
+ * @param first
+ */
+const injectStyleSheet = (css, first = false) => {
+  const head = document.getElementsByTagName("head")[0];
+  const sheet = document.createElement("style");
+  sheet.setAttribute("type", "text/css");
+
+  if (sheet.styleSheet !== undefined) {
+    sheet.styleSheet.cssText = css;
+  } else {
+    sheet.textContent = css;
+  }
+
+  if (first) {
+    head.insertBefore(sheet, head.firstChild);
+  } else {
+    head.appendChild(sheet);
+  }
+
+  return sheet;
+};
+
+exports.injectStyleSheet = injectStyleSheet;
+},{}],"../node_modules/@thi.ng/hiccup-css/media.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.at_media = void 0;
+
+var _conditional = require("./conditional");
+
+const at_media = (cond, rules) => (0, _conditional.conditional)("@media", cond, rules);
+
+exports.at_media = at_media;
+},{"./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../node_modules/@thi.ng/hiccup-css/namespace.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.at_namespace = at_namespace;
+
+function at_namespace(...args) {
+  return (acc, _) => (acc.push(args.length > 1 ? `@namespace ${args[0]} url(${args[1]});` : `@namespace url(${args[0]});`), acc);
+}
+},{}],"../node_modules/@thi.ng/hiccup-css/supports.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.at_supports = void 0;
+
+var _conditional = require("./conditional");
+
+const at_supports = (cond, rules) => (0, _conditional.conditional)("@supports", cond, rules);
+
+exports.at_supports = at_supports;
+},{"./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../node_modules/@thi.ng/hiccup-css/quoted-functions.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.QUOTED_FNS = void 0;
+
+var _comment = require("./comment");
+
+var _import = require("./import");
+
+var _keyframes = require("./keyframes");
+
+var _media = require("./media");
+
+var _namespace = require("./namespace");
+
+var _supports = require("./supports");
+
+const QUOTED_FNS = {
+  "@comment": _comment.comment,
+  "@import": _import.at_import,
+  "@keyframes": _keyframes.at_keyframes,
+  "@media": _media.at_media,
+  "@namespace": _namespace.at_namespace,
+  "@supports": _supports.at_supports
+};
+exports.QUOTED_FNS = QUOTED_FNS;
+},{"./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js"}],"../node_modules/@thi.ng/hiccup-css/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _api = require("./api");
+
+Object.keys(_api).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _api[key];
+    }
+  });
+});
+
+var _animation = require("./animation");
+
+Object.keys(_animation).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _animation[key];
+    }
+  });
+});
+
+var _attribs = require("./attribs");
+
+Object.keys(_attribs).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _attribs[key];
+    }
+  });
+});
+
+var _comment = require("./comment");
+
+Object.keys(_comment).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _comment[key];
+    }
+  });
+});
+
+var _conditional = require("./conditional");
+
+Object.keys(_conditional).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _conditional[key];
+    }
+  });
+});
+
+var _css = require("./css");
+
+Object.keys(_css).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _css[key];
+    }
+  });
+});
+
+var _import = require("./import");
+
+Object.keys(_import).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _import[key];
+    }
+  });
+});
+
+var _inject = require("./inject");
+
+Object.keys(_inject).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _inject[key];
+    }
+  });
+});
+
+var _keyframes = require("./keyframes");
+
+Object.keys(_keyframes).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _keyframes[key];
+    }
+  });
+});
+
+var _media = require("./media");
+
+Object.keys(_media).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _media[key];
+    }
+  });
+});
+
+var _namespace = require("./namespace");
+
+Object.keys(_namespace).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _namespace[key];
+    }
+  });
+});
+
+var _quotedFunctions = require("./quoted-functions");
+
+Object.keys(_quotedFunctions).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _quotedFunctions[key];
+    }
+  });
+});
+
+var _supports = require("./supports");
+
+Object.keys(_supports).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _supports[key];
+    }
+  });
+});
+
+var _units = require("./units");
+
+Object.keys(_units).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _units[key];
+    }
+  });
+});
+},{"./api":"../node_modules/@thi.ng/hiccup-css/api.js","./animation":"../node_modules/@thi.ng/hiccup-css/animation.js","./attribs":"../node_modules/@thi.ng/hiccup-css/attribs.js","./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js","./css":"../node_modules/@thi.ng/hiccup-css/css.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./inject":"../node_modules/@thi.ng/hiccup-css/inject.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./quoted-functions":"../node_modules/@thi.ng/hiccup-css/quoted-functions.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"../node_modules/highlight.js/lib/highlight.js":[function(require,module,exports) {
+var define;
+var global = arguments[3];
+/*
+Syntax highlighting with language autodetection.
+https://highlightjs.org/
+*/
+
+(function(factory) {
+
+  // Find the global object for export to both the browser and web workers.
+  var globalObject = typeof window === 'object' && window ||
+                     typeof self === 'object' && self;
+
+  // Setup highlight.js for different environments. First is Node.js or
+  // CommonJS.
+  // `nodeType` is checked to ensure that `exports` is not a HTML element.
+  if(typeof exports !== 'undefined' && !exports.nodeType) {
+    factory(exports);
+  } else if(globalObject) {
+    // Export hljs globally even when using AMD for cases when this script
+    // is loaded with others that may still expect a global hljs.
+    globalObject.hljs = factory({});
+
+    // Finally register the global hljs with AMD.
+    if(typeof define === 'function' && define.amd) {
+      define([], function() {
+        return globalObject.hljs;
+      });
+    }
+  }
+
+}(function(hljs) {
+  // Convenience variables for build-in objects
+  var ArrayProto = [],
+      objectKeys = Object.keys;
+
+  // Global internal variables used within the highlight.js library.
+  var languages = {},
+      aliases   = {};
+
+  // Regular expressions used throughout the highlight.js library.
+  var noHighlightRe    = /^(no-?highlight|plain|text)$/i,
+      languagePrefixRe = /\blang(?:uage)?-([\w-]+)\b/i,
+      fixMarkupRe      = /((^(<[^>]+>|\t|)+|(?:\n)))/gm;
+
+  // The object will be assigned by the build tool. It used to synchronize API
+  // of external language files with minified version of the highlight.js library.
+  var API_REPLACES;
+
+  var spanEndTag = '</span>';
+
+  // Global options used when within external APIs. This is modified when
+  // calling the `hljs.configure` function.
+  var options = {
+    classPrefix: 'hljs-',
+    tabReplace: null,
+    useBR: false,
+    languages: undefined
+  };
+
+  // keywords that should have no default relevance value
+  var COMMON_KEYWORDS = 'of and for in not or if then'.split(' ')
+
+
+  /* Utility functions */
+
+  function escape(value) {
+    return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function tag(node) {
+    return node.nodeName.toLowerCase();
+  }
+
+  function testRe(re, lexeme) {
+    var match = re && re.exec(lexeme);
+    return match && match.index === 0;
+  }
+
+  function isNotHighlighted(language) {
+    return noHighlightRe.test(language);
+  }
+
+  function blockLanguage(block) {
+    var i, match, length, _class;
+    var classes = block.className + ' ';
+
+    classes += block.parentNode ? block.parentNode.className : '';
+
+    // language-* takes precedence over non-prefixed class names.
+    match = languagePrefixRe.exec(classes);
+    if (match) {
+      return getLanguage(match[1]) ? match[1] : 'no-highlight';
+    }
+
+    classes = classes.split(/\s+/);
+
+    for (i = 0, length = classes.length; i < length; i++) {
+      _class = classes[i];
+
+      if (isNotHighlighted(_class) || getLanguage(_class)) {
+        return _class;
+      }
+    }
+  }
+
+  function inherit(parent) {  // inherit(parent, override_obj, override_obj, ...)
+    var key;
+    var result = {};
+    var objects = Array.prototype.slice.call(arguments, 1);
+
+    for (key in parent)
+      result[key] = parent[key];
+    objects.forEach(function(obj) {
+      for (key in obj)
+        result[key] = obj[key];
+    });
+    return result;
+  }
+
+  /* Stream merging */
+
+  function nodeStream(node) {
+    var result = [];
+    (function _nodeStream(node, offset) {
+      for (var child = node.firstChild; child; child = child.nextSibling) {
+        if (child.nodeType === 3)
+          offset += child.nodeValue.length;
+        else if (child.nodeType === 1) {
+          result.push({
+            event: 'start',
+            offset: offset,
+            node: child
+          });
+          offset = _nodeStream(child, offset);
+          // Prevent void elements from having an end tag that would actually
+          // double them in the output. There are more void elements in HTML
+          // but we list only those realistically expected in code display.
+          if (!tag(child).match(/br|hr|img|input/)) {
+            result.push({
+              event: 'stop',
+              offset: offset,
+              node: child
+            });
+          }
+        }
+      }
+      return offset;
+    })(node, 0);
+    return result;
+  }
+
+  function mergeStreams(original, highlighted, value) {
+    var processed = 0;
+    var result = '';
+    var nodeStack = [];
+
+    function selectStream() {
+      if (!original.length || !highlighted.length) {
+        return original.length ? original : highlighted;
+      }
+      if (original[0].offset !== highlighted[0].offset) {
+        return (original[0].offset < highlighted[0].offset) ? original : highlighted;
+      }
+
+      /*
+      To avoid starting the stream just before it should stop the order is
+      ensured that original always starts first and closes last:
+
+      if (event1 == 'start' && event2 == 'start')
+        return original;
+      if (event1 == 'start' && event2 == 'stop')
+        return highlighted;
+      if (event1 == 'stop' && event2 == 'start')
+        return original;
+      if (event1 == 'stop' && event2 == 'stop')
+        return highlighted;
+
+      ... which is collapsed to:
+      */
+      return highlighted[0].event === 'start' ? original : highlighted;
+    }
+
+    function open(node) {
+      function attr_str(a) {return ' ' + a.nodeName + '="' + escape(a.value).replace('"', '&quot;') + '"';}
+      result += '<' + tag(node) + ArrayProto.map.call(node.attributes, attr_str).join('') + '>';
+    }
+
+    function close(node) {
+      result += '</' + tag(node) + '>';
+    }
+
+    function render(event) {
+      (event.event === 'start' ? open : close)(event.node);
+    }
+
+    while (original.length || highlighted.length) {
+      var stream = selectStream();
+      result += escape(value.substring(processed, stream[0].offset));
+      processed = stream[0].offset;
+      if (stream === original) {
+        /*
+        On any opening or closing tag of the original markup we first close
+        the entire highlighted node stack, then render the original tag along
+        with all the following original tags at the same offset and then
+        reopen all the tags on the highlighted stack.
+        */
+        nodeStack.reverse().forEach(close);
+        do {
+          render(stream.splice(0, 1)[0]);
+          stream = selectStream();
+        } while (stream === original && stream.length && stream[0].offset === processed);
+        nodeStack.reverse().forEach(open);
+      } else {
+        if (stream[0].event === 'start') {
+          nodeStack.push(stream[0].node);
+        } else {
+          nodeStack.pop();
+        }
+        render(stream.splice(0, 1)[0]);
+      }
+    }
+    return result + escape(value.substr(processed));
+  }
+
+  /* Initialization */
+
+  function dependencyOnParent(mode) {
+    if (!mode) return false;
+
+    return mode.endsWithParent || dependencyOnParent(mode.starts)
+  }
+
+  function expand_or_clone_mode(mode) {
+    if (mode.variants && !mode.cached_variants) {
+      mode.cached_variants = mode.variants.map(function(variant) {
+        return inherit(mode, {variants: null}, variant);
+      });
+    }
+
+    // EXPAND
+    // if we have variants then essentually "replace" the mode with the variants
+    // this happens in compileMode, where this function is called from
+    if (mode.cached_variants)
+      return mode.cached_variants;
+
+    // CLONE
+    // if we have dependencies on parents then we need a unique
+    // instance of ourselves, so we can be reused with many
+    // different parents without issue
+    if (dependencyOnParent(mode))
+      return [inherit(mode, { starts: mode.starts ? inherit(mode.starts) : null })]
+
+    // no special dependency issues, just return ourselves
+    return [mode]
+  }
+
+  function restoreLanguageApi(obj) {
+    if(API_REPLACES && !obj.langApiRestored) {
+      obj.langApiRestored = true;
+      for(var key in API_REPLACES)
+        obj[key] && (obj[API_REPLACES[key]] = obj[key]);
+      (obj.contains || []).concat(obj.variants || []).forEach(restoreLanguageApi);
+    }
+  }
+
+  function compileKeywords(rawKeywords, case_insensitive) {
+      var compiled_keywords = {};
+
+      if (typeof rawKeywords === 'string') { // string
+        splitAndCompile('keyword', rawKeywords);
+      } else {
+        objectKeys(rawKeywords).forEach(function (className) {
+          splitAndCompile(className, rawKeywords[className]);
+        });
+      }
+    return compiled_keywords;
+
+    // ---
+
+    function splitAndCompile(className, str) {
+      if (case_insensitive) {
+        str = str.toLowerCase();
+      }
+      str.split(' ').forEach(function(keyword) {
+        var pair = keyword.split('|');
+        compiled_keywords[pair[0]] = [className, scoreForKeyword(pair[0], pair[1])];
+      });
+    };
+  }
+
+  function scoreForKeyword(keyword, providedScore) {
+    // manual scores always win over common keywords
+    // so you can force a score of 1 if you really insist
+    if (providedScore)
+      return Number(providedScore)
+
+    return commonKeyword(keyword) ? 0 : 1;
+  }
+
+  function commonKeyword(word) {
+    return COMMON_KEYWORDS.indexOf(word.toLowerCase()) != -1
+  }
+
+  function compileLanguage(language) {
+
+    function reStr(re) {
+        return (re && re.source) || re;
+    }
+
+    function langRe(value, global) {
+      return new RegExp(
+        reStr(value),
+        'm' + (language.case_insensitive ? 'i' : '') + (global ? 'g' : '')
+      );
+    }
+
+    function reCountMatchGroups(re) {
+      return (new RegExp(re.toString() + '|')).exec('').length - 1;
+    }
+
+    // joinRe logically computes regexps.join(separator), but fixes the
+    // backreferences so they continue to match.
+    // it also places each individual regular expression into it's own
+    // match group, keeping track of the sequencing of those match groups
+    // is currently an exercise for the caller. :-)
+    function joinRe(regexps, separator) {
+      // backreferenceRe matches an open parenthesis or backreference. To avoid
+      // an incorrect parse, it additionally matches the following:
+      // - [...] elements, where the meaning of parentheses and escapes change
+      // - other escape sequences, so we do not misparse escape sequences as
+      //   interesting elements
+      // - non-matching or lookahead parentheses, which do not capture. These
+      //   follow the '(' with a '?'.
+      var backreferenceRe = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
+      var numCaptures = 0;
+      var ret = '';
+      for (var i = 0; i < regexps.length; i++) {
+        numCaptures += 1;
+        var offset = numCaptures;
+        var re = reStr(regexps[i]);
+        if (i > 0) {
+          ret += separator;
+        }
+        ret += "(";
+        while (re.length > 0) {
+          var match = backreferenceRe.exec(re);
+          if (match == null) {
+            ret += re;
+            break;
+          }
+          ret += re.substring(0, match.index);
+          re = re.substring(match.index + match[0].length);
+          if (match[0][0] == '\\' && match[1]) {
+            // Adjust the backreference.
+            ret += '\\' + String(Number(match[1]) + offset);
+          } else {
+            ret += match[0];
+            if (match[0] == '(') {
+              numCaptures++;
+            }
+          }
+        }
+        ret += ")";
+      }
+      return ret;
+    }
+
+    function buildModeRegex(mode) {
+
+      var matchIndexes = {};
+      var matcherRe;
+      var regexes = [];
+      var matcher = {};
+      var matchAt = 1;
+
+      function addRule(rule, regex) {
+        matchIndexes[matchAt] = rule;
+        regexes.push([rule, regex]);
+        matchAt += reCountMatchGroups(regex) + 1;
+      }
+
+      var term;
+      for (var i=0; i < mode.contains.length; i++) {
+        var re;
+        term = mode.contains[i];
+        if (term.beginKeywords) {
+          re = '\\.?(?:' + term.begin + ')\\.?';
+        } else {
+          re = term.begin;
+        }
+        addRule(term, re);
+      }
+      if (mode.terminator_end)
+        addRule("end", mode.terminator_end);
+      if (mode.illegal)
+        addRule("illegal", mode.illegal);
+
+      var terminators = regexes.map(function(el) { return el[1] });
+      matcherRe = langRe(joinRe(terminators, '|'), true);
+
+      matcher.lastIndex = 0;
+      matcher.exec = function(s) {
+        var rule;
+
+        if( regexes.length === 0) return null;
+
+        matcherRe.lastIndex = matcher.lastIndex;
+        var match = matcherRe.exec(s);
+        if (!match) { return null; }
+
+        for(var i = 0; i<match.length; i++) {
+          if (match[i] != undefined && matchIndexes["" +i] != undefined ) {
+            rule = matchIndexes[""+i];
+            break;
+          }
+        }
+
+        // illegal or end match
+        if (typeof rule === "string") {
+          match.type = rule;
+          match.extra = [mode.illegal, mode.terminator_end];
+        } else {
+          match.type = "begin";
+          match.rule = rule;
+        }
+        return match;
+      }
+
+      return matcher;
+    }
+
+    function compileMode(mode, parent) {
+      if (mode.compiled)
+        return;
+      mode.compiled = true;
+
+      mode.keywords = mode.keywords || mode.beginKeywords;
+      if (mode.keywords)
+        mode.keywords = compileKeywords(mode.keywords, language.case_insensitive)
+
+      mode.lexemesRe = langRe(mode.lexemes || /\w+/, true);
+
+      if (parent) {
+        if (mode.beginKeywords) {
+          mode.begin = '\\b(' + mode.beginKeywords.split(' ').join('|') + ')\\b';
+        }
+        if (!mode.begin)
+          mode.begin = /\B|\b/;
+        mode.beginRe = langRe(mode.begin);
+        if (mode.endSameAsBegin)
+          mode.end = mode.begin;
+        if (!mode.end && !mode.endsWithParent)
+          mode.end = /\B|\b/;
+        if (mode.end)
+          mode.endRe = langRe(mode.end);
+        mode.terminator_end = reStr(mode.end) || '';
+        if (mode.endsWithParent && parent.terminator_end)
+          mode.terminator_end += (mode.end ? '|' : '') + parent.terminator_end;
+      }
+      if (mode.illegal)
+        mode.illegalRe = langRe(mode.illegal);
+      if (mode.relevance == null)
+        mode.relevance = 1;
+      if (!mode.contains) {
+        mode.contains = [];
+      }
+      mode.contains = Array.prototype.concat.apply([], mode.contains.map(function(c) {
+        return expand_or_clone_mode(c === 'self' ? mode : c);
+      }));
+      mode.contains.forEach(function(c) {compileMode(c, mode);});
+
+      if (mode.starts) {
+        compileMode(mode.starts, parent);
+      }
+
+      mode.terminators = buildModeRegex(mode);
+    }
+
+    compileMode(language);
+  }
+
+  /*
+  Core highlighting function. Accepts a language name, or an alias, and a
+  string with the code to highlight. Returns an object with the following
+  properties:
+
+  - relevance (int)
+  - value (an HTML string with highlighting markup)
+
+  */
+  function highlight(name, value, ignore_illegals, continuation) {
+
+    function escapeRe(value) {
+      return new RegExp(value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'm');
+    }
+
+    function endOfMode(mode, lexeme) {
+      if (testRe(mode.endRe, lexeme)) {
+        while (mode.endsParent && mode.parent) {
+          mode = mode.parent;
+        }
+        return mode;
+      }
+      if (mode.endsWithParent) {
+        return endOfMode(mode.parent, lexeme);
+      }
+    }
+
+    function keywordMatch(mode, match) {
+      var match_str = language.case_insensitive ? match[0].toLowerCase() : match[0];
+      return mode.keywords.hasOwnProperty(match_str) && mode.keywords[match_str];
+    }
+
+    function buildSpan(classname, insideSpan, leaveOpen, noPrefix) {
+      if (!leaveOpen && insideSpan === '') return '';
+      if (!classname) return insideSpan;
+
+      var classPrefix = noPrefix ? '' : options.classPrefix,
+          openSpan    = '<span class="' + classPrefix,
+          closeSpan   = leaveOpen ? '' : spanEndTag;
+
+      openSpan += classname + '">';
+
+      return openSpan + insideSpan + closeSpan;
+    }
+
+    function processKeywords() {
+      var keyword_match, last_index, match, result;
+
+      if (!top.keywords)
+        return escape(mode_buffer);
+
+      result = '';
+      last_index = 0;
+      top.lexemesRe.lastIndex = 0;
+      match = top.lexemesRe.exec(mode_buffer);
+
+      while (match) {
+        result += escape(mode_buffer.substring(last_index, match.index));
+        keyword_match = keywordMatch(top, match);
+        if (keyword_match) {
+          relevance += keyword_match[1];
+          result += buildSpan(keyword_match[0], escape(match[0]));
+        } else {
+          result += escape(match[0]);
+        }
+        last_index = top.lexemesRe.lastIndex;
+        match = top.lexemesRe.exec(mode_buffer);
+      }
+      return result + escape(mode_buffer.substr(last_index));
+    }
+
+    function processSubLanguage() {
+      var explicit = typeof top.subLanguage === 'string';
+      if (explicit && !languages[top.subLanguage]) {
+        return escape(mode_buffer);
+      }
+
+      var result = explicit ?
+                   highlight(top.subLanguage, mode_buffer, true, continuations[top.subLanguage]) :
+                   highlightAuto(mode_buffer, top.subLanguage.length ? top.subLanguage : undefined);
+
+      // Counting embedded language score towards the host language may be disabled
+      // with zeroing the containing mode relevance. Usecase in point is Markdown that
+      // allows XML everywhere and makes every XML snippet to have a much larger Markdown
+      // score.
+      if (top.relevance > 0) {
+        relevance += result.relevance;
+      }
+      if (explicit) {
+        continuations[top.subLanguage] = result.top;
+      }
+      return buildSpan(result.language, result.value, false, true);
+    }
+
+    function processBuffer() {
+      result += (top.subLanguage != null ? processSubLanguage() : processKeywords());
+      mode_buffer = '';
+    }
+
+    function startNewMode(mode) {
+      result += mode.className? buildSpan(mode.className, '', true): '';
+      top = Object.create(mode, {parent: {value: top}});
+    }
+
+
+    function doBeginMatch(match) {
+      var lexeme = match[0];
+      var new_mode = match.rule;
+
+      if (new_mode && new_mode.endSameAsBegin) {
+        new_mode.endRe = escapeRe( lexeme );
+      }
+
+      if (new_mode.skip) {
+        mode_buffer += lexeme;
+      } else {
+        if (new_mode.excludeBegin) {
+          mode_buffer += lexeme;
+        }
+        processBuffer();
+        if (!new_mode.returnBegin && !new_mode.excludeBegin) {
+          mode_buffer = lexeme;
+        }
+      }
+      startNewMode(new_mode, lexeme);
+      return new_mode.returnBegin ? 0 : lexeme.length;
+    }
+
+    function doEndMatch(match) {
+      var lexeme = match[0];
+      var end_mode = endOfMode(top, lexeme);
+      if (!end_mode) { return; }
+
+      var origin = top;
+      if (origin.skip) {
+        mode_buffer += lexeme;
+      } else {
+        if (!(origin.returnEnd || origin.excludeEnd)) {
+          mode_buffer += lexeme;
+        }
+        processBuffer();
+        if (origin.excludeEnd) {
+          mode_buffer = lexeme;
+        }
+      }
+      do {
+        if (top.className) {
+          result += spanEndTag;
+        }
+        if (!top.skip && !top.subLanguage) {
+          relevance += top.relevance;
+        }
+        top = top.parent;
+      } while (top !== end_mode.parent);
+      if (end_mode.starts) {
+        if (end_mode.endSameAsBegin) {
+          end_mode.starts.endRe = end_mode.endRe;
+        }
+        startNewMode(end_mode.starts, '');
+      }
+      return origin.returnEnd ? 0 : lexeme.length;
+    }
+
+    var lastMatch = {};
+    function processLexeme(text_before_match, match) {
+
+      var lexeme = match && match[0];
+
+      // add non-matched text to the current mode buffer
+      mode_buffer += text_before_match;
+
+      if (lexeme == null) {
+        processBuffer();
+        return 0;
+      }
+
+      // we've found a 0 width match and we're stuck, so we need to advance
+      // this happens when we have badly behaved rules that have optional matchers to the degree that
+      // sometimes they can end up matching nothing at all
+      // Ref: https://github.com/highlightjs/highlight.js/issues/2140
+      if (lastMatch.type=="begin" && match.type=="end" && lastMatch.index == match.index && lexeme === "") {
+        // spit the "skipped" character that our regex choked on back into the output sequence
+        mode_buffer += value.slice(match.index, match.index + 1)
+        return 1;
+      }
+      lastMatch = match;
+
+      if (match.type==="begin") {
+        return doBeginMatch(match);
+      } else if (match.type==="illegal" && !ignore_illegals) {
+        // illegal match, we do not continue processing
+        throw new Error('Illegal lexeme "' + lexeme + '" for mode "' + (top.className || '<unnamed>') + '"');
+      } else if (match.type==="end") {
+        var processed = doEndMatch(match);
+        if (processed != undefined)
+          return processed;
+      }
+
+      /*
+      Why might be find ourselves here?  Only one occasion now.  An end match that was
+      triggered but could not be completed.  When might this happen?  When an `endSameasBegin`
+      rule sets the end rule to a specific match.  Since the overall mode termination rule that's
+      being used to scan the text isn't recompiled that means that any match that LOOKS like
+      the end (but is not, because it is not an exact match to the beginning) will
+      end up here.  A definite end match, but when `doEndMatch` tries to "reapply"
+      the end rule and fails to match, we wind up here, and just silently ignore the end.
+
+      This causes no real harm other than stopping a few times too many.
+      */
+
+      mode_buffer += lexeme;
+      return lexeme.length;
+    }
+
+    var language = getLanguage(name);
+    if (!language) {
+      throw new Error('Unknown language: "' + name + '"');
+    }
+
+    compileLanguage(language);
+    var top = continuation || language;
+    var continuations = {}; // keep continuations for sub-languages
+    var result = '', current;
+    for(current = top; current !== language; current = current.parent) {
+      if (current.className) {
+        result = buildSpan(current.className, '', true) + result;
+      }
+    }
+    var mode_buffer = '';
+    var relevance = 0;
+    try {
+      var match, count, index = 0;
+      while (true) {
+        top.terminators.lastIndex = index;
+        match = top.terminators.exec(value);
+        if (!match)
+          break;
+        count = processLexeme(value.substring(index, match.index), match);
+        index = match.index + count;
+      }
+      processLexeme(value.substr(index));
+      for(current = top; current.parent; current = current.parent) { // close dangling modes
+        if (current.className) {
+          result += spanEndTag;
+        }
+      }
+      return {
+        relevance: relevance,
+        value: result,
+        illegal:false,
+        language: name,
+        top: top
+      };
+    } catch (e) {
+      if (e.message && e.message.indexOf('Illegal') !== -1) {
+        return {
+          illegal: true,
+          relevance: 0,
+          value: escape(value)
+        };
+      } else {
+        throw e;
+      }
+    }
+  }
+
+  /*
+  Highlighting with language detection. Accepts a string with the code to
+  highlight. Returns an object with the following properties:
+
+  - language (detected language)
+  - relevance (int)
+  - value (an HTML string with highlighting markup)
+  - second_best (object with the same structure for second-best heuristically
+    detected language, may be absent)
+
+  */
+  function highlightAuto(text, languageSubset) {
+    languageSubset = languageSubset || options.languages || objectKeys(languages);
+    var result = {
+      relevance: 0,
+      value: escape(text)
+    };
+    var second_best = result;
+    languageSubset.filter(getLanguage).filter(autoDetection).forEach(function(name) {
+      var current = highlight(name, text, false);
+      current.language = name;
+      if (current.relevance > second_best.relevance) {
+        second_best = current;
+      }
+      if (current.relevance > result.relevance) {
+        second_best = result;
+        result = current;
+      }
+    });
+    if (second_best.language) {
+      result.second_best = second_best;
+    }
+    return result;
+  }
+
+  /*
+  Post-processing of the highlighted markup:
+
+  - replace TABs with something more useful
+  - replace real line-breaks with '<br>' for non-pre containers
+
+  */
+  function fixMarkup(value) {
+    return !(options.tabReplace || options.useBR)
+      ? value
+      : value.replace(fixMarkupRe, function(match, p1) {
+          if (options.useBR && match === '\n') {
+            return '<br>';
+          } else if (options.tabReplace) {
+            return p1.replace(/\t/g, options.tabReplace);
+          }
+          return '';
+      });
+  }
+
+  function buildClassName(prevClassName, currentLang, resultLang) {
+    var language = currentLang ? aliases[currentLang] : resultLang,
+        result   = [prevClassName.trim()];
+
+    if (!prevClassName.match(/\bhljs\b/)) {
+      result.push('hljs');
+    }
+
+    if (prevClassName.indexOf(language) === -1) {
+      result.push(language);
+    }
+
+    return result.join(' ').trim();
+  }
+
+  /*
+  Applies highlighting to a DOM node containing code. Accepts a DOM node and
+  two optional parameters for fixMarkup.
+  */
+  function highlightBlock(block) {
+    var node, originalStream, result, resultNode, text;
+    var language = blockLanguage(block);
+
+    if (isNotHighlighted(language))
+        return;
+
+    if (options.useBR) {
+      node = document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
+      node.innerHTML = block.innerHTML.replace(/\n/g, '').replace(/<br[ \/]*>/g, '\n');
+    } else {
+      node = block;
+    }
+    text = node.textContent;
+    result = language ? highlight(language, text, true) : highlightAuto(text);
+
+    originalStream = nodeStream(node);
+    if (originalStream.length) {
+      resultNode = document.createElementNS('http://www.w3.org/1999/xhtml', 'div');
+      resultNode.innerHTML = result.value;
+      result.value = mergeStreams(originalStream, nodeStream(resultNode), text);
+    }
+    result.value = fixMarkup(result.value);
+
+    block.innerHTML = result.value;
+    block.className = buildClassName(block.className, language, result.language);
+    block.result = {
+      language: result.language,
+      re: result.relevance
+    };
+    if (result.second_best) {
+      block.second_best = {
+        language: result.second_best.language,
+        re: result.second_best.relevance
+      };
+    }
+  }
+
+  /*
+  Updates highlight.js global options with values passed in the form of an object.
+  */
+  function configure(user_options) {
+    options = inherit(options, user_options);
+  }
+
+  /*
+  Applies highlighting to all <pre><code>..</code></pre> blocks on a page.
+  */
+  function initHighlighting() {
+    if (initHighlighting.called)
+      return;
+    initHighlighting.called = true;
+
+    var blocks = document.querySelectorAll('pre code');
+    ArrayProto.forEach.call(blocks, highlightBlock);
+  }
+
+  /*
+  Attaches highlighting to the page load event.
+  */
+  function initHighlightingOnLoad() {
+    addEventListener('DOMContentLoaded', initHighlighting, false);
+    addEventListener('load', initHighlighting, false);
+  }
+
+  function registerLanguage(name, language) {
+    var lang = languages[name] = language(hljs);
+    restoreLanguageApi(lang);
+    lang.rawDefinition = language.bind(null,hljs);
+
+    if (lang.aliases) {
+      lang.aliases.forEach(function(alias) {aliases[alias] = name;});
+    }
+  }
+
+  function listLanguages() {
+    return objectKeys(languages);
+  }
+
+  function getLanguage(name) {
+    name = (name || '').toLowerCase();
+    return languages[name] || languages[aliases[name]];
+  }
+
+  function autoDetection(name) {
+    var lang = getLanguage(name);
+    return lang && !lang.disableAutodetect;
+  }
+
+  /* Interface definition */
+
+  hljs.highlight = highlight;
+  hljs.highlightAuto = highlightAuto;
+  hljs.fixMarkup = fixMarkup;
+  hljs.highlightBlock = highlightBlock;
+  hljs.configure = configure;
+  hljs.initHighlighting = initHighlighting;
+  hljs.initHighlightingOnLoad = initHighlightingOnLoad;
+  hljs.registerLanguage = registerLanguage;
+  hljs.listLanguages = listLanguages;
+  hljs.getLanguage = getLanguage;
+  hljs.autoDetection = autoDetection;
+  hljs.inherit = inherit;
+
+  // Common regexps
+  hljs.IDENT_RE = '[a-zA-Z]\\w*';
+  hljs.UNDERSCORE_IDENT_RE = '[a-zA-Z_]\\w*';
+  hljs.NUMBER_RE = '\\b\\d+(\\.\\d+)?';
+  hljs.C_NUMBER_RE = '(-?)(\\b0[xX][a-fA-F0-9]+|(\\b\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)'; // 0x..., 0..., decimal, float
+  hljs.BINARY_NUMBER_RE = '\\b(0b[01]+)'; // 0b...
+  hljs.RE_STARTERS_RE = '!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|-|-=|/=|/|:|;|<<|<<=|<=|<|===|==|=|>>>=|>>=|>=|>>>|>>|>|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~';
+
+  // Common modes
+  hljs.BACKSLASH_ESCAPE = {
+    begin: '\\\\[\\s\\S]', relevance: 0
+  };
+  hljs.APOS_STRING_MODE = {
+    className: 'string',
+    begin: '\'', end: '\'',
+    illegal: '\\n',
+    contains: [hljs.BACKSLASH_ESCAPE]
+  };
+  hljs.QUOTE_STRING_MODE = {
+    className: 'string',
+    begin: '"', end: '"',
+    illegal: '\\n',
+    contains: [hljs.BACKSLASH_ESCAPE]
+  };
+  hljs.PHRASAL_WORDS_MODE = {
+    begin: /\b(a|an|the|are|I'm|isn't|don't|doesn't|won't|but|just|should|pretty|simply|enough|gonna|going|wtf|so|such|will|you|your|they|like|more)\b/
+  };
+  hljs.COMMENT = function (begin, end, inherits) {
+    var mode = hljs.inherit(
+      {
+        className: 'comment',
+        begin: begin, end: end,
+        contains: []
+      },
+      inherits || {}
+    );
+    mode.contains.push(hljs.PHRASAL_WORDS_MODE);
+    mode.contains.push({
+      className: 'doctag',
+      begin: '(?:TODO|FIXME|NOTE|BUG|XXX):',
+      relevance: 0
+    });
+    return mode;
+  };
+  hljs.C_LINE_COMMENT_MODE = hljs.COMMENT('//', '$');
+  hljs.C_BLOCK_COMMENT_MODE = hljs.COMMENT('/\\*', '\\*/');
+  hljs.HASH_COMMENT_MODE = hljs.COMMENT('#', '$');
+  hljs.NUMBER_MODE = {
+    className: 'number',
+    begin: hljs.NUMBER_RE,
+    relevance: 0
+  };
+  hljs.C_NUMBER_MODE = {
+    className: 'number',
+    begin: hljs.C_NUMBER_RE,
+    relevance: 0
+  };
+  hljs.BINARY_NUMBER_MODE = {
+    className: 'number',
+    begin: hljs.BINARY_NUMBER_RE,
+    relevance: 0
+  };
+  hljs.CSS_NUMBER_MODE = {
+    className: 'number',
+    begin: hljs.NUMBER_RE + '(' +
+      '%|em|ex|ch|rem'  +
+      '|vw|vh|vmin|vmax' +
+      '|cm|mm|in|pt|pc|px' +
+      '|deg|grad|rad|turn' +
+      '|s|ms' +
+      '|Hz|kHz' +
+      '|dpi|dpcm|dppx' +
+      ')?',
+    relevance: 0
+  };
+  hljs.REGEXP_MODE = {
+    className: 'regexp',
+    begin: /\//, end: /\/[gimuy]*/,
+    illegal: /\n/,
+    contains: [
+      hljs.BACKSLASH_ESCAPE,
+      {
+        begin: /\[/, end: /\]/,
+        relevance: 0,
+        contains: [hljs.BACKSLASH_ESCAPE]
+      }
+    ]
+  };
+  hljs.TITLE_MODE = {
+    className: 'title',
+    begin: hljs.IDENT_RE,
+    relevance: 0
+  };
+  hljs.UNDERSCORE_TITLE_MODE = {
+    className: 'title',
+    begin: hljs.UNDERSCORE_IDENT_RE,
+    relevance: 0
+  };
+  hljs.METHOD_GUARD = {
+    // excludes method names from keyword processing
+    begin: '\\.\\s*' + hljs.UNDERSCORE_IDENT_RE,
+    relevance: 0
+  };
+
+  return hljs;
+}));
+
+},{}],"../node_modules/highlight.js/lib/languages/javascript.js":[function(require,module,exports) {
+module.exports = function(hljs) {
+  var IDENT_RE = '[A-Za-z$_][0-9A-Za-z$_]*';
+  var KEYWORDS = {
+    keyword:
+      'in of if for while finally var new function do return void else break catch ' +
+      'instanceof with throw case default try this switch continue typeof delete ' +
+      'let yield const export super debugger as async await static ' +
+      // ECMAScript 6 modules import
+      'import from as'
+    ,
+    literal:
+      'true false null undefined NaN Infinity',
+    built_in:
+      'eval isFinite isNaN parseFloat parseInt decodeURI decodeURIComponent ' +
+      'encodeURI encodeURIComponent escape unescape Object Function Boolean Error ' +
+      'EvalError InternalError RangeError ReferenceError StopIteration SyntaxError ' +
+      'TypeError URIError Number Math Date String RegExp Array Float32Array ' +
+      'Float64Array Int16Array Int32Array Int8Array Uint16Array Uint32Array ' +
+      'Uint8Array Uint8ClampedArray ArrayBuffer DataView JSON Intl arguments require ' +
+      'module console window document Symbol Set Map WeakSet WeakMap Proxy Reflect ' +
+      'Promise'
+  };
+  var NUMBER = {
+    className: 'number',
+    variants: [
+      { begin: '\\b(0[bB][01]+)n?' },
+      { begin: '\\b(0[oO][0-7]+)n?' },
+      { begin: hljs.C_NUMBER_RE + 'n?' }
+    ],
+    relevance: 0
+  };
+  var SUBST = {
+    className: 'subst',
+    begin: '\\$\\{', end: '\\}',
+    keywords: KEYWORDS,
+    contains: []  // defined later
+  };
+  var HTML_TEMPLATE = {
+    begin: 'html`', end: '',
+    starts: {
+      end: '`', returnEnd: false,
+      contains: [
+        hljs.BACKSLASH_ESCAPE,
+        SUBST
+      ],
+      subLanguage: 'xml',
+    }
+  };
+  var CSS_TEMPLATE = {
+    begin: 'css`', end: '',
+    starts: {
+      end: '`', returnEnd: false,
+      contains: [
+        hljs.BACKSLASH_ESCAPE,
+        SUBST
+      ],
+      subLanguage: 'css',
+    }
+  };
+  var TEMPLATE_STRING = {
+    className: 'string',
+    begin: '`', end: '`',
+    contains: [
+      hljs.BACKSLASH_ESCAPE,
+      SUBST
+    ]
+  };
+  SUBST.contains = [
+    hljs.APOS_STRING_MODE,
+    hljs.QUOTE_STRING_MODE,
+    HTML_TEMPLATE,
+    CSS_TEMPLATE,
+    TEMPLATE_STRING,
+    NUMBER,
+    hljs.REGEXP_MODE
+  ];
+  var PARAMS_CONTAINS = SUBST.contains.concat([
+    hljs.C_BLOCK_COMMENT_MODE,
+    hljs.C_LINE_COMMENT_MODE
+  ]);
+
+  return {
+    aliases: ['js', 'jsx'],
+    keywords: KEYWORDS,
+    contains: [
+      {
+        className: 'meta',
+        relevance: 10,
+        begin: /^\s*['"]use (strict|asm)['"]/
+      },
+      {
+        className: 'meta',
+        begin: /^#!/, end: /$/
+      },
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      HTML_TEMPLATE,
+      CSS_TEMPLATE,
+      TEMPLATE_STRING,
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      NUMBER,
+      { // object attr container
+        begin: /[{,\n]\s*/, relevance: 0,
+        contains: [
+          {
+            begin: IDENT_RE + '\\s*:', returnBegin: true,
+            relevance: 0,
+            contains: [{className: 'attr', begin: IDENT_RE, relevance: 0}]
+          }
+        ]
+      },
+      { // "value" container
+        begin: '(' + hljs.RE_STARTERS_RE + '|\\b(case|return|throw)\\b)\\s*',
+        keywords: 'return throw case',
+        contains: [
+          hljs.C_LINE_COMMENT_MODE,
+          hljs.C_BLOCK_COMMENT_MODE,
+          hljs.REGEXP_MODE,
+          {
+            className: 'function',
+            begin: '(\\(.*?\\)|' + IDENT_RE + ')\\s*=>', returnBegin: true,
+            end: '\\s*=>',
+            contains: [
+              {
+                className: 'params',
+                variants: [
+                  {
+                    begin: IDENT_RE
+                  },
+                  {
+                    begin: /\(\s*\)/,
+                  },
+                  {
+                    begin: /\(/, end: /\)/,
+                    excludeBegin: true, excludeEnd: true,
+                    keywords: KEYWORDS,
+                    contains: PARAMS_CONTAINS
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            className: '',
+            begin: /\s/,
+            end: /\s*/,
+            skip: true,
+          },
+          { // E4X / JSX
+            begin: /</, end: /(\/[A-Za-z0-9\\._:-]+|[A-Za-z0-9\\._:-]+\/)>/,
+            subLanguage: 'xml',
+            contains: [
+              { begin: /<[A-Za-z0-9\\._:-]+\s*\/>/, skip: true },
+              {
+                begin: /<[A-Za-z0-9\\._:-]+/, end: /(\/[A-Za-z0-9\\._:-]+|[A-Za-z0-9\\._:-]+\/)>/, skip: true,
+                contains: [
+                  { begin: /<[A-Za-z0-9\\._:-]+\s*\/>/, skip: true },
+                  'self'
+                ]
+              }
+            ]
+          }
+        ],
+        relevance: 0
+      },
+      {
+        className: 'function',
+        beginKeywords: 'function', end: /\{/, excludeEnd: true,
+        contains: [
+          hljs.inherit(hljs.TITLE_MODE, {begin: IDENT_RE}),
+          {
+            className: 'params',
+            begin: /\(/, end: /\)/,
+            excludeBegin: true,
+            excludeEnd: true,
+            contains: PARAMS_CONTAINS
+          }
+        ],
+        illegal: /\[|%/
+      },
+      {
+        begin: /\$[(.]/ // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`
+      },
+      hljs.METHOD_GUARD,
+      { // ES6 class
+        className: 'class',
+        beginKeywords: 'class', end: /[{;=]/, excludeEnd: true,
+        illegal: /[:"\[\]]/,
+        contains: [
+          {beginKeywords: 'extends'},
+          hljs.UNDERSCORE_TITLE_MODE
+        ]
+      },
+      {
+        beginKeywords: 'constructor get set', end: /\{/, excludeEnd: true
+      }
+    ],
+    illegal: /#(?!!)/
+  };
+};
+},{}],"../node_modules/highlight.js/lib/languages/typescript.js":[function(require,module,exports) {
+module.exports = function(hljs) {
+  var JS_IDENT_RE = '[A-Za-z$_][0-9A-Za-z$_]*';
+  var KEYWORDS = {
+    keyword:
+      'in if for while finally var new function do return void else break catch ' +
+      'instanceof with throw case default try this switch continue typeof delete ' +
+      'let yield const class public private protected get set super ' +
+      'static implements enum export import declare type namespace abstract ' +
+      'as from extends async await',
+    literal:
+      'true false null undefined NaN Infinity',
+    built_in:
+      'eval isFinite isNaN parseFloat parseInt decodeURI decodeURIComponent ' +
+      'encodeURI encodeURIComponent escape unescape Object Function Boolean Error ' +
+      'EvalError InternalError RangeError ReferenceError StopIteration SyntaxError ' +
+      'TypeError URIError Number Math Date String RegExp Array Float32Array ' +
+      'Float64Array Int16Array Int32Array Int8Array Uint16Array Uint32Array ' +
+      'Uint8Array Uint8ClampedArray ArrayBuffer DataView JSON Intl arguments require ' +
+      'module console window document any number boolean string void Promise'
+  };
+
+  var DECORATOR = {
+    className: 'meta',
+    begin: '@' + JS_IDENT_RE,
+  };
+
+  var ARGS =
+  {
+    begin: '\\(',
+    end: /\)/,
+    keywords: KEYWORDS,
+    contains: [
+      'self',
+      hljs.QUOTE_STRING_MODE,
+      hljs.APOS_STRING_MODE,
+      hljs.NUMBER_MODE
+    ]
+  };
+
+  var PARAMS = {
+    className: 'params',
+    begin: /\(/, end: /\)/,
+    excludeBegin: true,
+    excludeEnd: true,
+    keywords: KEYWORDS,
+    contains: [
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      DECORATOR,
+      ARGS
+    ]
+  };
+  var NUMBER = {
+    className: 'number',
+    variants: [
+      { begin: '\\b(0[bB][01]+)n?' },
+      { begin: '\\b(0[oO][0-7]+)n?' },
+      { begin: hljs.C_NUMBER_RE + 'n?' }
+    ],
+    relevance: 0
+  };
+  var SUBST = {
+    className: 'subst',
+    begin: '\\$\\{', end: '\\}',
+    keywords: KEYWORDS,
+    contains: []  // defined later
+  };
+  var HTML_TEMPLATE = {
+    begin: 'html`', end: '',
+    starts: {
+      end: '`', returnEnd: false,
+      contains: [
+        hljs.BACKSLASH_ESCAPE,
+        SUBST
+      ],
+      subLanguage: 'xml',
+    }
+  };
+  var CSS_TEMPLATE = {
+    begin: 'css`', end: '',
+    starts: {
+      end: '`', returnEnd: false,
+      contains: [
+        hljs.BACKSLASH_ESCAPE,
+        SUBST
+      ],
+      subLanguage: 'css',
+    }
+  };
+  var TEMPLATE_STRING = {
+    className: 'string',
+    begin: '`', end: '`',
+    contains: [
+      hljs.BACKSLASH_ESCAPE,
+      SUBST
+    ]
+  };
+  SUBST.contains = [
+    hljs.APOS_STRING_MODE,
+    hljs.QUOTE_STRING_MODE,
+    HTML_TEMPLATE,
+    CSS_TEMPLATE,
+    TEMPLATE_STRING,
+    NUMBER,
+    hljs.REGEXP_MODE
+  ];
+
+
+
+  return {
+    aliases: ['ts'],
+    keywords: KEYWORDS,
+    contains: [
+      {
+        className: 'meta',
+        begin: /^\s*['"]use strict['"]/
+      },
+      hljs.APOS_STRING_MODE,
+      hljs.QUOTE_STRING_MODE,
+      HTML_TEMPLATE,
+      CSS_TEMPLATE,
+      TEMPLATE_STRING,
+      hljs.C_LINE_COMMENT_MODE,
+      hljs.C_BLOCK_COMMENT_MODE,
+      NUMBER,
+      { // "value" container
+        begin: '(' + hljs.RE_STARTERS_RE + '|\\b(case|return|throw)\\b)\\s*',
+        keywords: 'return throw case',
+        contains: [
+          hljs.C_LINE_COMMENT_MODE,
+          hljs.C_BLOCK_COMMENT_MODE,
+          hljs.REGEXP_MODE,
+          {
+            className: 'function',
+            begin: '(\\(.*?\\)|' + hljs.IDENT_RE + ')\\s*=>', returnBegin: true,
+            end: '\\s*=>',
+            contains: [
+              {
+                className: 'params',
+                variants: [
+                  {
+                    begin: hljs.IDENT_RE
+                  },
+                  {
+                    begin: /\(\s*\)/,
+                  },
+                  {
+                    begin: /\(/, end: /\)/,
+                    excludeBegin: true, excludeEnd: true,
+                    keywords: KEYWORDS,
+                    contains: [
+                      'self',
+                      hljs.C_LINE_COMMENT_MODE,
+                      hljs.C_BLOCK_COMMENT_MODE
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        relevance: 0
+      },
+      {
+        className: 'function',
+        beginKeywords: 'function', end: /[\{;]/, excludeEnd: true,
+        keywords: KEYWORDS,
+        contains: [
+          'self',
+          hljs.inherit(hljs.TITLE_MODE, { begin: JS_IDENT_RE }),
+          PARAMS
+        ],
+        illegal: /%/,
+        relevance: 0 // () => {} is more typical in TypeScript
+      },
+      {
+        beginKeywords: 'constructor', end: /[\{;]/, excludeEnd: true,
+        contains: [
+          'self',
+          PARAMS
+        ]
+      },
+      { // prevent references like module.id from being higlighted as module definitions
+        begin: /module\./,
+        keywords: { built_in: 'module' },
+        relevance: 0
+      },
+      {
+        beginKeywords: 'module', end: /\{/, excludeEnd: true
+      },
+      {
+        beginKeywords: 'interface', end: /\{/, excludeEnd: true,
+        keywords: 'interface extends'
+      },
+      {
+        begin: /\$[(.]/ // relevance booster for a pattern common to JS libs: `$(something)` and `$.something`
+      },
+      {
+        begin: '\\.' + hljs.IDENT_RE, relevance: 0 // hack: prevents detection of keywords after dots
+      },
+      DECORATOR,
+      ARGS
+    ]
+  };
+};
+},{}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"../node_modules/highlight.js/styles/mono-blue.css":[function(require,module,exports) {
+
+        var reloadCSS = require('_css_loader');
+        module.hot.dispose(reloadCSS);
+        module.hot.accept(reloadCSS);
+      
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"styles/themer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.fireStyles = exports.THEME = exports.themer = exports.global_theme_obj = void 0;
+
+var rand = _interopRequireWildcard(require("@thi.ng/random"));
+
+var _atom = require("@thi.ng/atom");
+
+var _paths = require("@thi.ng/paths");
+
+var _css = _interopRequireDefault(require("@styled-system/css"));
+
+var _decamelizeKeysDeep = _interopRequireDefault(require("decamelize-keys-deep"));
+
+var _hiccupCss = require("@thi.ng/hiccup-css");
+
+var _theme = _interopRequireDefault(require("./theme"));
+
+var _highlight = _interopRequireDefault(require("highlight.js/lib/highlight"));
+
+var _javascript = _interopRequireDefault(require("highlight.js/lib/languages/javascript"));
+
+var _typescript = _interopRequireDefault(require("highlight.js/lib/languages/typescript"));
+
+require("highlight.js/styles/mono-blue.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/*
+Other nice ones:
+import "highlight.js/styles/ascetic.css"
+import "highlight.js/styles/github-gist.css"
+import "highlight.js/styles/nord.css"
+import "highlight.js/styles/monokai-sublime.css"
+*/
+_highlight.default.registerLanguage("javascript", _javascript.default);
+
+_highlight.default.registerLanguage("typescript", _typescript.default);
+/**
+ * Pseudo
+ * 1. global style atom contents (transacted)
+ *  - media queries -> hash selectors -> style objects
+ *  - hash selectors -> pseudo selectors -> style objects
+ *  - hash selectors -> style objects
+ **/
+// Atom structure
+
+
+var structure_key = {
+  queries: {
+    "min-width: 10rem": {
+      hash: {}
+    }
+  },
+  pseudos: {
+    hash: {
+      ":hover": {}
+    }
+  },
+  basics: {
+    hash: {}
+  }
+};
+var global_structure = {
+  basics: {},
+  pseudos: {},
+  queries: {}
+};
+var global_atom = new _atom.Atom(global_structure);
+
+var partitioner = function partitioner(atom, macro, meso) {
+  var micro = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  var current = atom.deref();
+  var has_macro = !!current[macro];
+  var has_meso = !!(0, _paths.getIn)(current, [macro, meso]); // 🔥: dot_hash will get it's nuts cut off if you don't use array path syntax
+
+  if (micro) {
+    if (has_meso) {
+      atom.swapIn([macro, meso], function (xx) {
+        return _objectSpread({}, xx, {}, micro);
+      });
+    } else if (has_macro) {
+      atom.swapIn([macro], function (xx) {
+        return _objectSpread({}, xx, _defineProperty({}, meso, micro));
+      });
+    } else {
+      atom.swap(function (xx) {
+        return _objectSpread({}, xx, _defineProperty({}, macro, _defineProperty({}, meso, micro)));
+      });
+    }
+  } else {
+    if (has_macro) {
+      atom.swapIn([macro], function (xx) {
+        return _objectSpread({}, xx, {}, meso);
+      });
+    } else {
+      atom.swap(function (xx) {
+        return _objectSpread({}, xx, _defineProperty({}, macro, meso));
+      });
+    }
+  }
+};
+
+var q_crsr = new _atom.Cursor(global_atom, "queries");
+var p_crsr = new _atom.Cursor(global_atom, "pseudos");
+var b_crsr = new _atom.Cursor(global_atom, "basics");
+
+var partition = function partition(selector, styles) {
+  var entries = Object.entries(styles);
+  var is_root = selector === "root";
+
+  if (is_root) {
+    partitioner(b_crsr, ":root", styles);
+  } else {
+    entries.forEach(function (_ref) {
+      var _ref2 = _slicedToArray(_ref, 2),
+          key = _ref2[0],
+          val = _ref2[1];
+
+      var is_pseudo = key.slice(0, 1) === "&";
+      var is_query = key.slice(0, 6) === "@media";
+      var is_basic = _typeof(val) !== "object";
+
+      if (is_pseudo) {
+        partitioner(p_crsr, selector, key.slice(1), val);
+      } else if (is_query) {
+        var rgx = /\(.*?\)/g;
+        var media_query = key.match(rgx)[0].slice(1, -1);
+        partitioner(q_crsr, media_query, selector, val);
+      } else if (is_basic) {
+        partitioner(b_crsr, selector, _defineProperty({}, key, val));
+      } else {
+        log("partition failure:", {
+          selector: selector,
+          styles: styles
+        });
+        return;
+      }
+    });
+  }
+};
+/**
+ * Gives user back the theme-spec compliant theme object * as a ready to wear css to be included in `ctx` * object within `hdom` components
+ * */
+
+
+var global_theme_obj = function global_theme_obj(theme) {
+  return (0, _decamelizeKeysDeep.default)((0, _css.default)(theme)(theme), "-");
+};
+
+exports.global_theme_obj = global_theme_obj;
+var test_theme = global_theme_obj(_theme.default).styles;
+
+var style_fire = function style_fire(theme_spec) {
+  return function (sel, styles) {
+    var path = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var hash = "".concat(sel).concat(rand.randomID(5, "_", "0123456789abcdefghijklmnopqrstuvwxyz"));
+    var dot_hash = ".".concat(hash);
+    var spec_lens = (0, _paths.getIn)(theme_spec, path);
+    var style_obj = path ? (0, _decamelizeKeysDeep.default)((0, _css.default)(spec_lens)(theme_spec), "-") : {};
+    var themed_styles = (0, _decamelizeKeysDeep.default)((0, _css.default)(styles)(theme_spec), "-");
+
+    var computed_styles = _objectSpread({}, style_obj, {}, themed_styles); // -> to injection! 💉
+
+
+    partition(dot_hash, computed_styles);
+    return hash;
+  };
+}; // registers theme-spec compliant theme
+
+
+var themer = function themer(theme_spec) {
+  var THEME = global_theme_obj(theme_spec);
+  var BASE = THEME.styles;
+  var basic_entries = Object.entries(BASE);
+  basic_entries.forEach(function (_ref3) {
+    var _ref4 = _slicedToArray(_ref3, 2),
+        selector = _ref4[0],
+        styles = _ref4[1];
+
+    return partition(selector, styles);
+  });
+  var fireStyles = style_fire(theme_spec); // returns tuple [ configured_theme_obj, firestyles_fn ] 😈
+
+  return [THEME, fireStyles];
+};
+
+exports.themer = themer;
+
+var _themer = themer(_theme.default),
+    _themer2 = _slicedToArray(_themer, 2),
+    THEME = _themer2[0],
+    fireStyles = _themer2[1];
+
+exports.fireStyles = fireStyles;
+exports.THEME = THEME;
+var _default = themer;
+exports.default = _default;
+
+var dereference = function dereference(atom, opts) {
+  var entries = Object.entries(atom.deref());
+  var results = [];
+  entries.forEach(function (_ref5) {
+    var _ref6 = _slicedToArray(_ref5, 2),
+        cursor = _ref6[0],
+        styles = _ref6[1];
+
+    var style_array = Object.entries(styles);
+
+    switch (cursor) {
+      case "basics":
+        style_array.forEach(function (style) {
+          results.push(style);
+        });
+        break;
+
+      case "pseudos":
+        style_array.forEach(function (_ref7) {
+          var _ref8 = _slicedToArray(_ref7, 2),
+              tag = _ref8[0],
+              style = _ref8[1];
+
+          results.push([tag].concat(_toConsumableArray(Object.entries(style))));
+        });
+        break;
+
+      case "queries":
+        style_array.forEach(function (style) {
+          var _style$0$split = style[0].split(":"),
+              _style$0$split2 = _slicedToArray(_style$0$split, 2),
+              m = _style$0$split2[0],
+              q = _style$0$split2[1];
+
+          results.push([(0, _hiccupCss.at_media)(_defineProperty({
+            screen: true
+          }, m, q), Object.entries(style[1]))]);
+        });
+        break;
+
+      default:
+        log("no case found for:", cursor);
+    }
+  }); // const results = hiccup_css(res)
+
+  return (0, _hiccupCss.css)(results, opts);
+}; //?
+
+
+var opts = "development" !== "production" ? {
+  format: _hiccupCss.PRETTY
+} : null;
+window.addEventListener("DOMContentLoaded", function (ev) {
+  var formatted_styles = dereference(global_atom, opts);
+  (0, _hiccupCss.injectStyleSheet)(formatted_styles);
+});
+window.addEventListener("load", function (ev) {
+  document.querySelectorAll("pre code").forEach(function (block) {
+    _highlight.default.highlightBlock(block);
+  });
+});
+},{"@thi.ng/random":"../node_modules/@thi.ng/random/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@styled-system/css":"../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../node_modules/decamelize-keys-deep/index.js","@thi.ng/hiccup-css":"../node_modules/@thi.ng/hiccup-css/index.js","./theme":"styles/theme.js","highlight.js/lib/highlight":"../node_modules/highlight.js/lib/highlight.js","highlight.js/lib/languages/javascript":"../node_modules/highlight.js/lib/languages/javascript.js","highlight.js/lib/languages/typescript":"../node_modules/highlight.js/lib/languages/typescript.js","highlight.js/styles/mono-blue.css":"../node_modules/highlight.js/styles/mono-blue.css"}],"styles/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _theme = require("./theme");
+
+Object.keys(_theme).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _theme[key];
+    }
+  });
+});
+
+var _themer = require("./themer");
+
+Object.keys(_themer).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _themer[key];
+    }
+  });
+});
+},{"./theme":"styles/theme.js","./themer":"styles/themer.js"}],"components/button.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.button = exports.button_x = void 0;
+
+var _styles = require("../styles");
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var default_cfg = {
+  tag: "button",
+  tagDisabled: "span"
+};
+var name = "button";
+var att = {
+  onclick: function onclick() {
+    return console.warn("no handler assigned to button 'onclick' event");
+  }
+}; // a HOF that takes a config and returns an HDOM node function
+
+var button_x = function button_x(cfg) {
+  cfg = _objectSpread({}, default_cfg, {}, cfg);
+  var hash = (0, _styles.fireStyles)(name, _objectSpread({}, _styles.theme.buttons.simple, {
+    fontSize: ["10px", "20px", "30px", "40px"],
+    m: ["18px", "24px", "48px"]
+  })); // the returned node has some default styles and
+
+  return function (ctx, attrs) {
+    for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      children[_key - 2] = arguments[_key];
+    }
+
+    return [cfg.tag, _objectSpread({}, att, {
+      class: hash
+    }, attrs)].concat(children);
+  };
+};
+
+exports.button_x = button_x;
+var button = button_x();
+exports.button = button;
+},{"../styles":"styles/index.js"}],"components/markdown.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CUSTOM_TAGS = void 0;
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+// prettier-ignore
+var CUSTOM_TAGS = {
+  heading: function heading(level, xs) {
+    return [level < 7 ? "h".concat(level) : "p"].concat(_toConsumableArray(xs));
+  },
+  list: function list(type, xs) {
+    return [type].concat(_toConsumableArray(xs));
+  },
+  blockquote: function blockquote(xs) {
+    return ["blockquote"].concat(_toConsumableArray(xs));
+  },
+  code: function code(body) {
+    return ["code", body];
+  },
+  codeblock: function codeblock(lang, body) {
+    return ["pre", ["code", {
+      class: lang
+    }, body]];
+  },
+  em: function em(body) {
+    return ["em", body];
+  },
+  hr: function hr() {
+    return ["hr"];
+  },
+  img: function img(src, alt) {
+    return ["img", {
+      src: src,
+      alt: alt
+    }];
+  },
+  li: function li(xs) {
+    return ["li"].concat(_toConsumableArray(xs));
+  },
+  link: function link(href, body) {
+    return ["a", {
+      href: href
+    }, body];
+  },
+  paragraph: function paragraph(xs) {
+    return ["p"].concat(_toConsumableArray(xs));
+  },
+  strong: function strong(body) {
+    return ["strong", body];
+  },
+  strike: function strike(body) {
+    return ["del", body];
+  },
+  table: function table(rows) {
+    return ["table", ["tbody"].concat(_toConsumableArray(rows))];
+  },
+  td: function td(_, xs) {
+    return ["td"].concat(_toConsumableArray(xs));
+  },
+  tr: function tr(_, xs) {
+    return ["tr"].concat(_toConsumableArray(xs));
+  }
+};
+exports.CUSTOM_TAGS = CUSTOM_TAGS;
+},{}],"components/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _button = require("./button");
+
+Object.keys(_button).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _button[key];
+    }
+  });
+});
+
+var _markdown = require("./markdown");
+
+Object.keys(_markdown).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _markdown[key];
+    }
+  });
+});
+},{"./button":"components/button.js","./markdown":"components/markdown.js"}],"../node_modules/@thi.ng/bench/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.benchResult = exports.bench = exports.timedResult = exports.timed = void 0;
+
+/**
+ * Calls function `fn` without args, prints elapsed time and returns
+ * fn's result. The optional `prefix` will be displayed with the output,
+ * allowing to label different measurements.
+ *
+ * @param fn
+ * @param prefix
+ */
+const timed = (fn, prefix = "") => {
+  const t0 = Date.now();
+  const res = fn();
+  console.log(prefix + (Date.now() - t0) + "ms");
+  return res;
+};
+/**
+ * Similar to `timed()`, but produces no output and instead returns
+ * tuple of `fn`'s result and the time measurement.
+ *
+ * @param fn
+ */
+
+
+exports.timed = timed;
+
+const timedResult = fn => {
+  const t0 = Date.now();
+  const res = fn();
+  return [res, Date.now() - t0];
+};
+/**
+ * Executes given function `n` times, prints elapsed time to console and
+ * returns last result from fn. The optional `prefix` will be displayed
+ * with the output, allowing to label different measurements.
+ *
+ * @param fn
+ * @param n
+ */
+
+
+exports.timedResult = timedResult;
+
+const bench = (fn, n = 1e6, prefix = "") => {
+  let res;
+  return timed(() => {
+    while (n-- > 0) {
+      res = fn();
+    }
+
+    return res;
+  }, prefix);
+};
+/**
+ * Similar to `bench()`, but produces no output and instead returns
+ * tuple of `fn`'s last result and the grand total time measurement.
+ *
+ * @param fn
+ * @param n
+ */
+
+
+exports.bench = bench;
+
+const benchResult = (fn, n = 1e6) => {
+  let res;
+  return timedResult(() => {
+    while (n-- > 0) {
+      res = fn();
+    }
+
+    return res;
+  });
+};
+
+exports.benchResult = benchResult;
+},{}],"../node_modules/@thi.ng/rstream/api.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setLogger = exports.LOGGER = exports.CloseMode = exports.State = void 0;
+
+var _api = require("@thi.ng/api");
+
+var State;
+exports.State = State;
+
+(function (State) {
+  State[State["IDLE"] = 0] = "IDLE";
+  State[State["ACTIVE"] = 1] = "ACTIVE";
+  State[State["DONE"] = 2] = "DONE";
+  State[State["ERROR"] = 3] = "ERROR";
+  State[State["DISABLED"] = 4] = "DISABLED"; // TODO currently unused
+})(State || (exports.State = State = {}));
+/**
+ * Closing behavior for `StreamMerge` and `StreamSync`.
+ */
+
+
+var CloseMode;
+exports.CloseMode = CloseMode;
+
+(function (CloseMode) {
+  CloseMode[CloseMode["NEVER"] = 0] = "NEVER";
+  CloseMode[CloseMode["FIRST"] = 1] = "FIRST";
+  CloseMode[CloseMode["LAST"] = 2] = "LAST";
+})(CloseMode || (exports.CloseMode = CloseMode = {}));
+
+let LOGGER = _api.NULL_LOGGER;
+exports.LOGGER = LOGGER;
+
+const setLogger = logger => exports.LOGGER = LOGGER = logger;
+
+exports.setLogger = setLogger;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js"}],"../node_modules/@thi.ng/rstream/utils/idgen.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.nextID = void 0;
+let NEXT_ID = 0;
+
+const nextID = () => NEXT_ID++;
+
+exports.nextID = nextID;
+},{}],"../node_modules/@thi.ng/rstream/subscription.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Subscription = exports.subscription = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _checks = require("@thi.ng/checks");
+
+var _errors = require("@thi.ng/errors");
+
+var _transducers = require("@thi.ng/transducers");
+
+var _api2 = require("./api");
+
+var _idgen = require("./utils/idgen");
+
+/**
+ * Creates a new `Subscription` instance, the fundamental datatype &
+ * building block provided by this package (`Stream`s are
+ * `Subscription`s too). Subscriptions can be:
+ *
+ * - linked into directed graphs (if async, not necessarily DAGs)
+ * - transformed using transducers (incl. early termination)
+ * - can have any number of subscribers (optionally each w/ their own
+ *   transducer)
+ * - recursively unsubscribe themselves from parent after their last
+ *   subscriber unsubscribed
+ * - will go into a non-recoverable error state if NONE of the
+ *   subscribers has an error handler itself
+ * - implement the @thi.ng/api `IDeref` interface
+ *
+ * ```
+ * // as reactive value mechanism (same as with stream() above)
+ * s = rs.subscription();
+ * s.subscribe(trace("s1"));
+ * s.subscribe(trace("s2"), tx.filter((x) => x > 25));
+ *
+ * // external trigger
+ * s.next(23);
+ * // s1 23
+ * s.next(42);
+ * // s1 42
+ * // s2 42
+ * ```
+ *
+ * @param sub
+ * @param xform
+ * @param parent
+ * @param id
+ */
+const subscription = (sub, xform, parent, id) => new Subscription(sub, xform, parent, id);
+
+exports.subscription = subscription;
+
+class Subscription {
+  constructor(sub, xform, parent, id) {
+    this.state = 0
+    /* IDLE */
+    ;
+    this.parent = parent;
+    this.id = id || `sub-${(0, _idgen.nextID)()}`;
+    this.last = _api.SEMAPHORE;
+    this.subs = [];
+
+    if (sub) {
+      this.subs.push(sub);
+    }
+
+    if (xform) {
+      this.xform = xform((0, _transducers.push)());
+    }
+  }
+
+  deref() {
+    return this.last !== _api.SEMAPHORE ? this.last : undefined;
+  }
+
+  getState() {
+    return this.state;
+  }
+
+  subscribe(...args) {
+    this.ensureState();
+    let sub, xform, id;
+
+    switch (args.length) {
+      case 1:
+      case 2:
+        if ((0, _checks.isFunction)(args[0])) {
+          xform = args[0];
+          id = args[1] || `xform-${(0, _idgen.nextID)()}`;
+        } else {
+          sub = args[0];
+
+          if ((0, _checks.isFunction)(args[1])) {
+            xform = args[1];
+          } else {
+            id = args[1];
+          }
+        }
+
+        break;
+
+      case 3:
+        [sub, xform, id] = args;
+        break;
+
+      default:
+        (0, _errors.illegalArity)(args.length);
+    }
+
+    if ((0, _checks.implementsFunction)(sub, "subscribe")) {
+      sub.parent = this;
+    } else {
+      sub = subscription(sub, xform, this, id);
+    }
+
+    if (this.last !== _api.SEMAPHORE) {
+      sub.next(this.last);
+    }
+
+    return this.addWrapped(sub);
+  }
+  /**
+   * Returns array of new child subscriptions for all given
+   * subscribers.
+   *
+   * @param subs
+   */
+
+
+  subscribeAll(...subs) {
+    const wrapped = [];
+
+    for (let s of subs) {
+      wrapped.push(this.subscribe(s));
+    }
+
+    return wrapped;
+  }
+
+  transform(...xf) {
+    const n = xf.length - 1;
+
+    if ((0, _checks.isString)(xf[n])) {
+      return this.subscribe((0, _transducers.comp)(...xf.slice(0, n)), xf[n]);
+    } else {
+      return this.subscribe((0, _transducers.comp)(...xf));
+    }
+  }
+  /**
+   * If called without arg, removes this subscription from parent (if
+   * any), cleans up internal state and goes into DONE state. If
+   * called with arg, removes the sub from internal pool and if no
+   * other subs are remaining also cleans up itself and goes into DONE
+   * state.
+   *
+   * @param sub
+   */
+
+
+  unsubscribe(sub) {
+    _api2.LOGGER.debug(this.id, "unsub start", sub ? sub.id : "self");
+
+    if (!sub) {
+      let res = true;
+
+      if (this.parent) {
+        res = this.parent.unsubscribe(this);
+      }
+
+      this.state = 2
+      /* DONE */
+      ;
+      this.cleanup();
+      return res;
+    }
+
+    if (this.subs) {
+      _api2.LOGGER.debug(this.id, "unsub child", sub.id);
+
+      const idx = this.subs.indexOf(sub);
+
+      if (idx >= 0) {
+        this.subs.splice(idx, 1);
+
+        if (!this.subs.length) {
+          this.unsubscribe();
+        }
+
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  next(x) {
+    if (this.state < 2
+    /* DONE */
+    ) {
+        if (this.xform) {
+          const acc = this.xform[2]([], x);
+          const uacc = (0, _transducers.unreduced)(acc);
+          const n = uacc.length;
+
+          for (let i = 0; i < n; i++) {
+            this.dispatch(uacc[i]);
+          }
+
+          if ((0, _transducers.isReduced)(acc)) {
+            this.done();
+          }
+        } else {
+          this.dispatch(x);
+        }
+      }
+  }
+
+  done() {
+    _api2.LOGGER.debug(this.id, "done start");
+
+    if (this.state < 2
+    /* DONE */
+    ) {
+        if (this.xform) {
+          const acc = this.xform[1]([]);
+          const uacc = (0, _transducers.unreduced)(acc);
+          const n = uacc.length;
+
+          for (let i = 0; i < n; i++) {
+            this.dispatch(uacc[i]);
+          }
+        }
+
+        this.state = 2
+        /* DONE */
+        ;
+
+        for (let s of [...this.subs]) {
+          s.done && s.done();
+        }
+
+        this.unsubscribe();
+
+        _api2.LOGGER.debug(this.id, "done");
+      }
+  }
+
+  error(e) {
+    this.state = 3
+    /* ERROR */
+    ;
+    let notified = false;
+
+    if (this.subs && this.subs.length) {
+      for (let s of this.subs.slice()) {
+        if (s.error) {
+          s.error(e);
+          notified = true;
+        }
+      }
+    }
+
+    if (!notified) {
+      _api2.LOGGER.warn(this.id, "unhandled error:", e);
+
+      if (this.parent) {
+        _api2.LOGGER.debug(this.id, "unsubscribing...");
+
+        this.unsubscribe();
+        this.state = 3
+        /* ERROR */
+        ;
+      }
+    }
+  }
+
+  addWrapped(wrapped) {
+    this.subs.push(wrapped);
+    this.state = 1
+    /* ACTIVE */
+    ;
+    return wrapped;
+  }
+
+  dispatch(x) {
+    // LOGGER.debug(this.id, "dispatch", x);
+    this.last = x;
+    const subs = this.subs;
+    let s;
+
+    if (subs.length == 1) {
+      s = subs[0];
+
+      try {
+        s.next && s.next(x);
+      } catch (e) {
+        s.error ? s.error(e) : this.error(e);
+      }
+    } else {
+      for (let i = subs.length - 1; i >= 0; i--) {
+        s = subs[i];
+
+        try {
+          s.next && s.next(x);
+        } catch (e) {
+          s.error ? s.error(e) : this.error(e);
+        }
+      }
+    }
+  }
+
+  ensureState() {
+    if (this.state >= 2
+    /* DONE */
+    ) {
+        (0, _errors.illegalState)(`operation not allowed in state ${this.state}`);
+      }
+  }
+
+  cleanup() {
+    _api2.LOGGER.debug(this.id, "cleanup");
+
+    this.subs.length = 0;
+    delete this.parent;
+    delete this.xform;
+    delete this.last;
+  }
+
+}
+
+exports.Subscription = Subscription;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","./api":"../node_modules/@thi.ng/rstream/api.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../node_modules/@thi.ng/rstream/metastream.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MetaStream = exports.metaStream = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _subscription = require("./subscription");
+
+var _idgen = require("./utils/idgen");
+
+/**
+ * A `MetaStream` is a subscription type which transforms each incoming
+ * value into a new stream, subscribes to it (via an hidden / internal
+ * subscription) and then only passes values from that stream to its own
+ * subscribers. If a new value is received, the meta stream first
+ * unsubscribes from any still active stream, before creating and
+ * subscribing to the new stream. Hence this stream type is useful for
+ * cases where streams need to be dynamically created & inserted into an
+ * existing dataflow topology.
+ *
+ * The user supplied `factory` function will be called for each incoming
+ * value and is responsible for creating the new stream instances. If
+ * the function returns null/undefined, no further action will be taken
+ * (acts like a filter transducer).
+ *
+ * ```
+ * // transform each received odd number into a stream
+ * // producing 3 copies of that number in the metastream
+ * // even numbers are ignored
+ * a = metastream((x) => (x & 1) ? fromIterable(tx.repeat(x, 3), 100) : null)
+ *
+ * a.subscribe(trace())
+ * a.next(23)
+ *
+ * // 23
+ * // 23
+ * // 23
+ *
+ * a.next(42) // ignored by factory fn
+ *
+ * a.next(43)
+ * // 43
+ * // 43
+ * // 43
+ * ```
+ *
+ * The factory function does NOT need to create new streams, but can
+ * only merely return other existing streams, and so making the meta
+ * stream act like a switch.
+ *
+ * If the meta stream is the only subscriber to these input streams,
+ * you'll need to add a dummy subscription to each in order to keep them
+ * alive and support dynamic switching between them. See issue #74
+ *
+ * ```
+ * a = fromIterable(tx.repeat("a"), 1000);
+ * b = fromIterable(tx.repeat("b"), 1000);
+ *
+ * // dummy subscriptions
+ * a.subscribe({})
+ * b.subscribe({})
+ *
+ * m = metaStream((x) => x ? a : b);
+ * m.subscribe(trace("meta from: "));
+ *
+ * m.next(true);
+ * // meta from: a
+ *
+ * m.next(false);
+ * // meta from: b
+ *
+ * m.next(true);
+ * // meta from: a
+ * ```
+ *
+ * @param factory
+ * @param id
+ */
+const metaStream = (factory, id) => new MetaStream(factory, id);
+
+exports.metaStream = metaStream;
+
+class MetaStream extends _subscription.Subscription {
+  constructor(factory, id) {
+    super(undefined, undefined, undefined, id || `metastram-${(0, _idgen.nextID)()}`);
+    this.factory = factory;
+  }
+
+  next(x) {
+    if (this.state < 2
+    /* DONE */
+    ) {
+        if (this.stream) {
+          this.stream.unsubscribe(this.sub);
+        }
+
+        let stream = this.factory(x);
+
+        if (stream) {
+          this.stream = stream;
+          this.sub = this.stream.subscribe({
+            next: x => {
+              stream === this.stream && super.dispatch(x);
+            },
+            done: () => {
+              this.stream.unsubscribe(this.sub);
+
+              if (stream === this.stream) {
+                this.stream = undefined;
+                this.sub = undefined;
+              }
+            },
+            error: e => super.error(e),
+            __owner: this
+          });
+        }
+      }
+  }
+
+  done() {
+    if (this.stream) {
+      this.detach();
+    }
+
+    super.done();
+  }
+
+  unsubscribe(sub) {
+    if (this.stream && (!sub || this.subs.length === 1)) {
+      this.detach();
+    }
+
+    return super.unsubscribe();
+  }
+
+  detach() {
+    (0, _api.assert)(!!this.stream, "input stream already removed");
+    this.stream.unsubscribe(this.sub);
+    delete this.stream;
+    delete this.sub;
+  }
+
+}
+
+exports.MetaStream = MetaStream;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","./subscription":"../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../node_modules/@thi.ng/associative/dissoc.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.dissoc = dissoc;
+exports.dissocObj = void 0;
+
+function dissoc(coll, keys) {
+  for (let k of keys) {
+    coll.delete(k);
+  }
+
+  return coll;
+}
+
+const dissocObj = (obj, keys) => {
+  for (let k of keys) {
+    delete obj[k];
+  }
+
+  return obj;
+};
+
+exports.dissocObj = dissocObj;
+},{}],"../node_modules/@thi.ng/associative/internal/equiv.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.equivSet = exports.equivMap = void 0;
+
+var _equiv = require("@thi.ng/equiv");
+
+const equivMap = (a, b) => {
+  if (a === b) {
+    return true;
+  }
+
+  if (!(b instanceof Map) || a.size !== b.size) {
+    return false;
+  }
+
+  for (let p of a.entries()) {
+    if (!(0, _equiv.equiv)(b.get(p[0]), p[1])) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+exports.equivMap = equivMap;
+
+const equivSet = (a, b) => {
+  if (a === b) {
+    return true;
+  }
+
+  if (!(b instanceof Set) || a.size !== b.size) {
+    return false;
+  }
+
+  for (let k of a.keys()) {
+    if (!b.has(k)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+exports.equivSet = equivSet;
+},{"@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js"}],"../node_modules/@thi.ng/associative/into.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.into = into;
+
+var _checks = require("@thi.ng/checks");
+
+function into(dest, src) {
+  if ((0, _checks.isMap)(dest)) {
+    for (let x of src) {
+      dest.set(x[0], x[1]);
+    }
+  } else {
+    for (let x of src) {
+      dest.add(x);
+    }
+  }
+
+  return dest;
+}
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/array-set.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ArraySet = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __vals = inst => __private.get(inst).vals;
+/**
+ * An alternative set implementation to the native ES6 Set type. Uses
+ * customizable equality/equivalence predicate and so is more useful
+ * when dealing with structured data. Implements full API of native Set
+ * and by the default uses `@thi.ng/equiv` for equivalence checking.
+ *
+ * Additionally, the type also implements the `ICopy`, `IEmpty` and
+ * `IEquiv` interfaces itself.
+ */
+
+
+class ArraySet extends Set {
+  constructor(vals, opts = {}) {
+    super();
+
+    __private.set(this, {
+      equiv: opts.equiv || _equiv.equiv,
+      vals: []
+    });
+
+    vals && this.into(vals);
+  }
+
+  *[Symbol.iterator]() {
+    yield* __vals(this);
+  }
+
+  get [Symbol.species]() {
+    return ArraySet;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "ArraySet";
+  }
+
+  get size() {
+    return __vals(this).length;
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const s = new ArraySet(null, {
+      equiv: $this.equiv
+    });
+    __private.get(s).vals = $this.vals.slice();
+    return s;
+  }
+
+  empty() {
+    return new ArraySet(null, this.opts());
+  }
+
+  clear() {
+    __vals(this).length = 0;
+  }
+
+  first() {
+    if (this.size) {
+      return __vals(this)[0];
+    }
+  }
+
+  add(key) {
+    !this.has(key) && __vals(this).push(key);
+    return this;
+  }
+
+  into(keys) {
+    return (0, _into.into)(this, keys);
+  }
+
+  has(key) {
+    return this.get(key, _api.SEMAPHORE) !== _api.SEMAPHORE;
+  }
+  /**
+   * Returns the canonical value for `x`, if present. If the set
+   * contains no equivalent for `x`, returns `notFound`.
+   *
+   * @param key
+   * @param notFound
+   */
+
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    const vals = $this.vals;
+
+    for (let i = vals.length; --i >= 0;) {
+      if (eq(vals[i], key)) {
+        return vals[i];
+      }
+    }
+
+    return notFound;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    const eq = $this.equiv;
+    const vals = $this.vals;
+
+    for (let i = vals.length; --i >= 0;) {
+      if (eq(vals[i], key)) {
+        vals.splice(i, 1);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  disj(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivSet)(this, o);
+  }
+
+  forEach(fn, thisArg) {
+    const vals = __vals(this);
+
+    for (let i = vals.length; --i >= 0;) {
+      const v = vals[i];
+      fn.call(thisArg, v, v, this);
+    }
+  }
+
+  *entries() {
+    for (let v of __vals(this)) {
+      yield [v, v];
+    }
+  }
+
+  *keys() {
+    yield* __vals(this);
+  }
+
+  *values() {
+    yield* __vals(this);
+  }
+
+  opts() {
+    return {
+      equiv: __private.get(this).equiv
+    };
+  }
+
+}
+
+exports.ArraySet = ArraySet;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/common-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.commonKeysObj = exports.commonKeysMap = void 0;
+
+/**
+ * Like `commonKeysObj()`, but for ES6 Maps.
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const commonKeysMap = (a, b, out = []) => {
+  for (let k of a.keys()) {
+    b.has(k) && out.push(k);
+  }
+
+  return out;
+};
+/**
+ * Returns array of keys present in both args, i.e. the set intersection
+ * of the given objects' key / property sets.
+ *
+ * ```
+ * commonKeys({ a: 1, b: 2 }, { c: 10, b: 20, a: 30 })
+ * // [ "a", "b" ]
+ * ```
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+
+
+exports.commonKeysMap = commonKeysMap;
+
+const commonKeysObj = (a, b, out = []) => {
+  for (let k in a) {
+    b.hasOwnProperty(k) && out.push(k);
+  }
+
+  return out;
+};
+
+exports.commonKeysObj = commonKeysObj;
+},{}],"../node_modules/@thi.ng/associative/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ensureSet = exports.ensureMap = exports.objValues = exports.first = exports.copy = exports.empty = void 0;
+
+var _checks = require("@thi.ng/checks");
+
+const empty = (x, ctor) => (0, _checks.implementsFunction)(x, "empty") ? x.empty() : new (x[Symbol.species] || ctor)();
+
+exports.empty = empty;
+
+const copy = (x, ctor) => (0, _checks.implementsFunction)(x, "copy") ? x.copy() : new (x[Symbol.species] || ctor)(x);
+
+exports.copy = copy;
+
+const first = x => x[Symbol.iterator]().next().value;
+
+exports.first = first;
+
+const objValues = src => {
+  const vals = [];
+
+  for (let k in src) {
+    src.hasOwnProperty(k) && vals.push(src[k]);
+  }
+
+  return vals;
+};
+
+exports.objValues = objValues;
+
+const ensureMap = x => (0, _checks.isMap)(x) ? x : new Map(x);
+
+exports.ensureMap = ensureMap;
+
+const ensureSet = x => (0, _checks.isSet)(x) ? x : new Set(x);
+
+exports.ensureSet = ensureSet;
+},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js"}],"../node_modules/@thi.ng/associative/difference.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.difference = void 0;
+
+var _into = require("./into");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the difference of sets `a - b` and writes results to new set
+ * or optionally given set `out` (assumed to be empty for correct
+ * results).
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const difference = (a, b, out) => {
+  if (a === b) {
+    return out || (0, _utils.empty)(a, Set);
+  }
+
+  out = out ? (0, _into.into)(out, a) : (0, _utils.copy)(a, Set);
+
+  for (let i of b) {
+    out.delete(i);
+  }
+
+  return out;
+};
+
+exports.difference = difference;
+},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/equiv-map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EquivMap = void 0;
+
+var _api = require("@thi.ng/api");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _arraySet = require("./array-set");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __map = map => __private.get(map).map;
+
+class EquivMap extends Map {
+  /**
+   * Creates a new instance with optional initial key-value pairs and
+   * provided options. If no `opts` are given, uses `ArraySet` for
+   * storing canonical keys and `@thi.ng/equiv` for checking key
+   * equivalence.
+   *
+   * @param pairs
+   * @param opts
+   */
+  constructor(pairs, opts) {
+    super();
+
+    const _opts = Object.assign({
+      equiv: _equiv.equiv,
+      keys: _arraySet.ArraySet
+    }, opts);
+
+    __private.set(this, {
+      keys: new _opts.keys(null, {
+        equiv: _opts.equiv
+      }),
+      map: new Map(),
+      opts: _opts
+    });
+
+    if (pairs) {
+      this.into(pairs);
+    }
+  }
+  /**
+   * Converts given vanilla object into an `EquivMap` instance with
+   * default (or optionally provided) options and returns it. By
+   * default uses strict `===` equality check for `equiv` option.
+   *
+   * @param obj
+   * @param opts
+   */
+
+
+  static fromObject(obj, opts) {
+    const m = new EquivMap(null, Object.assign({
+      equiv: (a, b) => a === b
+    }, opts));
+
+    for (let k in obj) {
+      obj.hasOwnProperty(k) && m.set(k, obj[k]);
+    }
+
+    return m;
+  }
+
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+
+  get [Symbol.species]() {
+    return EquivMap;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "EquivMap";
+  }
+
+  get size() {
+    return __private.get(this).keys.size;
+  }
+
+  clear() {
+    const $this = __private.get(this);
+
+    $this.keys.clear();
+    $this.map.clear();
+  }
+
+  empty() {
+    return new EquivMap(null, __private.get(this).opts);
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const m = new EquivMap();
+
+    __private.set(m, {
+      keys: $this.keys.copy(),
+      map: new Map($this.map),
+      opts: $this.opts
+    });
+
+    return m;
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivMap)(this, o);
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    key = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (key !== _api.SEMAPHORE) {
+      $this.map.delete(key);
+      $this.keys.delete(key);
+      return true;
+    }
+
+    return false;
+  }
+
+  dissoc(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  forEach(fn, thisArg) {
+    for (let pair of __map(this)) {
+      fn.call(thisArg, pair[1], pair[0], this);
+    }
+  }
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    key = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (key !== _api.SEMAPHORE) {
+      return $this.map.get(key);
+    }
+
+    return notFound;
+  }
+
+  has(key) {
+    return __private.get(this).keys.has(key);
+  }
+
+  set(key, value) {
+    const $this = __private.get(this);
+
+    const k = $this.keys.get(key, _api.SEMAPHORE);
+
+    if (k !== _api.SEMAPHORE) {
+      $this.map.set(k, value);
+    } else {
+      $this.keys.add(key);
+      $this.map.set(key, value);
+    }
+
+    return this;
+  }
+
+  into(pairs) {
+    return (0, _into.into)(this, pairs);
+  }
+
+  entries() {
+    return __map(this).entries();
+  }
+
+  keys() {
+    return __map(this).keys();
+  }
+
+  values() {
+    return __map(this).values();
+  }
+
+  opts() {
+    return __private.get(this).opts;
+  }
+
+}
+
+exports.EquivMap = EquivMap;
+},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./array-set":"../node_modules/@thi.ng/associative/array-set.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/binary/api.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MASKS = void 0;
+const MASKS = new Array(33).fill(0).map((_, i) => Math.pow(2, i) - 1);
+exports.MASKS = MASKS;
+},{}],"../node_modules/@thi.ng/binary/align.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isAligned = exports.align = void 0;
+
+/**
+ * Aligns `addr` to next multiple of `size`. The latter must be a power
+ * of 2.
+ *
+ * @param addr
+ * @param size
+ */
+const align = (addr, size) => (size--, addr + size & ~size);
+/**
+ * Returns true if `addr` is aligned to wordsize `size`.
+ */
+
+
+exports.align = align;
+
+const isAligned = (addr, size) => !(addr & size - 1);
+
+exports.isAligned = isAligned;
+},{}],"../node_modules/@thi.ng/binary/count.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ctz32 = exports.clz32 = exports.hammingDist = exports.popCount = void 0;
+
+/**
+ * Returns number of 1 bits in `x`.
+ *
+ * @param x
+ */
+const popCount = x => (x = x - (x >>> 1 & 0x55555555), x = (x & 0x33333333) + (x >>> 2 & 0x33333333), (x + (x >>> 4) & 0xf0f0f0f) * 0x1010101 >>> 24);
+/**
+ * https://en.wikipedia.org/wiki/Hamming_distance
+ *
+ * @param x
+ * @param y
+ */
+
+
+exports.popCount = popCount;
+
+const hammingDist = (x, y) => popCount(x ^ y);
+/**
+ * Math.clz32() polyfill (corrected).
+ *
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/clz32$revision/1426816
+ *
+ * @param x
+ */
+
+
+exports.hammingDist = hammingDist;
+
+const clz32 = x => x !== 0 ? 31 - (Math.log(x >>> 0) / Math.LN2 | 0) : 32;
+
+exports.clz32 = clz32;
+
+const ctz32 = x => {
+  let c = 32;
+  x &= -x;
+  x && c--;
+  x & 0x0000ffff && (c -= 16);
+  x & 0x00ff00ff && (c -= 8);
+  x & 0x0f0f0f0f && (c -= 4);
+  x & 0x33333333 && (c -= 2);
+  x & 0x55555555 && (c -= 1);
+  return c;
+};
+
+exports.ctz32 = ctz32;
+},{}],"../node_modules/@thi.ng/binary/mask.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.maskH = exports.maskL = exports.defMask = void 0;
+
+var _api = require("./api");
+
+/**
+ * Creates bit mask by enabling bit `a` to bit `b-1`, both in range
+ * 0-32. `b` MUST be >= `a`.
+ *
+ * ```
+ * defMask(1,31).toString(16) // 7ffffffe
+ * defMask(3,8).toString(16)  // f8
+ * ```
+ *
+ * @param a
+ * @param b
+ */
+const defMask = (a, b) => (~_api.MASKS[a] & _api.MASKS[b]) >>> 0;
+/**
+ * Returns unsigned version of `x` with only lowest `n` bits.
+ *
+ * @param n
+ * @param x
+ */
+
+
+exports.defMask = defMask;
+
+const maskL = (n, x) => (x & _api.MASKS[n]) >>> 0;
+/**
+ * Returns unsigned version of `x` with only highest `n` bits.
+ *
+ * @param n
+ * @param x
+ */
+
+
+exports.maskL = maskL;
+
+const maskH = (n, x) => (x & ~_api.MASKS[n]) >>> 0;
+
+exports.maskH = maskH;
+},{"./api":"../node_modules/@thi.ng/binary/api.js"}],"../node_modules/@thi.ng/binary/edit.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bitClearWindow = exports.bitSetWindow = exports.bitSet = exports.bitFlip = exports.bitClear = void 0;
+
+var _mask = require("./mask");
+
+/**
+ * Clears bit in given uint `x`.
+ *
+ * @param x value
+ * @param bit bit number (0..31)
+ */
+const bitClear = (x, bit) => (x & ~(1 << bit)) >>> 0;
+/**
+ * Toggles bit in given uint `x`.
+ *
+ * @param x
+ * @param bit
+ */
+
+
+exports.bitClear = bitClear;
+
+const bitFlip = (x, bit) => (x ^ 1 << bit) >>> 0;
+/**
+ * Sets bit in given uint `x`.
+ *
+ * @param x value
+ * @param bit bit number (0..31)
+ */
+
+
+exports.bitFlip = bitFlip;
+
+const bitSet = (x, bit) => (x | 1 << bit) >>> 0;
+
+exports.bitSet = bitSet;
+
+const bitSetWindow = (x, y, from, to) => {
+  const m = (0, _mask.defMask)(from, to);
+  return x & ~m | y << (1 << from) & m;
+};
+
+exports.bitSetWindow = bitSetWindow;
+
+const bitClearWindow = (x, from, to) => x & ~(0, _mask.defMask)(from, to);
+
+exports.bitClearWindow = bitClearWindow;
+},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/float.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.floatToSortableInt = exports.uintBitsToFloat = exports.intBitsToFloat = exports.floatToUintBits = exports.floatToIntBits = void 0;
+const F32 = new Float32Array(1);
+const I32 = new Int32Array(F32.buffer);
+const U32 = new Uint32Array(F32.buffer);
+
+const floatToIntBits = x => (F32[0] = x, I32[0]);
+
+exports.floatToIntBits = floatToIntBits;
+
+const floatToUintBits = x => (F32[0] = x, U32[0]);
+
+exports.floatToUintBits = floatToUintBits;
+
+const intBitsToFloat = x => (I32[0] = x, F32[0]);
+
+exports.intBitsToFloat = intBitsToFloat;
+
+const uintBitsToFloat = x => (U32[0] = x, F32[0]);
+/**
+ * Converts given float into a sortable integer representation, using
+ * raw bitwise conversion via `floatToIntBits()`.
+ *
+ * https://github.com/tzaeschke/phtree/blob/master/PhTreeRevisited.pdf
+ * (page 3)
+ *
+ * @param x
+ */
+
+
+exports.uintBitsToFloat = uintBitsToFloat;
+
+const floatToSortableInt = x => {
+  if (x === -0) x = 0;
+  const i = floatToIntBits(x);
+  return x < 0 ? ~i | 1 << 31 : i;
+};
+
+exports.floatToSortableInt = floatToSortableInt;
+},{}],"../node_modules/@thi.ng/binary/gray.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.decodeGray32 = exports.encodeGray32 = void 0;
+
+/**
+ * Converts 32bit unsigned int to Gray code (reflected binary). Gray
+ * codes of successive values always have a Hamming distance of 1 (i.e.
+ * only 1 bit changes at a time).
+ *
+ * https://en.wikipedia.org/wiki/Gray_code
+ *
+ * @param x u32
+ */
+const encodeGray32 = x => (x ^ x >>> 1) >>> 0;
+/**
+ * Converts 32bit Gray code to binary / unsigned int.
+ *
+ * https://en.wikipedia.org/wiki/Gray_code
+ */
+
+
+exports.encodeGray32 = encodeGray32;
+
+const decodeGray32 = x => {
+  x = x ^ x >>> 16;
+  x = x ^ x >>> 8;
+  x = x ^ x >>> 4;
+  x = x ^ x >>> 2;
+  x = x ^ x >>> 1;
+  return x >>> 0;
+};
+
+exports.decodeGray32 = decodeGray32;
+},{}],"../node_modules/@thi.ng/binary/logic.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.bitDemux = exports.bitMux = exports.bitOai22 = exports.bitAoi22 = exports.bitOai21 = exports.bitAoi21 = exports.bitImply = exports.bitXnor = exports.bitXor = exports.bitNor = exports.bitOr = exports.bitNand = exports.bitAnd = exports.bitNot = void 0;
+
+var _mask = require("./mask");
+
+const bitNot = (n, x) => (0, _mask.maskL)(n, ~x);
+
+exports.bitNot = bitNot;
+
+const bitAnd = (n, a, b) => (0, _mask.maskL)(n, a & b);
+
+exports.bitAnd = bitAnd;
+
+const bitNand = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
+
+exports.bitNand = bitNand;
+
+const bitOr = (n, a, b) => (0, _mask.maskL)(n, a | b);
+
+exports.bitOr = bitOr;
+
+const bitNor = (n, a, b) => (0, _mask.maskL)(n, ~(a & b));
+
+exports.bitNor = bitNor;
+
+const bitXor = (n, a, b) => (0, _mask.maskL)(n, a ^ b);
+
+exports.bitXor = bitXor;
+
+const bitXnor = (n, a, b) => (0, _mask.maskL)(n, ~(a ^ b));
+
+exports.bitXnor = bitXnor;
+
+const bitImply = (n, a, b) => (0, _mask.maskL)(n, ~a | b);
+
+exports.bitImply = bitImply;
+
+const bitAoi21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a | b & c));
+
+exports.bitAoi21 = bitAoi21;
+
+const bitOai21 = (n, a, b, c) => (0, _mask.maskL)(n, ~(a & (b | c)));
+
+exports.bitOai21 = bitOai21;
+
+const bitAoi22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~(a & b | c & d));
+
+exports.bitAoi22 = bitAoi22;
+
+const bitOai22 = (n, a, b, c, d) => (0, _mask.maskL)(n, ~((a | b) & (c | d)));
+
+exports.bitOai22 = bitOai22;
+
+const bitMux = (n, a, b, s) => (0, _mask.maskL)(n, a & ~s | b & s);
+
+exports.bitMux = bitMux;
+
+const bitDemux = (n, a, b, s) => [(0, _mask.maskL)(n, a & ~s), (0, _mask.maskL)(n, b & s)];
+
+exports.bitDemux = bitDemux;
+},{"./mask":"../node_modules/@thi.ng/binary/mask.js"}],"../node_modules/@thi.ng/binary/pow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.floorPow2 = exports.ceilPow2 = exports.isPow2 = void 0;
+
+// http://graphics.stanford.edu/~seander/bithacks.html
+const isPow2 = x => !!x && !(x & x - 1);
+
+exports.isPow2 = isPow2;
+
+const ceilPow2 = x => {
+  x += x === 0;
+  --x;
+  x |= x >>> 1;
+  x |= x >>> 2;
+  x |= x >>> 4;
+  x |= x >>> 8;
+  x |= x >>> 16;
+  return x + 1;
+};
+
+exports.ceilPow2 = ceilPow2;
+
+const floorPow2 = x => {
+  x |= x >>> 1;
+  x |= x >>> 2;
+  x |= x >>> 4;
+  x |= x >>> 8;
+  x |= x >>> 16;
+  return x - (x >>> 1);
+};
+
+exports.floorPow2 = floorPow2;
+},{}],"../node_modules/@thi.ng/binary/rotate.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.rotateRight = exports.rotateLeft = void 0;
+
+/**
+ * Rotates `x` `n` bits to the left.
+ *
+ * @param x
+ * @param n
+ */
+const rotateLeft = (x, n) => (x << n | x >>> 32 - n) >>> 0;
+/**
+ * Rotates `x` `n` bits to the right.
+ *
+ * @param x
+ * @param n
+ */
+
+
+exports.rotateLeft = rotateLeft;
+
+const rotateRight = (x, n) => (x >>> n | x << 32 - n) >>> 0;
+
+exports.rotateRight = rotateRight;
+},{}],"../node_modules/@thi.ng/binary/splat.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.same8 = exports.same4 = exports.splat16_32 = exports.splat8_32 = exports.splat8_24 = exports.splat4_32 = exports.splat4_24 = void 0;
+
+/**
+ * Repeats lowest nibble of `x` as 24 bit uint.
+ *
+ * @param x
+ */
+const splat4_24 = x => (x & 0xf) * 0x111111;
+/**
+ * Repeats lowest nibble of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat4_24 = splat4_24;
+
+const splat4_32 = x => (x & 0xf) * 0x11111111 >>> 0;
+/**
+ * Repeats lowest byte of `x` as 24 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat4_32 = splat4_32;
+
+const splat8_24 = x => (x & 0xff) * 0x010101;
+/**
+ * Repeats lowest byte of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat8_24 = splat8_24;
+
+const splat8_32 = x => (x & 0xff) * 0x01010101 >>> 0;
+/**
+ * Repeats lowest 16bit of `x` as 32 bit uint.
+ *
+ * @param x
+ */
+
+
+exports.splat8_32 = splat8_32;
+
+const splat16_32 = x => (x &= 0xffff, (x << 16 | x) >>> 0);
+/**
+ * Returns true if bits 0-3 are same as bits 4-7.
+ *
+ * @param x
+ */
+
+
+exports.splat16_32 = splat16_32;
+
+const same4 = x => (x >> 4 & 0xf) === (x & 0xf);
+/**
+ * Returns true if bits 0-7 are same as bits 8-15.
+ *
+ * @param x
+ */
+
+
+exports.same4 = same4;
+
+const same8 = x => (x >> 8 & 0xff) === (x & 0xff);
+
+exports.same8 = same8;
+},{}],"../node_modules/@thi.ng/binary/swizzle.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.flipBytes = exports.swizzle4 = exports.swizzle8 = exports.setLane2 = exports.setLane4 = exports.setLane8 = exports.lane2 = exports.lane4 = exports.lane8 = void 0;
+
+/**
+ * Extracts 8-bit lane from given 32bit uint.
+ *
+ * - Lane #0: bits 24-31
+ * - Lane #1: bits 16-23
+ * - Lane #2: bits 8-15
+ * - Lane #3: bits 0-7
+ *
+ * @param x
+ * @param lane
+ */
+const lane8 = (x, lane) => x >>> (3 - lane << 3) & 0xff;
+/**
+ * Extracts 4-bit lane from given 32bit uint.
+ *
+ * - Lane #0: bits 28-31
+ * - Lane #1: bits 24-27
+ * - Lane #2: bits 20-23
+ * - Lane #3: bits 16-19
+ * - Lane #4: bits 12-15
+ * - Lane #5: bits 8-11
+ * - Lane #6: bits 4-7
+ * - Lane #7: bits 0-3
+ *
+ * @param x
+ * @param lane
+ */
+
+
+exports.lane8 = lane8;
+
+const lane4 = (x, lane) => x >>> (7 - lane << 2) & 0xf;
+
+exports.lane4 = lane4;
+
+const lane2 = (x, lane) => x >>> (15 - lane << 1) & 0x3;
+/**
+ * Sets 8-bit `lane` with value`y` in `x`.
+ *
+ * @see lane8
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.lane2 = lane2;
+
+const setLane8 = (x, y, lane) => {
+  const l = 3 - lane << 3;
+  return (~(0xff << l) & x | (y & 0xff) << l) >>> 0;
+};
+/**
+ * Sets 4-bit `lane` with value `y` in `x`.
+ *
+ * @see lane4
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.setLane8 = setLane8;
+
+const setLane4 = (x, y, lane) => {
+  const l = 7 - lane << 2;
+  return (~(0xf << l) & x | (y & 0xf) << l) >>> 0;
+};
+/**
+ * Sets 2-bit `lane` with value `y` in `x`.
+ *
+ * @see lane2
+ *
+ * @param x
+ * @param y
+ * @param lane
+ */
+
+
+exports.setLane4 = setLane4;
+
+const setLane2 = (x, y, lane) => {
+  const l = 15 - lane << 1;
+  return (~(0x3 << l) & x | (y & 0x3) << l) >>> 0;
+};
+/**
+ * Re-orders byte lanes in given order (MSB).
+ *
+ * ```
+ * swizzle(0x12345678, 3, 2, 1, 0) // 0x78563412
+ * swizzle(0x12345678, 1, 0, 3, 2) // 0x34127856
+ * swizzle(0x12345678, 2, 2, 0, 0) // 0x56561212
+ * ```
+ *
+ * @param x
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ */
+
+
+exports.setLane2 = setLane2;
+
+const swizzle8 = (x, a, b, c, d) => (lane8(x, a) << 24 | lane8(x, b) << 16 | lane8(x, c) << 8 | lane8(x, d)) >>> 0;
+/**
+ *
+ * @param x
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @param e
+ * @param f
+ * @param g
+ * @param h
+ */
+
+
+exports.swizzle8 = swizzle8;
+
+const swizzle4 = (x, a, b, c, d, e, f, g, h) => (lane4(x, a) << 28 | lane4(x, b) << 24 | lane4(x, c) << 20 | lane4(x, d) << 16 | lane4(x, e) << 12 | lane4(x, f) << 8 | lane4(x, g) << 4 | lane4(x, h)) >>> 0;
+/**
+ * Same as `swizzle8(x, 3, 2, 1, 0)`, but faster.
+ *
+ * @param x
+ */
+
+
+exports.swizzle4 = swizzle4;
+
+const flipBytes = x => (x >>> 24 | x >> 8 & 0xff00 | (x & 0xff00) << 8 | x << 24) >>> 0;
+
+exports.flipBytes = flipBytes;
+},{}],"../node_modules/@thi.ng/binary/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _api = require("./api");
+
+Object.keys(_api).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _api[key];
+    }
+  });
+});
+
+var _align = require("./align");
+
+Object.keys(_align).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _align[key];
+    }
+  });
+});
+
+var _count = require("./count");
+
+Object.keys(_count).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _count[key];
+    }
+  });
+});
+
+var _edit = require("./edit");
+
+Object.keys(_edit).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _edit[key];
+    }
+  });
+});
+
+var _float = require("./float");
+
+Object.keys(_float).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _float[key];
+    }
+  });
+});
+
+var _gray = require("./gray");
+
+Object.keys(_gray).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _gray[key];
+    }
+  });
+});
+
+var _logic = require("./logic");
+
+Object.keys(_logic).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _logic[key];
+    }
+  });
+});
+
+var _mask = require("./mask");
+
+Object.keys(_mask).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _mask[key];
+    }
+  });
+});
+
+var _pow = require("./pow");
+
+Object.keys(_pow).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _pow[key];
+    }
+  });
+});
+
+var _rotate = require("./rotate");
+
+Object.keys(_rotate).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _rotate[key];
+    }
+  });
+});
+
+var _splat = require("./splat");
+
+Object.keys(_splat).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _splat[key];
+    }
+  });
+});
+
+var _swizzle = require("./swizzle");
+
+Object.keys(_swizzle).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _swizzle[key];
+    }
+  });
+});
+},{"./api":"../node_modules/@thi.ng/binary/api.js","./align":"../node_modules/@thi.ng/binary/align.js","./count":"../node_modules/@thi.ng/binary/count.js","./edit":"../node_modules/@thi.ng/binary/edit.js","./float":"../node_modules/@thi.ng/binary/float.js","./gray":"../node_modules/@thi.ng/binary/gray.js","./logic":"../node_modules/@thi.ng/binary/logic.js","./mask":"../node_modules/@thi.ng/binary/mask.js","./pow":"../node_modules/@thi.ng/binary/pow.js","./rotate":"../node_modules/@thi.ng/binary/rotate.js","./splat":"../node_modules/@thi.ng/binary/splat.js","./swizzle":"../node_modules/@thi.ng/binary/swizzle.js"}],"../node_modules/@thi.ng/associative/hash-map.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HashMap = void 0;
+
+var _binary = require("@thi.ng/binary");
+
+var _equiv = require("@thi.ng/equiv");
+
+var _dissoc = require("./dissoc");
+
+var _equiv2 = require("./internal/equiv");
+
+var _into = require("./into");
+
+const __private = new WeakMap();
+
+const __iterator = (map, id) => function* () {
+  for (let p of __private.get(map).bins) {
+    if (p) yield p[id];
+  }
+};
+
+const DEFAULT_CAP = 16;
+/**
+ * Configurable hash map implementation w/ ES6 Map API. Uses open
+ * addressing / linear probing to resolve key collisions. Supports any
+ * key types via mandatory user supplied hash function.
+ *
+ * See `HashMapOpts` for further configuration & behavior details.
+ *
+ * ```
+ * import { HashMap } from "@thi.ng/associative"
+ * import { hash } from "@thi.ng/vectors"
+ *
+ * m = new HashMap([], { hash })
+ * m.set([1, 2], "a");
+ * m.set([3, 4], "b");
+ * m.set([1, 2], "c");
+ * // HashMap { [ 1, 2 ] => 'c', [ 3, 4 ] => 'b' }
+ * ```
+ *
+ */
+
+class HashMap extends Map {
+  constructor(pairs, opts) {
+    super();
+    const m = (0, _binary.ceilPow2)(Math.min(opts.cap || DEFAULT_CAP, 4)) - 1;
+
+    __private.set(this, {
+      hash: opts.hash,
+      equiv: opts.equiv || _equiv.equiv,
+      load: opts.load || 0.75,
+      mask: m,
+      bins: new Array(m + 1),
+      size: 0
+    });
+
+    if (pairs) {
+      this.into(pairs);
+    }
+  }
+
+  get [Symbol.species]() {
+    return HashMap;
+  }
+
+  get [Symbol.toStringTag]() {
+    return "HashMap";
+  }
+
+  get size() {
+    return __private.get(this).size;
+  }
+
+  [Symbol.iterator]() {
+    return this.entries();
+  }
+
+  *entries() {
+    for (let p of __private.get(this).bins) {
+      if (p) yield [p[0], p[1]];
+    }
+  }
+
+  keys() {
+    return __iterator(this, 0)();
+  }
+
+  values() {
+    return __iterator(this, 1)();
+  }
+
+  forEach(fn, thisArg) {
+    for (let pair of __private.get(this).bins) {
+      fn.call(thisArg, pair[1], pair[0], this);
+    }
+  }
+
+  clear() {
+    const $this = __private.get(this);
+
+    $this.bins = new Array(DEFAULT_CAP);
+    $this.mask = 15;
+    $this.size = 0;
+  }
+
+  empty() {
+    return new HashMap(null, this.opts({
+      cap: DEFAULT_CAP
+    }));
+  }
+
+  copy() {
+    const $this = __private.get(this);
+
+    const m = new HashMap(null, this.opts({
+      cap: 4
+    }));
+    Object.assign(__private.get(m), {
+      bins: $this.bins.slice(),
+      mask: $this.mask,
+      size: $this.size
+    });
+    return m;
+  }
+
+  equiv(o) {
+    return (0, _equiv2.equivMap)(this, o);
+  }
+
+  has(key) {
+    const $this = __private.get(this);
+
+    const i = this.find(key, $this);
+    return i >= 0 && $this.bins[i] != undefined;
+  }
+
+  get(key, notFound) {
+    const $this = __private.get(this);
+
+    const i = this.find(key, $this);
+    return i >= 0 && $this.bins[i] ? $this.bins[i][1] : notFound;
+  }
+
+  set(key, val) {
+    const $this = __private.get(this);
+
+    let i = this.find(key, $this);
+
+    if (i >= 0 && $this.bins[i]) {
+      $this.bins[i][1] = val;
+      return this;
+    }
+
+    if ($this.size > $this.mask * $this.load) {
+      this.resize($this);
+      i = this.find(key, $this);
+    }
+
+    $this.bins[i] = [key, val];
+    $this.size++;
+    return this;
+  }
+
+  delete(key) {
+    const $this = __private.get(this);
+
+    let i = this.find(key, $this);
+    const bins = $this.bins;
+
+    if (i >= 0 && !bins[i]) {
+      return false;
+    }
+
+    $this.size--;
+    const m = $this.mask;
+    let j = i;
+    let k;
+
+    while (true) {
+      delete bins[i];
+
+      do {
+        j = j + 1 & m;
+        if (!bins[j]) return true;
+        k = $this.hash(bins[j][0]) & m;
+      } while (i <= j ? i < k && k <= j : i < k || k <= j);
+
+      bins[i] = bins[j];
+      i = j;
+    }
+  }
+
+  into(pairs) {
+    return (0, _into.into)(this, pairs);
+  }
+
+  dissoc(keys) {
+    return (0, _dissoc.dissoc)(this, keys);
+  }
+
+  opts(overrides) {
+    const $this = __private.get(this);
+
+    return Object.assign({
+      hash: $this.hash,
+      equiv: $this.equiv,
+      load: $this.load,
+      cap: $this.mask + 1
+    }, overrides);
+  }
+
+  find(key, $this) {
+    const m = $this.mask;
+    const bins = $this.bins;
+    const equiv = $this.equiv;
+    let i = m;
+    let h = $this.hash(key) & m;
+
+    while (bins[h] && !equiv(bins[h][0], key)) {
+      i--;
+      if (i < 0) return -1;
+      h = h + 1 & $this.mask;
+    }
+
+    return h;
+  }
+
+  resize($this) {
+    const src = $this.bins;
+    const cap = ($this.mask + 1) * 2;
+    $this.bins = new Array(cap);
+    $this.mask = cap - 1;
+    $this.size = 0;
+
+    for (let p of src) {
+      if (p) this.set(p[0], p[1]);
+    }
+  }
+
+}
+
+exports.HashMap = HashMap;
+},{"@thi.ng/binary":"../node_modules/@thi.ng/binary/index.js","@thi.ng/equiv":"../node_modules/@thi.ng/equiv/index.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./internal/equiv":"../node_modules/@thi.ng/associative/internal/equiv.js","./into":"../node_modules/@thi.ng/associative/into.js"}],"../node_modules/@thi.ng/associative/select-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.selectKeysObj = exports.selectKeysMap = void 0;
+
+var _utils = require("./utils");
+
+/**
+ * Returns a new map of same type as input only containing given keys
+ * (and only if they existed in the original map).
+ *
+ * @param src
+ * @param ks selected keys
+ */
+const selectKeysMap = (src, ks) => {
+  const dest = (0, _utils.empty)(src, Map);
+
+  for (let k of ks) {
+    src.has(k) && dest.set(k, src.get(k));
+  }
+
+  return dest;
+};
+/**
+ * Returns a new object only containing given keys (and only if they
+ * existed in the original).
+ *
+ * @param src
+ * @param ks
+ */
+
+
+exports.selectKeysMap = selectKeysMap;
+
+const selectKeysObj = (src, ks) => {
+  const dest = {};
+
+  for (let k of ks) {
+    src.hasOwnProperty(k) && (dest[k] = src[k]);
+  }
+
+  return dest;
+};
+
+exports.selectKeysObj = selectKeysObj;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/indexed.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.indexed = void 0;
+
+var _equivMap = require("./equiv-map");
+
+var _selectKeys = require("./select-keys");
+
+var _utils = require("./utils");
+
+/**
+ * Takes an iterable of plain objects and array of indexing keys. Calls
+ * `selectKeysObj` on each value and uses returned objects as new keys
+ * to group original values. Returns a new `EquivMap` of sets.
+ *
+ * ```
+ * indexed(
+ *   new Set([{a: 1, b: 1}, {a: 1, b: 2}, {a: 1, b: 1, c: 2}]),
+ *   ["a","b"]
+ * )
+ * // EquivMap {
+ * //   { a: 1, b: 1 } => Set { { a: 1, b: 1 }, { a: 1, b: 1, c: 2 } },
+ * //   { a: 1, b: 2 } => Set { { a: 1, b: 2 } } }
+ * ```
+ *
+ * @param records objects to index
+ * @param ks keys used for indexing
+ */
+const indexed = (records, ks) => {
+  const res = new _equivMap.EquivMap();
+  let x, ik, rv;
+
+  for (x of records) {
+    ik = (0, _selectKeys.selectKeysObj)(x, ks);
+    rv = res.get(ik);
+    !rv && res.set(ik, rv = (0, _utils.empty)(records, Set));
+    rv.add(x);
+  }
+
+  return res;
+};
+
+exports.indexed = indexed;
+},{"./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/intersection.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.intersection = void 0;
+
+var _into = require("./into");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the intersection of sets `a` and `b` and writes results into
+ * new set or optionally given set `out` (assumed to be empty for
+ * correct results). If `out` is *not* given, the returned Set type will
+ * be that of `a` (provided it defines `Symbol.species`).
+ *
+ * @param a
+ * @param b
+ * @param out
+ */
+const intersection = (a, b, out) => {
+  out = out || (0, _utils.empty)(a, Set);
+
+  if (a === b) {
+    return (0, _into.into)(out, a);
+  }
+
+  if (b.size < a.size) {
+    return intersection(b, a, out);
+  }
+
+  for (let i of b) {
+    if (a.has(i)) {
+      out.add(i);
+    }
+  }
+
+  return out;
+};
+
+exports.intersection = intersection;
+},{"./into":"../node_modules/@thi.ng/associative/into.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/invert.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.invertObj = exports.invertMap = void 0;
+
+/**
+ * Returns a new map in which the original values are used as keys and
+ * original keys as values. If `dest` is given, writes results in that
+ * map instead. Depending on the value type of `src` and/or if the
+ * inverted map should use custom key equality semantics as provided by
+ * the Map types in this package, you MUST provide a `dest` map, since
+ * the default `dest` will only be a standard ES6 Map.
+ *
+ * ```
+ * invertMap(new Map(), new Map([["a", 1], ["b", 2]]));
+ * // Map { 1 => 'a', 2 => 'b' }
+ * ```
+ *
+ * @param src
+ * @param dest
+ */
+const invertMap = (src, dest) => {
+  dest = dest || new Map();
+
+  for (let p of src) {
+    dest.set(p[1], p[0]);
+  }
+
+  return dest;
+};
+/**
+ * Returns a new object in which the original values are used as keys
+ * and original keys as values. If `dest` is given, writes results in
+ * that object instead.
+ *
+ * ```
+ * invertObj({a: 1, b: 2})
+ * // { '1': 'a', '2': 'b' }
+ * ```
+ *
+ * @param src
+ * @param dest
+ */
+
+
+exports.invertMap = invertMap;
+
+const invertObj = (src, dest = {}) => {
+  for (let k in src) {
+    dest[src[k]] = k;
+  }
+
+  return dest;
+};
+
+exports.invertObj = invertObj;
+},{}],"../node_modules/@thi.ng/associative/merge.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.mergeObj = exports.mergeMap = void 0;
+
+/**
+ * Merges all given maps in left-to-right order into `dest`.
+ * Returns `dest`.
+ *
+ * @param dest
+ * @param xs
+ */
+const mergeMap = (dest, ...xs) => {
+  for (let x of xs) {
+    for (let pair of x) {
+      dest.set(pair[0], pair[1]);
+    }
+  }
+
+  return dest;
+};
+/**
+ * Merges all given objects in left-to-right order into `dest`.
+ * Returns `dest`.
+ *
+ * @param dest
+ * @param xs
+ */
+
+
+exports.mergeMap = mergeMap;
+
+const mergeObj = (dest, ...xs) => Object.assign(dest, ...xs);
+
+exports.mergeObj = mergeObj;
+},{}],"../node_modules/@thi.ng/associative/rename-keys.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.renameKeysObj = exports.renameKeysMap = void 0;
+
+var _utils = require("./utils");
+
+/**
+ * Renames keys in `src` using mapping provided by key map `km`. Does
+ * support key swapping / swizzling. Does not modify original.
+ *
+ * @param src
+ * @param km
+ * @param out
+ */
+const renameKeysMap = (src, km, out) => {
+  out = out || (0, _utils.empty)(src, Map);
+
+  for (let [k, v] of src) {
+    out.set(km.has(k) ? km.get(k) : k, v);
+  }
+
+  return out;
+};
+/**
+ * Renames keys in `src` using mapping provided by key map `km`. Does
+ * support key swapping / swizzling. Does not modify original.
+ *
+ * ```
+ * // swap a & b, rename c
+ * renameKeysObj({a: 1, b: 2, c: 3}, {a: "b", b: "a", c: "cc"})
+ * // {b: 1, a: 2, cc: 3}
+ * ```
+ *
+ * @param src
+ * @param km
+ */
+
+
+exports.renameKeysMap = renameKeysMap;
+
+const renameKeysObj = (src, km, out = {}) => {
+  for (let k in src) {
+    out[km.hasOwnProperty(k) ? km[k] : k] = src[k];
+  }
+
+  return out;
+};
+
+exports.renameKeysObj = renameKeysObj;
+},{"./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/associative/join.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.joinWith = exports.join = void 0;
+
+var _commonKeys = require("./common-keys");
+
+var _indexed = require("./indexed");
+
+var _invert = require("./invert");
+
+var _merge = require("./merge");
+
+var _renameKeys = require("./rename-keys");
+
+var _selectKeys = require("./select-keys");
+
+var _utils = require("./utils");
+
+/**
+ * Computes the natural join between the two sets of relations. Each set
+ * is assumed to have plain objects as values with at least one of the
+ * keys present in both sides. Furthermore the objects in each set are
+ * assumed to have the same internal structure (i.e. sets of keys).
+ * Returns new set of same type as `a`.
+ *
+ * ```
+ * join(
+ *   new Set([
+ *     {id: 1, name: "foo"},
+ *     {id: 2, name: "bar"},
+ *     {id: 3, name: "baz"}]),
+ *   new Set([
+ *     {id: 1, color: "red"},
+ *     {id: 2, color: "blue"}])
+ * )
+ * // Set {
+ * //   { id: 1, color: 'red', name: 'foo' },
+ * //   { id: 2, color: 'blue', name: 'bar' }
+ * // }
+ * ```
+ *
+ * @param a
+ * @param b
+ */
+const join = (a, b) => {
+  if (a.size && b.size) {
+    const ks = (0, _commonKeys.commonKeysObj)((0, _utils.first)(a) || {}, (0, _utils.first)(b) || {});
+    let aa, bb;
+
+    if (a.size <= b.size) {
+      aa = a;
+      bb = b;
+    } else {
+      aa = b;
+      bb = a;
+    }
+
+    const idx = (0, _indexed.indexed)(aa, ks);
+    const res = (0, _utils.empty)(a, Set);
+
+    for (let x of bb) {
+      const found = idx.get((0, _selectKeys.selectKeysObj)(x, ks));
+
+      if (found) {
+        for (let f of found) {
+          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
+        }
+      }
+    }
+
+    return res;
+  }
+
+  return (0, _utils.empty)(a, Set);
+};
+/**
+ * Similar to `join()`, computes the join between two sets of relations,
+ * using the given keys in `kmap` only for joining and ignoring others.
+ * `kmap` can also be used to translate join keys in `b` where
+ * needed. Else, if no renaming is desired, the values in `kmap` should
+ * be the same as their respective keys, e.g. `{id: "id"}`. Returns new
+ * set of same type as `a`.
+ *
+ * ```
+ * joinWith(
+ *   new Set([
+ *     {id: 1, name: "foo"},
+ *     {id: 2, name: "bar"},
+ *     {id: 3, name: "baz"}]),
+ *   new Set([
+ *     {type: 1, color: "red"},
+ *     {type: 2, color: "blue"}]),
+ *   {id: "type"}
+ * )
+ * // Set {
+ * //   { type: 1, color: 'red', id: 1, name: 'foo' },
+ * //   { type: 2, color: 'blue', id: 2, name: 'bar' } }
+ * ```
+ *
+ * @param a
+ * @param b
+ * @param kmap keys to compute join for
+ */
+
+
+exports.join = join;
+
+const joinWith = (a, b, kmap) => {
+  if (a.size && b.size) {
+    let aa, bb;
+    let k;
+
+    if (a.size <= b.size) {
+      aa = a;
+      bb = b;
+      k = (0, _invert.invertObj)(kmap);
+    } else {
+      aa = b;
+      bb = a;
+      k = kmap;
+    }
+
+    const idx = (0, _indexed.indexed)(aa, (0, _utils.objValues)(k));
+    const ks = Object.keys(k);
+    const res = (0, _utils.empty)(a, Set);
+
+    for (let x of bb) {
+      const found = idx.get((0, _renameKeys.renameKeysObj)((0, _selectKeys.selectKeysObj)(x, ks), k));
+
+      if (found) {
+        for (let f of found) {
+          res.add((0, _merge.mergeObj)(Object.assign({}, f), x));
+        }
+      }
+    }
+
+    return res;
+  }
+
+  return (0, _utils.empty)(a, Set);
+};
+
+exports.joinWith = joinWith;
+joinWith(new Set([{
+  a: 1,
+  b: 2
+}]), new Set([{
+  id: 1,
+  c: 2
+}]), {
+  a: "id"
+});
+},{"./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./utils":"../node_modules/@thi.ng/associative/utils.js"}],"../node_modules/@thi.ng/dcons/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -17884,2761 +22248,7 @@ Object.keys(_withoutKeys).forEach(function (key) {
     }
   });
 });
-},{"./array-set":"../node_modules/@thi.ng/associative/array-set.js","./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./difference":"../node_modules/@thi.ng/associative/difference.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./hash-map":"../node_modules/@thi.ng/associative/hash-map.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./intersection":"../node_modules/@thi.ng/associative/intersection.js","./into":"../node_modules/@thi.ng/associative/into.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./join":"../node_modules/@thi.ng/associative/join.js","./ll-set":"../node_modules/@thi.ng/associative/ll-set.js","./merge-apply":"../node_modules/@thi.ng/associative/merge-apply.js","./merge-deep":"../node_modules/@thi.ng/associative/merge-deep.js","./merge-with":"../node_modules/@thi.ng/associative/merge-with.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./sorted-map":"../node_modules/@thi.ng/associative/sorted-map.js","./sorted-set":"../node_modules/@thi.ng/associative/sorted-set.js","./sparse-set":"../node_modules/@thi.ng/associative/sparse-set.js","./union":"../node_modules/@thi.ng/associative/union.js","./without-keys":"../node_modules/@thi.ng/associative/without-keys.js"}],"../node_modules/@styled-system/css/dist/index.esm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.css = exports.responsive = exports.get = void 0;
-
-var _scales;
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-} // based on https://github.com/developit/dlv
-
-
-var get = function get(obj, key, def, p, undef) {
-  key = key && key.split ? key.split('.') : [key];
-
-  for (p = 0; p < key.length; p++) {
-    obj = obj ? obj[key[p]] : undef;
-  }
-
-  return obj === undef ? def : obj;
-};
-
-exports.get = get;
-var defaultBreakpoints = [40, 52, 64].map(function (n) {
-  return n + 'em';
-});
-var defaultTheme = {
-  space: [0, 4, 8, 16, 32, 64, 128, 256, 512],
-  fontSizes: [12, 14, 16, 20, 24, 32, 48, 64, 72]
-};
-var aliases = {
-  bg: 'backgroundColor',
-  m: 'margin',
-  mt: 'marginTop',
-  mr: 'marginRight',
-  mb: 'marginBottom',
-  ml: 'marginLeft',
-  mx: 'marginX',
-  my: 'marginY',
-  p: 'padding',
-  pt: 'paddingTop',
-  pr: 'paddingRight',
-  pb: 'paddingBottom',
-  pl: 'paddingLeft',
-  px: 'paddingX',
-  py: 'paddingY'
-};
-var multiples = {
-  marginX: ['marginLeft', 'marginRight'],
-  marginY: ['marginTop', 'marginBottom'],
-  paddingX: ['paddingLeft', 'paddingRight'],
-  paddingY: ['paddingTop', 'paddingBottom'],
-  size: ['width', 'height']
-};
-var scales = (_scales = {
-  color: 'colors',
-  backgroundColor: 'colors',
-  borderColor: 'colors',
-  margin: 'space',
-  marginTop: 'space',
-  marginRight: 'space',
-  marginBottom: 'space',
-  marginLeft: 'space',
-  marginX: 'space',
-  marginY: 'space',
-  padding: 'space',
-  paddingTop: 'space',
-  paddingRight: 'space',
-  paddingBottom: 'space',
-  paddingLeft: 'space',
-  paddingX: 'space',
-  paddingY: 'space',
-  top: 'space',
-  right: 'space',
-  bottom: 'space',
-  left: 'space',
-  gridGap: 'space',
-  gridColumnGap: 'space',
-  gridRowGap: 'space',
-  gap: 'space',
-  columnGap: 'space',
-  rowGap: 'space',
-  fontFamily: 'fonts',
-  fontSize: 'fontSizes',
-  fontWeight: 'fontWeights',
-  lineHeight: 'lineHeights',
-  letterSpacing: 'letterSpacings',
-  border: 'borders',
-  borderTop: 'borders',
-  borderRight: 'borders',
-  borderBottom: 'borders',
-  borderLeft: 'borders',
-  borderWidth: 'borderWidths',
-  borderStyle: 'borderStyles',
-  borderRadius: 'radii',
-  borderTopRightRadius: 'radii',
-  borderTopLeftRadius: 'radii',
-  borderBottomRightRadius: 'radii',
-  borderBottomLeftRadius: 'radii',
-  borderTopWidth: 'borderWidths',
-  borderTopColor: 'colors',
-  borderTopStyle: 'borderStyles'
-}, _scales["borderTopLeftRadius"] = 'radii', _scales["borderTopRightRadius"] = 'radii', _scales.borderBottomWidth = 'borderWidths', _scales.borderBottomColor = 'colors', _scales.borderBottomStyle = 'borderStyles', _scales["borderBottomLeftRadius"] = 'radii', _scales["borderBottomRightRadius"] = 'radii', _scales.borderLeftWidth = 'borderWidths', _scales.borderLeftColor = 'colors', _scales.borderLeftStyle = 'borderStyles', _scales.borderRightWidth = 'borderWidths', _scales.borderRightColor = 'colors', _scales.borderRightStyle = 'borderStyles', _scales.boxShadow = 'shadows', _scales.textShadow = 'shadows', _scales.zIndex = 'zIndices', _scales.width = 'sizes', _scales.minWidth = 'sizes', _scales.maxWidth = 'sizes', _scales.height = 'sizes', _scales.minHeight = 'sizes', _scales.maxHeight = 'sizes', _scales.flexBasis = 'sizes', _scales.size = 'sizes', _scales.fill = 'colors', _scales.stroke = 'colors', _scales);
-
-var positiveOrNegative = function positiveOrNegative(scale, value) {
-  if (typeof value !== 'number' || value >= 0) {
-    return get(scale, value, value);
-  }
-
-  var absolute = Math.abs(value);
-  var n = get(scale, absolute, absolute);
-  if (typeof n === 'string') return '-' + n;
-  return n * -1;
-};
-
-var transforms = ['margin', 'marginTop', 'marginRight', 'marginBottom', 'marginLeft', 'marginX', 'marginY', 'top', 'bottom', 'left', 'right'].reduce(function (acc, curr) {
-  var _extends2;
-
-  return _extends({}, acc, (_extends2 = {}, _extends2[curr] = positiveOrNegative, _extends2));
-}, {});
-
-var responsive = function responsive(styles) {
-  return function (theme) {
-    var next = {};
-    var breakpoints = get(theme, 'breakpoints', defaultBreakpoints);
-    var mediaQueries = [null].concat(breakpoints.map(function (n) {
-      return "@media screen and (min-width: " + n + ")";
-    }));
-
-    for (var key in styles) {
-      var value = typeof styles[key] === 'function' ? styles[key](theme) : styles[key];
-      if (value == null) continue;
-
-      if (!Array.isArray(value)) {
-        next[key] = value;
-        continue;
-      }
-
-      for (var i = 0; i < value.slice(0, mediaQueries.length).length; i++) {
-        var media = mediaQueries[i];
-        if (value[i] == null) continue;
-
-        if (!media) {
-          next[key] = value[i];
-          continue;
-        }
-
-        next[media] = next[media] || {};
-        next[media][key] = value[i];
-      }
-    }
-
-    return next;
-  };
-};
-
-exports.responsive = responsive;
-
-var css = function css(args) {
-  return function (props) {
-    if (props === void 0) {
-      props = {};
-    }
-
-    var theme = _extends({}, defaultTheme, {}, props.theme || props);
-
-    var result = {};
-    var obj = typeof args === 'function' ? args(theme) : args;
-    var styles = responsive(obj)(theme);
-
-    for (var key in styles) {
-      var x = styles[key];
-      var val = typeof x === 'function' ? x(theme) : x;
-
-      if (key === 'variant') {
-        var variant = css(get(theme, val))(theme);
-        result = _extends({}, result, {}, variant);
-        continue;
-      }
-
-      if (val && typeof val === 'object') {
-        result[key] = css(val)(theme);
-        continue;
-      }
-
-      var prop = get(aliases, key, key);
-      var scaleName = get(scales, prop);
-      var scale = get(theme, scaleName, get(theme, prop, {}));
-      var transform = get(transforms, prop, get);
-      var value = transform(scale, val, val);
-
-      if (multiples[prop]) {
-        var dirs = multiples[prop];
-
-        for (var i = 0; i < dirs.length; i++) {
-          result[dirs[i]] = value;
-        }
-      } else {
-        result[prop] = value;
-      }
-    }
-
-    return result;
-  };
-};
-
-exports.css = css;
-var _default = css;
-exports.default = _default;
-},{}],"../node_modules/decamelize/index.js":[function(require,module,exports) {
-'use strict';
-
-module.exports = function (str, sep) {
-  if (typeof str !== 'string') {
-    throw new TypeError('Expected a string');
-  }
-
-  sep = typeof sep === 'undefined' ? '_' : sep;
-  return str.replace(/([a-z\d])([A-Z])/g, '$1' + sep + '$2').replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + sep + '$2').toLowerCase();
-};
-},{}],"../node_modules/map-obj/index.js":[function(require,module,exports) {
-'use strict';
-
-module.exports = function (obj, cb) {
-  var ret = {};
-  var keys = Object.keys(obj);
-
-  for (var i = 0; i < keys.length; i++) {
-    var key = keys[i];
-    var res = cb(key, obj[key], obj);
-    ret[res[0]] = res[1];
-  }
-
-  return ret;
-};
-},{}],"../node_modules/decamelize-keys-deep/index.js":[function(require,module,exports) {
-var decamelize = require("decamelize");
-var mapObj = require("map-obj");
-
-module.exports = function decamelizeKeysDeep(obj, options) {
-  // Any falsy, which includes `null` whose typeof is `object`.
-  if (!obj) {
-    return obj;
-  }
-  // Date, whose typeof is `object` too.
-  if (obj instanceof Date) {
-    return obj;
-  }
-  // Array, whose typeof is `object` too.
-  if (Array.isArray(obj)) {
-    return obj.map(function(element) {
-      return decamelizeKeysDeep(element, options);
-    });
-  }
-  // So, if this is still an `object`, we might be interested in it.
-  if (typeof obj === "object") {
-    return mapObj(obj, function(key, value) {
-      var newKey = decamelize(key, options);
-      if (key !== newKey && newKey in obj) {
-        throw new Error("Decamelized key `" + newKey + "` would overwrite existing key of the given JSON object");
-      }
-      return [newKey, decamelizeKeysDeep(value, options)];
-    });
-  }
-  // Something else like a String or Number.
-  return obj;
-}
-
-},{"decamelize":"../node_modules/decamelize/index.js","map-obj":"../node_modules/map-obj/index.js"}],"../node_modules/@thi.ng/hiccup-css/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.PRETTY = exports.COMPACT = exports.DEFAULT_VENDORS = void 0;
-const DEFAULT_VENDORS = ["-moz-", "-ms-", "-o-", "-webkit-"];
-/**
- * Default format config used by `css()` function.
- * Forms "minimized" CSS without obsolete white space
- * and omits comments unless they were forced.
- */
-
-exports.DEFAULT_VENDORS = DEFAULT_VENDORS;
-const COMPACT = {
-  rules: "",
-  ruleSep: ",",
-  valSep: "",
-  decls: "",
-  declStart: "{",
-  declEnd: "}",
-  indent: "",
-  comments: false
-};
-/**
- * Pretty printing format config with line breaks
- * and indentation.
- */
-
-exports.COMPACT = COMPACT;
-const PRETTY = {
-  rules: "\n",
-  ruleSep: ", ",
-  valSep: " ",
-  decls: "\n",
-  declStart: " {\n",
-  declEnd: "}\n",
-  indent: "    ",
-  comments: true
-};
-exports.PRETTY = PRETTY;
-},{}],"../node_modules/process/browser.js":[function(require,module,exports) {
-
-// shim for using process in browser
-var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-  throw new Error('setTimeout has not been defined');
-}
-
-function defaultClearTimeout() {
-  throw new Error('clearTimeout has not been defined');
-}
-
-(function () {
-  try {
-    if (typeof setTimeout === 'function') {
-      cachedSetTimeout = setTimeout;
-    } else {
-      cachedSetTimeout = defaultSetTimout;
-    }
-  } catch (e) {
-    cachedSetTimeout = defaultSetTimout;
-  }
-
-  try {
-    if (typeof clearTimeout === 'function') {
-      cachedClearTimeout = clearTimeout;
-    } else {
-      cachedClearTimeout = defaultClearTimeout;
-    }
-  } catch (e) {
-    cachedClearTimeout = defaultClearTimeout;
-  }
-})();
-
-function runTimeout(fun) {
-  if (cachedSetTimeout === setTimeout) {
-    //normal enviroments in sane situations
-    return setTimeout(fun, 0);
-  } // if setTimeout wasn't available but was latter defined
-
-
-  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-    cachedSetTimeout = setTimeout;
-    return setTimeout(fun, 0);
-  }
-
-  try {
-    // when when somebody has screwed with setTimeout but no I.E. maddness
-    return cachedSetTimeout(fun, 0);
-  } catch (e) {
-    try {
-      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-      return cachedSetTimeout.call(null, fun, 0);
-    } catch (e) {
-      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-      return cachedSetTimeout.call(this, fun, 0);
-    }
-  }
-}
-
-function runClearTimeout(marker) {
-  if (cachedClearTimeout === clearTimeout) {
-    //normal enviroments in sane situations
-    return clearTimeout(marker);
-  } // if clearTimeout wasn't available but was latter defined
-
-
-  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-    cachedClearTimeout = clearTimeout;
-    return clearTimeout(marker);
-  }
-
-  try {
-    // when when somebody has screwed with setTimeout but no I.E. maddness
-    return cachedClearTimeout(marker);
-  } catch (e) {
-    try {
-      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-      return cachedClearTimeout.call(null, marker);
-    } catch (e) {
-      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-      return cachedClearTimeout.call(this, marker);
-    }
-  }
-}
-
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-  if (!draining || !currentQueue) {
-    return;
-  }
-
-  draining = false;
-
-  if (currentQueue.length) {
-    queue = currentQueue.concat(queue);
-  } else {
-    queueIndex = -1;
-  }
-
-  if (queue.length) {
-    drainQueue();
-  }
-}
-
-function drainQueue() {
-  if (draining) {
-    return;
-  }
-
-  var timeout = runTimeout(cleanUpNextTick);
-  draining = true;
-  var len = queue.length;
-
-  while (len) {
-    currentQueue = queue;
-    queue = [];
-
-    while (++queueIndex < len) {
-      if (currentQueue) {
-        currentQueue[queueIndex].run();
-      }
-    }
-
-    queueIndex = -1;
-    len = queue.length;
-  }
-
-  currentQueue = null;
-  draining = false;
-  runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-  var args = new Array(arguments.length - 1);
-
-  if (arguments.length > 1) {
-    for (var i = 1; i < arguments.length; i++) {
-      args[i - 1] = arguments[i];
-    }
-  }
-
-  queue.push(new Item(fun, args));
-
-  if (queue.length === 1 && !draining) {
-    runTimeout(drainQueue);
-  }
-}; // v8 likes predictible objects
-
-
-function Item(fun, array) {
-  this.fun = fun;
-  this.array = array;
-}
-
-Item.prototype.run = function () {
-  this.fun.apply(null, this.array);
-};
-
-process.title = 'browser';
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) {
-  return [];
-};
-
-process.binding = function (name) {
-  throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () {
-  return '/';
-};
-
-process.chdir = function (dir) {
-  throw new Error('process.chdir is not supported');
-};
-
-process.umask = function () {
-  return 0;
-};
-},{}],"../node_modules/@thi.ng/hiccup-css/impl.js":[function(require,module,exports) {
-var process = require("process");
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.indent = exports.formatDecls = exports.expand = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-var _errors = require("@thi.ng/errors");
-
-var _transducers = require("@thi.ng/transducers");
-
-const EMPTY = new Set();
-const NO_SPACES = ":[";
-const xfSel = (0, _transducers.comp)((0, _transducers.flatten)(), (0, _transducers.map)(x => NO_SPACES.indexOf(x.charAt(0)) >= 0 ? x : " " + x));
-
-const withScope = (xf, scope) => (0, _transducers.comp)(xf, (0, _transducers.map)(x => (0, _checks.isString)(x) && x.indexOf(" .") == 0 ? x + scope : x));
-
-const expand = (acc, parent, rules, opts) => {
-  const n = rules.length;
-  const sel = [];
-  let curr, isFn;
-
-  const process = (i, r) => {
-    let rfn = null;
-
-    if ((0, _checks.isArray)(r)) {
-      expand(acc, makeSelector(parent, sel), r, opts);
-    } else if ((0, _checks.isIterable)(r) && !(0, _checks.isString)(r)) {
-      expand(acc, makeSelector(parent, sel), [...r], opts);
-    } else if ((isFn = (0, _checks.isFunction)(r)) || (rfn = opts.fns[r])) {
-      if (!parent.length) {
-        if (rfn) {
-          rfn.apply(null, rules.slice(i + 1))(acc, opts);
-          return true;
-        }
-
-        r(acc, opts);
-      } else if (isFn) {
-        process(i, r());
-      } else {
-        (0, _errors.illegalArgs)(`quoted fn ('${r}') only allowed at head position`);
-      }
-    } else if ((0, _checks.isPlainObject)(r)) {
-      curr = Object.assign(curr || {}, r);
-    } else if (r != null) {
-      sel.push(r);
-    }
-  };
-
-  for (let i = 0; i < n; i++) {
-    if (process(i, rules[i])) {
-      return acc;
-    }
-  }
-
-  curr && acc.push(formatRule(parent, sel, curr, opts));
-  return acc;
-};
-
-exports.expand = expand;
-
-const makeSelector = (parent, curr) => parent.length ? [...(0, _transducers.permutations)(parent, curr)] : curr;
-
-const formatRule = (parent, sel, curr, opts) => {
-  const f = opts.format;
-  const space = indent(opts);
-  const xf = opts.scope ? withScope(xfSel, opts.scope) : xfSel;
-  return [space, (0, _transducers.transduce)((0, _transducers.map)(sel => (0, _transducers.transduce)(xf, (0, _transducers.str)(), (0, _checks.isArray)(sel) ? sel : [sel]).trim()), (0, _transducers.str)(f.ruleSep), makeSelector(parent, sel)), f.declStart, formatDecls(curr, opts), space, f.declEnd].join("");
-};
-
-const formatDecls = (rules, opts) => {
-  const f = opts.format;
-  const prefixes = opts.autoprefix || EMPTY;
-  const space = indent(opts, opts.depth + 1);
-  const acc = [];
-
-  for (let r in rules) {
-    if (rules.hasOwnProperty(r)) {
-      let val = rules[r];
-
-      if ((0, _checks.isFunction)(val)) {
-        val = val(rules);
-      }
-
-      if ((0, _checks.isArray)(val)) {
-        val = val.map(v => (0, _checks.isArray)(v) ? v.join(" ") : v).join(f.ruleSep);
-      }
-
-      if (prefixes.has(r)) {
-        for (let v of opts.vendors) {
-          acc.push(`${space}${v}${r}:${f.valSep}${val};`);
-        }
-      }
-
-      acc.push(`${space}${r}:${f.valSep}${val};`);
-    }
-  }
-
-  return acc.join(f.decls) + f.decls;
-};
-
-exports.formatDecls = formatDecls;
-
-const indent = (opts, d = opts.depth) => d > 1 ? [...(0, _transducers.repeat)(opts.format.indent, d)].join("") : d > 0 ? opts.format.indent : "";
-
-exports.indent = indent;
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","process":"../node_modules/process/browser.js"}],"../node_modules/@thi.ng/hiccup-css/units.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.turn = exports.rad = exports.deg = exports.sec = exports.ms = exports.vw = exports.vh = exports.px = exports.percent = exports.rem = exports.ex = exports.em = void 0;
-
-const em = x => `${x}em`;
-
-exports.em = em;
-
-const ex = x => `${x}ex`;
-
-exports.ex = ex;
-
-const rem = x => `${x}rem`;
-
-exports.rem = rem;
-
-const percent = x => `${x}%`;
-
-exports.percent = percent;
-
-const px = x => `${x >>> 0}px`;
-
-exports.px = px;
-
-const vh = x => `${x}vh`;
-
-exports.vh = vh;
-
-const vw = x => `${x}vw`;
-
-exports.vw = vw;
-
-const ms = x => `${x >>> 0}ms`;
-
-exports.ms = ms;
-
-const sec = x => `${x}s`;
-
-exports.sec = sec;
-
-const deg = x => `${x}deg`;
-
-exports.deg = deg;
-
-const rad = x => `${x}rad`;
-
-exports.rad = rad;
-
-const turn = x => `${x}turn`;
-
-exports.turn = turn;
-},{}],"../node_modules/@thi.ng/hiccup-css/keyframes.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.at_keyframes = at_keyframes;
-
-var _impl = require("./impl");
-
-var _units = require("./units");
-
-function at_keyframes(id, ...args) {
-  const stops = args.length === 1 ? args[0] : {
-    0: args[0],
-    100: args[1]
-  };
-  return (acc, opts) => {
-    const outer = (0, _impl.indent)(opts);
-    opts.depth++;
-    const inner = (0, _impl.indent)(opts);
-    acc.push(`${outer}@keyframes ${id}${opts.format.declStart}`);
-
-    for (let s in stops) {
-      if (stops.hasOwnProperty(s)) {
-        acc.push([inner, (0, _units.percent)(s), opts.format.declStart, (0, _impl.formatDecls)(stops[s], opts), inner, opts.format.declEnd].join(""));
-      }
-    }
-
-    opts.depth--;
-    acc.push(outer + opts.format.declEnd);
-    return acc;
-  };
-}
-},{"./impl":"../node_modules/@thi.ng/hiccup-css/impl.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"../node_modules/@thi.ng/hiccup-css/animation.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.animation = void 0;
-
-var _keyframes = require("./keyframes");
-
-/**
- * Defines new `@keyframes` with given `id` and creates related class of
- * same name to configure given animation `opts`. Only the `duration`
- * option is given a default value (250ms), all others are optional.
- *
- * ```
- * css(
- *   animation(
- *     "fadein",
- *     { delay: "0.5s" },
- *     { opacity: 0 },
- *     { opacity: 1 }
- *   )
- * );
- * ```
- *
- * ```css
- * @keyframes fadein {
- *     0% {
- *         opacity: 0;
- *     }
- *     100% {
- *         opacity: 1;
- *     }
- * }
- *
- * .fadein {
- *     animation-duration: 250ms;
- *     animation-name: fadein;
- *     animation-delay: 0.5s;
- * }
- * ```
- *
- * @param id
- * @param opts
- * @param keyframes
- */
-const animation = (id, opts, ...keyframes) => {
-  opts = Object.assign({
-    duration: "250ms",
-    name: id
-  }, opts);
-  return [_keyframes.at_keyframes.apply(null, [id, ...keyframes]), [`.${id}`, Object.keys(opts).reduce((acc, k) => (acc[`animation-${k}`] = opts[k], acc), {})]];
-};
-
-exports.animation = animation;
-},{"./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js"}],"../node_modules/@thi.ng/hiccup-css/attribs.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.attribMatches = exports.attribSuffix = exports.attribPrefix = exports.attribContains = exports.attribEq = exports.withAttrib = void 0;
-
-const $ = op => (id, x, caseSensitve = false) => `[${id}${op}="${x}"${caseSensitve ? " i" : ""}]`;
-/**
- * Returns attrib selector: `[id]`
- *
- * @param id
- */
-
-
-const withAttrib = id => `[${id}]`;
-/**
- * Returns attrib selector `[id=x]`
- *
- * @param id
- * @param x
- * @param caseSensitive
- */
-
-
-exports.withAttrib = withAttrib;
-const attribEq = $("");
-/**
- * Returns attrib selector `[id~=x]`
- *
- * @param id
- * @param x
- * @param caseSensitive
- */
-
-exports.attribEq = attribEq;
-const attribContains = $("~");
-/**
- * Returns attrib selector `[id^=x]`
- *
- * @param id
- * @param x
- * @param caseSensitive
- */
-
-exports.attribContains = attribContains;
-const attribPrefix = $("^");
-/**
- * Returns attrib selector `[id$=x]`
- *
- * @param id
- * @param x
- * @param caseSensitive
- */
-
-exports.attribPrefix = attribPrefix;
-const attribSuffix = $("$");
-/**
- * Returns attrib selector `[id*=x]`
- * @param id
- * @param x
- * @param caseSensitive
- */
-
-exports.attribSuffix = attribSuffix;
-const attribMatches = $("*");
-exports.attribMatches = attribMatches;
-},{}],"../node_modules/@thi.ng/hiccup-css/comment.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.comment = void 0;
-
-var _impl = require("./impl");
-
-const comment = (body, force = false) => (acc, opts) => {
-  const space = (0, _impl.indent)(opts);
-  const inner = (0, _impl.indent)(opts, opts.depth + 1);
-
-  if (opts.format.comments || force) {
-    acc.push(space + "/*", body.split("\n").map(l => inner + l).join("\n"), space + "*/");
-  }
-
-  return acc;
-};
-
-exports.comment = comment;
-},{"./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/conditional.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.conditional = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-var _impl = require("./impl");
-
-const conditional = (type, cond, rules) => (acc, opts) => {
-  const space = (0, _impl.indent)(opts);
-  acc.push(`${space}${type} ${formatCond(cond)}${opts.format.declStart}`);
-  opts.depth++;
-  (0, _impl.expand)(acc, [], rules, opts);
-  opts.depth--;
-  acc.push(space + opts.format.declEnd);
-  return acc;
-};
-
-exports.conditional = conditional;
-
-const formatCond = cond => {
-  if ((0, _checks.isString)(cond)) {
-    return cond;
-  }
-
-  const acc = [];
-
-  for (let c in cond) {
-    if (cond.hasOwnProperty(c)) {
-      let v = cond[c];
-
-      if (v === true) {
-        v = c;
-      } else if (v === false) {
-        v = "not " + c;
-      } else if (v === "only") {
-        v += " " + c;
-      } else {
-        v = `(${c}:${v})`;
-      }
-
-      acc.push(v);
-    }
-  }
-
-  return acc.join(" and ");
-};
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/css.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.css = void 0;
-
-var _checks = require("@thi.ng/checks");
-
-var _api = require("./api");
-
-var _impl = require("./impl");
-
-const css = (rules, opts) => {
-  opts = Object.assign({
-    format: _api.COMPACT,
-    vendors: _api.DEFAULT_VENDORS,
-    fns: {},
-    depth: 0
-  }, opts);
-
-  if ((0, _checks.isPlainObject)(rules)) {
-    return (0, _impl.formatDecls)(rules, opts);
-  }
-
-  if ((0, _checks.isArray)(opts.autoprefix)) {
-    opts.autoprefix = new Set(opts.autoprefix);
-  }
-
-  if ((0, _checks.isIterable)(rules) && !(0, _checks.isString)(rules)) {
-    rules = [...rules];
-  }
-
-  if ((0, _checks.isArray)(rules)) {
-    return (0, _impl.expand)([], [], rules, opts).join(opts.format.rules);
-  }
-
-  if ((0, _checks.isFunction)(rules)) {
-    return rules([], opts).join(opts.format.rules);
-  }
-};
-
-exports.css = css;
-},{"@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","./api":"../node_modules/@thi.ng/hiccup-css/api.js","./impl":"../node_modules/@thi.ng/hiccup-css/impl.js"}],"../node_modules/@thi.ng/hiccup-css/import.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.at_import = void 0;
-
-const at_import = (url, ...queries) => (acc, opts) => (acc.push(queries.length ? `@import url(${url}) ${queries.join(opts.format.ruleSep)};` : `@import url(${url});`), acc);
-
-exports.at_import = at_import;
-},{}],"../node_modules/@thi.ng/hiccup-css/inject.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.injectStyleSheet = void 0;
-
-// https://davidwalsh.name/add-rules-stylesheets
-
-/**
- * Injects given CSS string as global stylesheet in DOM head. If `first`
- * is true, inserts it as first stylesheet, else (default) appends it.
- *
- * Returns created style DOM element.
- *
- * @param css
- * @param first
- */
-const injectStyleSheet = (css, first = false) => {
-  const head = document.getElementsByTagName("head")[0];
-  const sheet = document.createElement("style");
-  sheet.setAttribute("type", "text/css");
-
-  if (sheet.styleSheet !== undefined) {
-    sheet.styleSheet.cssText = css;
-  } else {
-    sheet.textContent = css;
-  }
-
-  if (first) {
-    head.insertBefore(sheet, head.firstChild);
-  } else {
-    head.appendChild(sheet);
-  }
-
-  return sheet;
-};
-
-exports.injectStyleSheet = injectStyleSheet;
-},{}],"../node_modules/@thi.ng/hiccup-css/media.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.at_media = void 0;
-
-var _conditional = require("./conditional");
-
-const at_media = (cond, rules) => (0, _conditional.conditional)("@media", cond, rules);
-
-exports.at_media = at_media;
-},{"./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../node_modules/@thi.ng/hiccup-css/namespace.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.at_namespace = at_namespace;
-
-function at_namespace(...args) {
-  return (acc, _) => (acc.push(args.length > 1 ? `@namespace ${args[0]} url(${args[1]});` : `@namespace url(${args[0]});`), acc);
-}
-},{}],"../node_modules/@thi.ng/hiccup-css/supports.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.at_supports = void 0;
-
-var _conditional = require("./conditional");
-
-const at_supports = (cond, rules) => (0, _conditional.conditional)("@supports", cond, rules);
-
-exports.at_supports = at_supports;
-},{"./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js"}],"../node_modules/@thi.ng/hiccup-css/quoted-functions.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.QUOTED_FNS = void 0;
-
-var _comment = require("./comment");
-
-var _import = require("./import");
-
-var _keyframes = require("./keyframes");
-
-var _media = require("./media");
-
-var _namespace = require("./namespace");
-
-var _supports = require("./supports");
-
-const QUOTED_FNS = {
-  "@comment": _comment.comment,
-  "@import": _import.at_import,
-  "@keyframes": _keyframes.at_keyframes,
-  "@media": _media.at_media,
-  "@namespace": _namespace.at_namespace,
-  "@supports": _supports.at_supports
-};
-exports.QUOTED_FNS = QUOTED_FNS;
-},{"./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js"}],"../node_modules/@thi.ng/hiccup-css/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _api = require("./api");
-
-Object.keys(_api).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _api[key];
-    }
-  });
-});
-
-var _animation = require("./animation");
-
-Object.keys(_animation).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _animation[key];
-    }
-  });
-});
-
-var _attribs = require("./attribs");
-
-Object.keys(_attribs).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _attribs[key];
-    }
-  });
-});
-
-var _comment = require("./comment");
-
-Object.keys(_comment).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _comment[key];
-    }
-  });
-});
-
-var _conditional = require("./conditional");
-
-Object.keys(_conditional).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _conditional[key];
-    }
-  });
-});
-
-var _css = require("./css");
-
-Object.keys(_css).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _css[key];
-    }
-  });
-});
-
-var _import = require("./import");
-
-Object.keys(_import).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _import[key];
-    }
-  });
-});
-
-var _inject = require("./inject");
-
-Object.keys(_inject).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _inject[key];
-    }
-  });
-});
-
-var _keyframes = require("./keyframes");
-
-Object.keys(_keyframes).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _keyframes[key];
-    }
-  });
-});
-
-var _media = require("./media");
-
-Object.keys(_media).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _media[key];
-    }
-  });
-});
-
-var _namespace = require("./namespace");
-
-Object.keys(_namespace).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _namespace[key];
-    }
-  });
-});
-
-var _quotedFunctions = require("./quoted-functions");
-
-Object.keys(_quotedFunctions).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _quotedFunctions[key];
-    }
-  });
-});
-
-var _supports = require("./supports");
-
-Object.keys(_supports).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _supports[key];
-    }
-  });
-});
-
-var _units = require("./units");
-
-Object.keys(_units).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _units[key];
-    }
-  });
-});
-},{"./api":"../node_modules/@thi.ng/hiccup-css/api.js","./animation":"../node_modules/@thi.ng/hiccup-css/animation.js","./attribs":"../node_modules/@thi.ng/hiccup-css/attribs.js","./comment":"../node_modules/@thi.ng/hiccup-css/comment.js","./conditional":"../node_modules/@thi.ng/hiccup-css/conditional.js","./css":"../node_modules/@thi.ng/hiccup-css/css.js","./import":"../node_modules/@thi.ng/hiccup-css/import.js","./inject":"../node_modules/@thi.ng/hiccup-css/inject.js","./keyframes":"../node_modules/@thi.ng/hiccup-css/keyframes.js","./media":"../node_modules/@thi.ng/hiccup-css/media.js","./namespace":"../node_modules/@thi.ng/hiccup-css/namespace.js","./quoted-functions":"../node_modules/@thi.ng/hiccup-css/quoted-functions.js","./supports":"../node_modules/@thi.ng/hiccup-css/supports.js","./units":"../node_modules/@thi.ng/hiccup-css/units.js"}],"styles/theme.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.theme = exports.styles = exports.zIndices = exports.space = exports.shadows = exports.sizes = exports.radii = exports.lineHeights = exports.baseLineHeights = exports.letterSpacings = exports.inputs = exports.fontWeights = exports.baseFontWeights = exports.fontSizes = exports.fonts = exports.baseFonts = exports.colors = exports.buttons = exports.baseColors = exports.breakpoints = exports.borderWidths = void 0;
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-// Based on https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
-// and https://tailwindcss.com/components
-var borderWidths = {
-  px: "1px",
-  "0": "0",
-  "2": "2px",
-  "4": "4px",
-  "8": "8px"
-};
-exports.borderWidths = borderWidths;
-var breakpoints = ["640px", "768px", "1024px", "1280px"];
-exports.breakpoints = breakpoints;
-var baseColors = {
-  transparent: "transparent",
-  black: "#000",
-  white: "#fff",
-  gray: [null, "#f7fafc", "#edf2f7", "#e2e8f0", "#cbd5e0", "#a0aec0", "#718096", "#4a5568", "#2d3748", "#1a202c"],
-  red: [null, "#fff5f5", "#fed7d7", "#feb2b2", "#fc8181", "#f56565", "#e53e3e", "#c53030", "#9b2c2c", "#742a2a"],
-  orange: [null, "#fffaf0", "#feebc8", "#fbd38d", "#f6ad55", "#ed8936", "#dd6b20", "#c05621", "#9c4221", "#7b341e"],
-  yellow: [null, "#fffff0", "#fefcbf", "#faf089", "#f6e05e", "#ecc94b", "#d69e2e", "#b7791f", "#975a16", "#744210"],
-  green: [null, "#f0fff4", "#c6f6d5", "#9ae6b4", "#68d391", "#48bb78", "#38a169", "#2f855a", "#276749", "#22543d"],
-  teal: [null, "#e6fffa", "#b2f5ea", "#81e6d9", "#4fd1c5", "#38b2ac", "#319795", "#2c7a7b", "#285e61", "#234e52"],
-  blue: [null, "#ebf8ff", "#bee3f8", "#90cdf4", "#63b3ed", "#4299e1", "#3182ce", "#2b6cb0", "#2c5282", "#2a4365"],
-  indigo: [null, "#ebf4ff", "#c3dafe", "#a3bffa", "#7f9cf5", "#667eea", "#5a67d8", "#4c51bf", "#434190", "#3c366b"],
-  purple: [null, "#faf5ff", "#e9d8fd", "#d6bcfa", "#b794f4", "#9f7aea", "#805ad5", "#6b46c1", "#553c9a", "#44337a"],
-  pink: [null, "#fff5f7", "#fed7e2", "#fbb6ce", "#f687b3", "#ed64a6", "#d53f8c", "#b83280", "#97266d", "#702459"]
-};
-exports.baseColors = baseColors;
-var commonButtonStyles = {
-  py: 2,
-  px: 3,
-  cursor: "pointer",
-  fontSize: "100%",
-  lineHeight: "inherit"
-};
-var buttons = {
-  simple: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "primary",
-    border: "none",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "default",
-    "&:hover": {
-      backgroundColor: "primaryHover"
-    }
-  }),
-  pill: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "primary",
-    border: "none",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "full",
-    "&:hover": {
-      backgroundColor: "primaryHover"
-    }
-  }),
-  outline: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "transparent",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "primary",
-    color: "primary",
-    fontWeight: "semibold",
-    borderRadius: "default",
-    "&:hover": {
-      backgroundColor: "primary",
-      color: "white",
-      borderColor: "transparent"
-    }
-  }),
-  bordered: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "primary",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "primaryHover",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "default",
-    "&:hover": {
-      backgroundColor: "primaryHover"
-    }
-  }),
-  disabled: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "primary",
-    border: "none",
-    opacity: 0.5,
-    cursor: "not-allowed",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "default"
-  }),
-  "3D": _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "primary",
-    border: "none",
-    borderBottomWidth: "4px",
-    borderBottomStyle: "solid",
-    borderBottomColor: "primaryHover",
-    color: "white",
-    fontWeight: "bold",
-    borderRadius: "default",
-    transition: "transform 0.3s ease-in-out",
-    "&:hover": {
-      transform: "translateY(-1px)"
-    }
-  }),
-  elevated: _objectSpread({}, commonButtonStyles, {
-    backgroundColor: "white",
-    borderWidth: "1px",
-    borderStyle: "solid",
-    borderColor: "gray.4",
-    color: "text",
-    fontWeight: "bold",
-    borderRadius: "default",
-    boxShadow: "default",
-    "&:hover": {
-      backgroundColor: "gray.1"
-    }
-  })
-};
-exports.buttons = buttons;
-
-var colors = _objectSpread({}, baseColors, {
-  grayDark: baseColors.gray[8],
-  text: baseColors.gray[8],
-  background: baseColors.white,
-  primary: baseColors.blue[7],
-  primaryHover: baseColors.blue[8],
-  secondary: baseColors.gray[6],
-  muted: baseColors.gray[3],
-  success: baseColors.green[3],
-  info: baseColors.blue[4],
-  warning: baseColors.yellow[3],
-  danger: baseColors.red[3],
-  light: baseColors.gray[1],
-  dark: baseColors.gray[8],
-  textMuted: baseColors.gray[6]
-});
-
-exports.colors = colors;
-var baseFonts = {
-  sans: '"Open Sans", system-ui',
-  serif: "Merriweather, system-ui",
-  mono: '"Fira Code",monospace'
-};
-exports.baseFonts = baseFonts;
-
-var fonts = _objectSpread({}, baseFonts, {
-  body: baseFonts.sans,
-  heading: "inherit",
-  monospace: baseFonts.mono
-});
-
-exports.fonts = fonts;
-var fontSizes = ["0.875rem", "1rem", "1.25rem", "1.5rem", "1.875rem", "2.25rem", "3rem", "4rem", "4.5rem"];
-exports.fontSizes = fontSizes;
-var baseFontWeights = {
-  hairline: "100",
-  thin: "200",
-  light: "300",
-  normal: "400",
-  medium: "500",
-  semibold: "600",
-  bold: "700",
-  extrabold: "800",
-  black: "900"
-};
-exports.baseFontWeights = baseFontWeights;
-
-var fontWeights = _objectSpread({}, baseFontWeights, {
-  body: baseFontWeights.normal,
-  heading: baseFontWeights.bold
-});
-
-exports.fontWeights = fontWeights;
-var commonInputStyles = {
-  py: 2,
-  px: 3,
-  fontSize: "100%",
-  borderRadius: "default",
-  appearance: "none",
-  lineHeight: "tight"
-};
-var inputs = {
-  shadow: _objectSpread({}, commonInputStyles, {
-    border: "none",
-    color: "gray.7",
-    boxShadow: "default",
-    "&:focus": {
-      outline: "none",
-      boxShadow: "outline"
-    }
-  }),
-  inline: _objectSpread({}, commonInputStyles, {
-    backgroundColor: "gray.2",
-    borderWidth: "2px",
-    borderStyle: "solid",
-    borderColor: "gray.2",
-    color: "gray.7",
-    "&:focus": {
-      outline: "none",
-      borderColor: "primary",
-      backgroundColor: "white"
-    }
-  }),
-  underline: _objectSpread({}, commonInputStyles, {
-    backgroundColor: "transparent",
-    border: "none",
-    borderBottomWidth: "2px",
-    borderBottomStyle: "solid",
-    borderBottomColor: "primary",
-    borderRadius: "0px",
-    color: "gray.7",
-    "&:focus": {
-      outline: "none",
-      borderColor: "primary",
-      backgroundColor: "white"
-    }
-  })
-};
-exports.inputs = inputs;
-var letterSpacings = {
-  tighter: "-0.05em",
-  tight: "-0.025em",
-  normal: "0",
-  wide: "0.025em",
-  wider: "0.05em",
-  widest: "0.1em"
-};
-exports.letterSpacings = letterSpacings;
-var baseLineHeights = {
-  none: "1",
-  tight: "1.25",
-  snug: "1.375",
-  normal: "1.5",
-  relaxed: "1.625",
-  loose: "2"
-};
-exports.baseLineHeights = baseLineHeights;
-
-var lineHeights = _objectSpread({}, baseLineHeights, {
-  body: baseLineHeights.relaxed,
-  heading: baseLineHeights.tight
-});
-
-exports.lineHeights = lineHeights;
-var radii = {
-  none: "0",
-  sm: "0.125rem",
-  default: "0.25rem",
-  lg: "0.5rem",
-  full: "9999px"
-};
-exports.radii = radii;
-var sizes = {
-  px: "1px",
-  "0": "0",
-  "1": "0.25rem",
-  "2": "0.5rem",
-  "3": "0.75rem",
-  "4": "1rem",
-  "5": "1.25rem",
-  "6": "1.5rem",
-  "8": "2rem",
-  "10": "2.5rem",
-  "12": "3rem",
-  "16": "4rem",
-  "20": "5rem",
-  "24": "6rem",
-  "32": "8rem",
-  "40": "10rem",
-  "48": "12rem",
-  "56": "14rem",
-  "64": "16rem",
-  xs: "20rem",
-  sm: "24rem",
-  md: "28rem",
-  lg: "32rem",
-  xl: "36rem",
-  "2xl": "42rem",
-  "3xl": "48rem",
-  "4xl": "56rem",
-  "5xl": "64rem",
-  "6xl": "72rem",
-  "1/2": "50%",
-  "1/3": "33.333333%",
-  "2/3": "66.666667%",
-  "1/4": "25%",
-  "2/4": "50%",
-  "3/4": "75%",
-  "1/5": "20%",
-  "2/5": "40%",
-  "3/5": "60%",
-  "4/5": "80%",
-  "1/6": "16.666667%",
-  "2/6": "33.333333%",
-  "3/6": "50%",
-  "4/6": "66.666667%",
-  "5/6": "83.333333%",
-  "1/12": "8.333333%",
-  "2/12": "16.666667%",
-  "3/12": "25%",
-  "4/12": "33.333333%",
-  "5/12": "41.666667%",
-  "6/12": "50%",
-  "7/12": "58.333333%",
-  "8/12": "66.666667%",
-  "9/12": "75%",
-  "10/12": "83.333333%",
-  "11/12": "91.666667%",
-  full: "100%",
-  screenHeight: "100vh",
-  screenWidth: "100vw"
-};
-exports.sizes = sizes;
-var shadows = {
-  default: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-  md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-  lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-  xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-  "2xl": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-  inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)",
-  outline: "0 0 0 3px rgba(66, 153, 225, 0.5)",
-  none: "none"
-};
-exports.shadows = shadows;
-var space = [0, "0.25rem", "0.5rem", "1rem", "2rem", "4rem", "8rem", "16rem", "32rem"];
-exports.space = space;
-var zIndices = {
-  auto: "auto",
-  "0": "0",
-  "10": "10",
-  "20": "20",
-  "30": "30",
-  "40": "40",
-  "50": "50"
-};
-exports.zIndices = zIndices;
-var heading = {
-  fontFamily: "heading",
-  fontWeight: "heading",
-  lineHeight: "heading",
-  m: 0,
-  mb: 1
-};
-var styles = {
-  root: {
-    fontFamily: "body",
-    lineHeight: "body",
-    fontWeight: "body"
-  },
-  a: {
-    color: "primary",
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline"
-    }
-  },
-  h1: _objectSpread({}, heading, {
-    fontSize: 6,
-    mt: 2
-  }),
-  h2: _objectSpread({}, heading, {
-    fontSize: 5,
-    mt: 2
-  }),
-  h3: _objectSpread({}, heading, {
-    fontSize: 4,
-    mt: 3
-  }),
-  h4: _objectSpread({}, heading, {
-    fontSize: 3
-  }),
-  h5: _objectSpread({}, heading, {
-    fontSize: 2
-  }),
-  h6: _objectSpread({}, heading, {
-    fontSize: 1,
-    mb: 2
-  }),
-  code: {},
-  pre: {},
-  hr: {
-    bg: "muted",
-    border: 0,
-    height: "1px",
-    m: 3
-  }
-};
-exports.styles = styles;
-var theme = {
-  borderWidths: borderWidths,
-  breakpoints: breakpoints,
-  colors: colors,
-  fonts: fonts,
-  fontSizes: fontSizes,
-  fontWeights: fontWeights,
-  letterSpacings: letterSpacings,
-  lineHeights: lineHeights,
-  sizes: sizes,
-  shadows: shadows,
-  space: space,
-  radii: radii,
-  zIndices: zIndices,
-  styles: styles,
-  buttons: buttons,
-  inputs: inputs
-};
-exports.theme = theme;
-var _default = theme;
-exports.default = _default;
-},{}],"styles/themed-style-fire.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.fireStyles = exports.themedStyleFire = void 0;
-
-var A = _interopRequireWildcard(require("@thi.ng/associative"));
-
-var rand = _interopRequireWildcard(require("@thi.ng/random"));
-
-var _atom = require("@thi.ng/atom");
-
-var _paths = require("@thi.ng/paths");
-
-var _css = _interopRequireDefault(require("@styled-system/css"));
-
-var _decamelizeKeysDeep = _interopRequireDefault(require("decamelize-keys-deep"));
-
-var _hiccupCss = require("@thi.ng/hiccup-css");
-
-var _theme = require("./theme");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; if (obj != null) { var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var opts = "development" !== "production" ? {
-  format: _hiccupCss.PRETTY
-} : null;
-var style_atom = new _atom.Atom({
-  body: {}
-});
-var style_transaction = new _atom.Transacted(style_atom);
-style_transaction.begin();
-/**
- * @param {Atom} atom - a Transacted Atom
- * @param {Object} spec - CSS style object
- * @param {string} hash - a unique class-name
- * @param {string} heir - if a nested rule, the parent
- * Takes in a transacted atom and stores CSS rules
- * so that shared heirarchies can be reused instead of
- * naively storing every pseudo-selector and media-query
- * reduntantly for every class-name
- * */
-
-var mergeInStyles = function mergeInStyles(atom, styles_obj, selector) {
-  var parent = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "body";
-  var path = [parent, selector];
-  var state = atom.deref();
-  var has_parent = !!state[parent];
-  var has_selector_w_parent = has_parent && !!state[parent][selector];
-  console.log("has_parent:", has_parent);
-  console.log("has_selector_w_parent:", has_selector_w_parent);
-  console.log("path:", path); // parent -> selector path exists
-
-  if (has_selector_w_parent) {
-    atom.swapIn(path, function (sty) {
-      return _objectSpread({}, sty, {}, styles_obj);
-    }); // parent exists, but not with selector
-  } else if (has_parent) {
-    atom.swapIn(path, function (selectors) {
-      return _objectSpread({}, selectors, _defineProperty({}, selector, styles_obj));
-    }); // neither parent or selector exists
-  } else {
-    atom.swap(function (state) {
-      return (0, _paths.setIn)(state, path, styles_obj);
-    });
-  }
-};
-/**
- * This function tests against a few rules to decide
- * how the CSS should be stored in the Atom.
- * Every component that leverages this function
- * thereby registers its styles with the global,
- * CSS Atom.
- *
- * */
-
-
-var partitionStyleEntriesByType = function partitionStyleEntriesByType(entries, dot_hash) {
-  console.log(dot_hash, entries);
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = entries[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var _step$value = _slicedToArray(_step.value, 2),
-          selector = _step$value[0],
-          styles = _step$value[1];
-
-      var is_pseudo_and = selector.slice(0, 1) === "&";
-      var is_pseudo_col = selector.slice(0, 1) === ":";
-      var is_obj = _typeof(styles) === "object";
-
-      if (is_obj && (is_pseudo_and || is_pseudo_col)) {
-        // pseudo selector
-        if (is_pseudo_col) selector = "&" + selector;
-        mergeInStyles(style_transaction, styles, dot_hash, selector);
-      } else if (is_obj && selector.slice(0, 6) === "@media") {
-        // media query
-        var rgx = /\(.*?\)/g;
-        var media_query = selector.match(rgx)[0].slice(1, -1);
-        mergeInStyles(style_transaction, styles, dot_hash, media_query); // unidentified object
-      } else if (is_obj) {
-        mergeInStyles(style_transaction, styles, dot_hash); // array
-      } else {
-        mergeInStyles(style_transaction, _defineProperty({}, selector, styles), dot_hash);
-      }
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return != null) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-};
-
-var base_styles = Object.entries((0, _decamelizeKeysDeep.default)((0, _css.default)(_theme.theme.styles)(_theme.theme), "-")); // console.log(base_styles)
-
-base_styles.forEach(function (_ref) {
-  var _ref2 = _slicedToArray(_ref, 2),
-      tag = _ref2[0],
-      styles = _ref2[1];
-
-  var style_array = Object.entries(styles); // console.log(tag, style_array)
-
-  partitionStyleEntriesByType(style_array, tag);
-}); // let formatted_base_styles = hiccup_css(deCamel(base_styles, "-"), opts)
-// base_styles.forEach(([selector, styles]) =>
-//   mergeInStyles(style_transaction, styles, selector)
-// )
-// partitionStyleEntriesByType("body", base_styles)
-
-/**
- * Exports a HOF that takes in a theme object and returns
- * a custom hash. This hash is used to save css rules
- * under a unique class-name.
- * If no theme is given (called with ()) defaults to
- * packaged theme.js
- * */
-
-var themedStyleFire = function themedStyleFire() {
-  var theme = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : theme;
-  return function (emmet, styles) {
-    var hash = "".concat(emmet, "_").concat(rand.randomID(5, "id-", "0123456789abcdefghijklmnopqrstuvwxyz"));
-    var dot_hash = ".".concat(hash);
-    var entries = Object.entries((0, _decamelizeKeysDeep.default)((0, _css.default)(styles)(theme), "-")); // console.log(dot_hash, entries)
-
-    partitionStyleEntriesByType(entries, dot_hash);
-    return hash;
-  };
-};
-
-exports.themedStyleFire = themedStyleFire;
-var fireStyles = themedStyleFire(_theme.theme);
-/**
- * takes a CSS Transacted Atom and commits all
- * pending mutations at once, then buckets the
- * CSS in order so that precedence rules are
- * applied correctly (e.g., media-queries are reversed)
- * when mapped over in final application
- * */
-
-exports.fireStyles = fireStyles;
-
-var commitAndApplyStyleOrder = function commitAndApplyStyleOrder(atom) {
-  atom.commit();
-  var init = style_atom.deref();
-  console.log(init);
-  var entries = Object.entries(init);
-  var m_queries = [];
-  var css_basics = [];
-  var css_pseudos = [];
-
-  for (var _i2 = 0, _entries = entries; _i2 < _entries.length; _i2++) {
-    var entry = _entries[_i2];
-    var query = entry[0];
-    var hashes = entry[1];
-    var hash_list = Object.entries(hashes)[0];
-
-    var _query$split = query.split(":"),
-        _query$split2 = _slicedToArray(_query$split, 2),
-        m = _query$split2[0],
-        q = _query$split2[1];
-
-    if (m === "&") {
-      css_pseudos.push([hash_list[0], [":".concat(q), hash_list[1]]]);
-    } else if (q) {
-      m_queries.push([(0, _hiccupCss.at_media)(_defineProperty({
-        screen: true
-      }, m, q), hash_list)]);
-    } else {
-      css_basics.push(hash_list);
-    }
-  }
-
-  return [css_basics, css_pseudos, m_queries.reverse()];
-};
-/**
- * Upon DOM content load, unwraps the CSS Atom and
- * injects styles for all registered components into
- * the <head> of the document
- * */
-
-
-window.addEventListener("DOMContentLoaded", function (ev) {
-  var ordered = commitAndApplyStyleOrder(style_transaction);
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = ordered[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var ready = _step2.value;
-      (0, _hiccupCss.injectStyleSheet)((0, _hiccupCss.css)(ready, opts));
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return != null) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-});
-},{"@thi.ng/associative":"../node_modules/@thi.ng/associative/index.js","@thi.ng/random":"../node_modules/@thi.ng/random/index.js","@thi.ng/atom":"../node_modules/@thi.ng/atom/index.js","@thi.ng/paths":"../node_modules/@thi.ng/paths/index.js","@styled-system/css":"../node_modules/@styled-system/css/dist/index.esm.js","decamelize-keys-deep":"../node_modules/decamelize-keys-deep/index.js","@thi.ng/hiccup-css":"../node_modules/@thi.ng/hiccup-css/index.js","./theme":"styles/theme.js"}],"styles/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _themedStyleFire = require("./themed-style-fire");
-
-Object.keys(_themedStyleFire).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _themedStyleFire[key];
-    }
-  });
-});
-
-var _theme = require("./theme");
-
-Object.keys(_theme).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _theme[key];
-    }
-  });
-});
-},{"./themed-style-fire":"styles/themed-style-fire.js","./theme":"styles/theme.js"}],"components/button.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.button = exports.button_x = void 0;
-
-var _styles = require("../styles");
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var default_cfg = {
-  tag: "button",
-  tagDisabled: "span"
-};
-var name = "button";
-var att = {
-  onclick: function onclick() {
-    return console.warn("no handler assigned to button 'onclick' event");
-  }
-}; // a HOF that takes a config and returns an HDOM node function
-
-var button_x = function button_x(cfg) {
-  cfg = _objectSpread({}, default_cfg, {}, cfg);
-  var hash = (0, _styles.fireStyles)(name, _objectSpread({}, _styles.theme.buttons.simple, {
-    fontSize: ["10px", "20px", "30px", "40px"],
-    m: ["18px", "24px", "48px"]
-  })); // the returned node has some default styles and
-
-  return function (ctx, attrs) {
-    for (var _len = arguments.length, children = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      children[_key - 2] = arguments[_key];
-    }
-
-    return [cfg.tag, _objectSpread({}, att, {
-      class: hash
-    }, attrs)].concat(children);
-  };
-};
-
-exports.button_x = button_x;
-var button = button_x();
-exports.button = button;
-},{"../styles":"styles/index.js"}],"components/markdown.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CUSTOM_TAGS = void 0;
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-// prettier-ignore
-var CUSTOM_TAGS = {
-  heading: function heading(level, xs) {
-    return [level < 7 ? "h".concat(level) : "p"].concat(_toConsumableArray(xs));
-  },
-  list: function list(type, xs) {
-    return [type].concat(_toConsumableArray(xs));
-  },
-  blockquote: function blockquote(xs) {
-    return ["blockquote"].concat(_toConsumableArray(xs));
-  },
-  code: function code(body) {
-    return ["code", body];
-  },
-  codeblock: function codeblock(lang, body) {
-    return ["pre", {
-      lang: lang
-    }, body];
-  },
-  em: function em(body) {
-    return ["em", body];
-  },
-  hr: function hr() {
-    return ["hr"];
-  },
-  img: function img(src, alt) {
-    return ["img", {
-      src: src,
-      alt: alt
-    }];
-  },
-  li: function li(xs) {
-    return ["li"].concat(_toConsumableArray(xs));
-  },
-  link: function link(href, body) {
-    return ["a", {
-      href: href
-    }, body];
-  },
-  paragraph: function paragraph(xs) {
-    return ["p"].concat(_toConsumableArray(xs));
-  },
-  strong: function strong(body) {
-    return ["strong", body];
-  },
-  strike: function strike(body) {
-    return ["del", body];
-  },
-  table: function table(rows) {
-    return ["table", ["tbody"].concat(_toConsumableArray(rows))];
-  },
-  td: function td(_, xs) {
-    return ["td"].concat(_toConsumableArray(xs));
-  },
-  tr: function tr(_, xs) {
-    return ["tr"].concat(_toConsumableArray(xs));
-  }
-};
-exports.CUSTOM_TAGS = CUSTOM_TAGS;
-},{}],"components/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _button = require("./button");
-
-Object.keys(_button).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _button[key];
-    }
-  });
-});
-
-var _markdown = require("./markdown");
-
-Object.keys(_markdown).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _markdown[key];
-    }
-  });
-});
-},{"./button":"components/button.js","./markdown":"components/markdown.js"}],"../node_modules/@thi.ng/bench/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.benchResult = exports.bench = exports.timedResult = exports.timed = void 0;
-
-/**
- * Calls function `fn` without args, prints elapsed time and returns
- * fn's result. The optional `prefix` will be displayed with the output,
- * allowing to label different measurements.
- *
- * @param fn
- * @param prefix
- */
-const timed = (fn, prefix = "") => {
-  const t0 = Date.now();
-  const res = fn();
-  console.log(prefix + (Date.now() - t0) + "ms");
-  return res;
-};
-/**
- * Similar to `timed()`, but produces no output and instead returns
- * tuple of `fn`'s result and the time measurement.
- *
- * @param fn
- */
-
-
-exports.timed = timed;
-
-const timedResult = fn => {
-  const t0 = Date.now();
-  const res = fn();
-  return [res, Date.now() - t0];
-};
-/**
- * Executes given function `n` times, prints elapsed time to console and
- * returns last result from fn. The optional `prefix` will be displayed
- * with the output, allowing to label different measurements.
- *
- * @param fn
- * @param n
- */
-
-
-exports.timedResult = timedResult;
-
-const bench = (fn, n = 1e6, prefix = "") => {
-  let res;
-  return timed(() => {
-    while (n-- > 0) {
-      res = fn();
-    }
-
-    return res;
-  }, prefix);
-};
-/**
- * Similar to `bench()`, but produces no output and instead returns
- * tuple of `fn`'s last result and the grand total time measurement.
- *
- * @param fn
- * @param n
- */
-
-
-exports.bench = bench;
-
-const benchResult = (fn, n = 1e6) => {
-  let res;
-  return timedResult(() => {
-    while (n-- > 0) {
-      res = fn();
-    }
-
-    return res;
-  });
-};
-
-exports.benchResult = benchResult;
-},{}],"../node_modules/@thi.ng/rstream/api.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.setLogger = exports.LOGGER = exports.CloseMode = exports.State = void 0;
-
-var _api = require("@thi.ng/api");
-
-var State;
-exports.State = State;
-
-(function (State) {
-  State[State["IDLE"] = 0] = "IDLE";
-  State[State["ACTIVE"] = 1] = "ACTIVE";
-  State[State["DONE"] = 2] = "DONE";
-  State[State["ERROR"] = 3] = "ERROR";
-  State[State["DISABLED"] = 4] = "DISABLED"; // TODO currently unused
-})(State || (exports.State = State = {}));
-/**
- * Closing behavior for `StreamMerge` and `StreamSync`.
- */
-
-
-var CloseMode;
-exports.CloseMode = CloseMode;
-
-(function (CloseMode) {
-  CloseMode[CloseMode["NEVER"] = 0] = "NEVER";
-  CloseMode[CloseMode["FIRST"] = 1] = "FIRST";
-  CloseMode[CloseMode["LAST"] = 2] = "LAST";
-})(CloseMode || (exports.CloseMode = CloseMode = {}));
-
-let LOGGER = _api.NULL_LOGGER;
-exports.LOGGER = LOGGER;
-
-const setLogger = logger => exports.LOGGER = LOGGER = logger;
-
-exports.setLogger = setLogger;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js"}],"../node_modules/@thi.ng/rstream/utils/idgen.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.nextID = void 0;
-let NEXT_ID = 0;
-
-const nextID = () => NEXT_ID++;
-
-exports.nextID = nextID;
-},{}],"../node_modules/@thi.ng/rstream/subscription.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Subscription = exports.subscription = void 0;
-
-var _api = require("@thi.ng/api");
-
-var _checks = require("@thi.ng/checks");
-
-var _errors = require("@thi.ng/errors");
-
-var _transducers = require("@thi.ng/transducers");
-
-var _api2 = require("./api");
-
-var _idgen = require("./utils/idgen");
-
-/**
- * Creates a new `Subscription` instance, the fundamental datatype &
- * building block provided by this package (`Stream`s are
- * `Subscription`s too). Subscriptions can be:
- *
- * - linked into directed graphs (if async, not necessarily DAGs)
- * - transformed using transducers (incl. early termination)
- * - can have any number of subscribers (optionally each w/ their own
- *   transducer)
- * - recursively unsubscribe themselves from parent after their last
- *   subscriber unsubscribed
- * - will go into a non-recoverable error state if NONE of the
- *   subscribers has an error handler itself
- * - implement the @thi.ng/api `IDeref` interface
- *
- * ```
- * // as reactive value mechanism (same as with stream() above)
- * s = rs.subscription();
- * s.subscribe(trace("s1"));
- * s.subscribe(trace("s2"), tx.filter((x) => x > 25));
- *
- * // external trigger
- * s.next(23);
- * // s1 23
- * s.next(42);
- * // s1 42
- * // s2 42
- * ```
- *
- * @param sub
- * @param xform
- * @param parent
- * @param id
- */
-const subscription = (sub, xform, parent, id) => new Subscription(sub, xform, parent, id);
-
-exports.subscription = subscription;
-
-class Subscription {
-  constructor(sub, xform, parent, id) {
-    this.state = 0
-    /* IDLE */
-    ;
-    this.parent = parent;
-    this.id = id || `sub-${(0, _idgen.nextID)()}`;
-    this.last = _api.SEMAPHORE;
-    this.subs = [];
-
-    if (sub) {
-      this.subs.push(sub);
-    }
-
-    if (xform) {
-      this.xform = xform((0, _transducers.push)());
-    }
-  }
-
-  deref() {
-    return this.last !== _api.SEMAPHORE ? this.last : undefined;
-  }
-
-  getState() {
-    return this.state;
-  }
-
-  subscribe(...args) {
-    this.ensureState();
-    let sub, xform, id;
-
-    switch (args.length) {
-      case 1:
-      case 2:
-        if ((0, _checks.isFunction)(args[0])) {
-          xform = args[0];
-          id = args[1] || `xform-${(0, _idgen.nextID)()}`;
-        } else {
-          sub = args[0];
-
-          if ((0, _checks.isFunction)(args[1])) {
-            xform = args[1];
-          } else {
-            id = args[1];
-          }
-        }
-
-        break;
-
-      case 3:
-        [sub, xform, id] = args;
-        break;
-
-      default:
-        (0, _errors.illegalArity)(args.length);
-    }
-
-    if ((0, _checks.implementsFunction)(sub, "subscribe")) {
-      sub.parent = this;
-    } else {
-      sub = subscription(sub, xform, this, id);
-    }
-
-    if (this.last !== _api.SEMAPHORE) {
-      sub.next(this.last);
-    }
-
-    return this.addWrapped(sub);
-  }
-  /**
-   * Returns array of new child subscriptions for all given
-   * subscribers.
-   *
-   * @param subs
-   */
-
-
-  subscribeAll(...subs) {
-    const wrapped = [];
-
-    for (let s of subs) {
-      wrapped.push(this.subscribe(s));
-    }
-
-    return wrapped;
-  }
-
-  transform(...xf) {
-    const n = xf.length - 1;
-
-    if ((0, _checks.isString)(xf[n])) {
-      return this.subscribe((0, _transducers.comp)(...xf.slice(0, n)), xf[n]);
-    } else {
-      return this.subscribe((0, _transducers.comp)(...xf));
-    }
-  }
-  /**
-   * If called without arg, removes this subscription from parent (if
-   * any), cleans up internal state and goes into DONE state. If
-   * called with arg, removes the sub from internal pool and if no
-   * other subs are remaining also cleans up itself and goes into DONE
-   * state.
-   *
-   * @param sub
-   */
-
-
-  unsubscribe(sub) {
-    _api2.LOGGER.debug(this.id, "unsub start", sub ? sub.id : "self");
-
-    if (!sub) {
-      let res = true;
-
-      if (this.parent) {
-        res = this.parent.unsubscribe(this);
-      }
-
-      this.state = 2
-      /* DONE */
-      ;
-      this.cleanup();
-      return res;
-    }
-
-    if (this.subs) {
-      _api2.LOGGER.debug(this.id, "unsub child", sub.id);
-
-      const idx = this.subs.indexOf(sub);
-
-      if (idx >= 0) {
-        this.subs.splice(idx, 1);
-
-        if (!this.subs.length) {
-          this.unsubscribe();
-        }
-
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  next(x) {
-    if (this.state < 2
-    /* DONE */
-    ) {
-        if (this.xform) {
-          const acc = this.xform[2]([], x);
-          const uacc = (0, _transducers.unreduced)(acc);
-          const n = uacc.length;
-
-          for (let i = 0; i < n; i++) {
-            this.dispatch(uacc[i]);
-          }
-
-          if ((0, _transducers.isReduced)(acc)) {
-            this.done();
-          }
-        } else {
-          this.dispatch(x);
-        }
-      }
-  }
-
-  done() {
-    _api2.LOGGER.debug(this.id, "done start");
-
-    if (this.state < 2
-    /* DONE */
-    ) {
-        if (this.xform) {
-          const acc = this.xform[1]([]);
-          const uacc = (0, _transducers.unreduced)(acc);
-          const n = uacc.length;
-
-          for (let i = 0; i < n; i++) {
-            this.dispatch(uacc[i]);
-          }
-        }
-
-        this.state = 2
-        /* DONE */
-        ;
-
-        for (let s of [...this.subs]) {
-          s.done && s.done();
-        }
-
-        this.unsubscribe();
-
-        _api2.LOGGER.debug(this.id, "done");
-      }
-  }
-
-  error(e) {
-    this.state = 3
-    /* ERROR */
-    ;
-    let notified = false;
-
-    if (this.subs && this.subs.length) {
-      for (let s of this.subs.slice()) {
-        if (s.error) {
-          s.error(e);
-          notified = true;
-        }
-      }
-    }
-
-    if (!notified) {
-      _api2.LOGGER.warn(this.id, "unhandled error:", e);
-
-      if (this.parent) {
-        _api2.LOGGER.debug(this.id, "unsubscribing...");
-
-        this.unsubscribe();
-        this.state = 3
-        /* ERROR */
-        ;
-      }
-    }
-  }
-
-  addWrapped(wrapped) {
-    this.subs.push(wrapped);
-    this.state = 1
-    /* ACTIVE */
-    ;
-    return wrapped;
-  }
-
-  dispatch(x) {
-    // LOGGER.debug(this.id, "dispatch", x);
-    this.last = x;
-    const subs = this.subs;
-    let s;
-
-    if (subs.length == 1) {
-      s = subs[0];
-
-      try {
-        s.next && s.next(x);
-      } catch (e) {
-        s.error ? s.error(e) : this.error(e);
-      }
-    } else {
-      for (let i = subs.length - 1; i >= 0; i--) {
-        s = subs[i];
-
-        try {
-          s.next && s.next(x);
-        } catch (e) {
-          s.error ? s.error(e) : this.error(e);
-        }
-      }
-    }
-  }
-
-  ensureState() {
-    if (this.state >= 2
-    /* DONE */
-    ) {
-        (0, _errors.illegalState)(`operation not allowed in state ${this.state}`);
-      }
-  }
-
-  cleanup() {
-    _api2.LOGGER.debug(this.id, "cleanup");
-
-    this.subs.length = 0;
-    delete this.parent;
-    delete this.xform;
-    delete this.last;
-  }
-
-}
-
-exports.Subscription = Subscription;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","@thi.ng/checks":"../node_modules/@thi.ng/checks/index.js","@thi.ng/errors":"../node_modules/@thi.ng/errors/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","./api":"../node_modules/@thi.ng/rstream/api.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../node_modules/@thi.ng/rstream/metastream.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.MetaStream = exports.metaStream = void 0;
-
-var _api = require("@thi.ng/api");
-
-var _subscription = require("./subscription");
-
-var _idgen = require("./utils/idgen");
-
-/**
- * A `MetaStream` is a subscription type which transforms each incoming
- * value into a new stream, subscribes to it (via an hidden / internal
- * subscription) and then only passes values from that stream to its own
- * subscribers. If a new value is received, the meta stream first
- * unsubscribes from any still active stream, before creating and
- * subscribing to the new stream. Hence this stream type is useful for
- * cases where streams need to be dynamically created & inserted into an
- * existing dataflow topology.
- *
- * The user supplied `factory` function will be called for each incoming
- * value and is responsible for creating the new stream instances. If
- * the function returns null/undefined, no further action will be taken
- * (acts like a filter transducer).
- *
- * ```
- * // transform each received odd number into a stream
- * // producing 3 copies of that number in the metastream
- * // even numbers are ignored
- * a = metastream((x) => (x & 1) ? fromIterable(tx.repeat(x, 3), 100) : null)
- *
- * a.subscribe(trace())
- * a.next(23)
- *
- * // 23
- * // 23
- * // 23
- *
- * a.next(42) // ignored by factory fn
- *
- * a.next(43)
- * // 43
- * // 43
- * // 43
- * ```
- *
- * The factory function does NOT need to create new streams, but can
- * only merely return other existing streams, and so making the meta
- * stream act like a switch.
- *
- * If the meta stream is the only subscriber to these input streams,
- * you'll need to add a dummy subscription to each in order to keep them
- * alive and support dynamic switching between them. See issue #74
- *
- * ```
- * a = fromIterable(tx.repeat("a"), 1000);
- * b = fromIterable(tx.repeat("b"), 1000);
- *
- * // dummy subscriptions
- * a.subscribe({})
- * b.subscribe({})
- *
- * m = metaStream((x) => x ? a : b);
- * m.subscribe(trace("meta from: "));
- *
- * m.next(true);
- * // meta from: a
- *
- * m.next(false);
- * // meta from: b
- *
- * m.next(true);
- * // meta from: a
- * ```
- *
- * @param factory
- * @param id
- */
-const metaStream = (factory, id) => new MetaStream(factory, id);
-
-exports.metaStream = metaStream;
-
-class MetaStream extends _subscription.Subscription {
-  constructor(factory, id) {
-    super(undefined, undefined, undefined, id || `metastram-${(0, _idgen.nextID)()}`);
-    this.factory = factory;
-  }
-
-  next(x) {
-    if (this.state < 2
-    /* DONE */
-    ) {
-        if (this.stream) {
-          this.stream.unsubscribe(this.sub);
-        }
-
-        let stream = this.factory(x);
-
-        if (stream) {
-          this.stream = stream;
-          this.sub = this.stream.subscribe({
-            next: x => {
-              stream === this.stream && super.dispatch(x);
-            },
-            done: () => {
-              this.stream.unsubscribe(this.sub);
-
-              if (stream === this.stream) {
-                this.stream = undefined;
-                this.sub = undefined;
-              }
-            },
-            error: e => super.error(e),
-            __owner: this
-          });
-        }
-      }
-  }
-
-  done() {
-    if (this.stream) {
-      this.detach();
-    }
-
-    super.done();
-  }
-
-  unsubscribe(sub) {
-    if (this.stream && (!sub || this.subs.length === 1)) {
-      this.detach();
-    }
-
-    return super.unsubscribe();
-  }
-
-  detach() {
-    (0, _api.assert)(!!this.stream, "input stream already removed");
-    this.stream.unsubscribe(this.sub);
-    delete this.stream;
-    delete this.sub;
-  }
-
-}
-
-exports.MetaStream = MetaStream;
-},{"@thi.ng/api":"../node_modules/@thi.ng/api/index.js","./subscription":"../node_modules/@thi.ng/rstream/subscription.js","./utils/idgen":"../node_modules/@thi.ng/rstream/utils/idgen.js"}],"../node_modules/@thi.ng/rstream/pubsub.js":[function(require,module,exports) {
+},{"./array-set":"../node_modules/@thi.ng/associative/array-set.js","./common-keys":"../node_modules/@thi.ng/associative/common-keys.js","./difference":"../node_modules/@thi.ng/associative/difference.js","./dissoc":"../node_modules/@thi.ng/associative/dissoc.js","./equiv-map":"../node_modules/@thi.ng/associative/equiv-map.js","./hash-map":"../node_modules/@thi.ng/associative/hash-map.js","./indexed":"../node_modules/@thi.ng/associative/indexed.js","./intersection":"../node_modules/@thi.ng/associative/intersection.js","./into":"../node_modules/@thi.ng/associative/into.js","./invert":"../node_modules/@thi.ng/associative/invert.js","./join":"../node_modules/@thi.ng/associative/join.js","./ll-set":"../node_modules/@thi.ng/associative/ll-set.js","./merge-apply":"../node_modules/@thi.ng/associative/merge-apply.js","./merge-deep":"../node_modules/@thi.ng/associative/merge-deep.js","./merge-with":"../node_modules/@thi.ng/associative/merge-with.js","./merge":"../node_modules/@thi.ng/associative/merge.js","./rename-keys":"../node_modules/@thi.ng/associative/rename-keys.js","./select-keys":"../node_modules/@thi.ng/associative/select-keys.js","./sorted-map":"../node_modules/@thi.ng/associative/sorted-map.js","./sorted-set":"../node_modules/@thi.ng/associative/sorted-set.js","./sparse-set":"../node_modules/@thi.ng/associative/sparse-set.js","./union":"../node_modules/@thi.ng/associative/union.js","./without-keys":"../node_modules/@thi.ng/associative/without-keys.js"}],"../node_modules/@thi.ng/rstream/pubsub.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25440,7 +27050,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 // os.arch() //?
 // Parcel loads fs calls and replaces them with contents
 // see: https://github.com/parcel-bundler/parcel/issues/970
-var blog_CRLF = "# Minimal Markdown parser\r\n\r\nThis project is part of the\r\n[@thi.ng/umbrella](https://github.com/thi-ng/umbrella/) monorepo.\r\n\r\nI ~~am amazing~~ really messed up\r\n\r\nThis _is emphasized_ inline\r\n\r\n## About\r\n\r\nThis example is a test environment for the new & minimal\r\n[Markdown](https://en.wikipedia.org/wiki/Markdown) parser & converter to\r\n[hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\r\nformat from the\r\n[@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\r\npackage.\r\n\r\nThe rest of this file is an excerpt of the relevant parts of that\r\npackage's `README.md`...\r\n\r\n### Features\r\n\r\nThe parser itself is not aimed at supporting **all** of Markdown's\r\nquirky syntax features, but will restrict itself to a sane subset of\r\nfeatures and already sports:\r\n\r\n| Feature     | Comments                                                                                            |\r\n|-------------|-----------------------------------------------------------------------------------------------------|\r\n| Heading     | ATX only (`#` line prefix), levels 1-6, then downgrade to paragraph                                 |\r\n| Paragraph   | no support for `\\` line breaks                                                                      |\r\n| Blockquote  | Respects newlines                                                                                   |\r\n| Format      | **bold**, _emphasis_, `code`, ~~strikethrough~~ in paragraphs, headings, lists, blockquotes, tables |\r\n| Link        | no support for inline formats in label                                                              |\r\n| Image       | no image links                                                                                      |\r\n| List        | only unordered (`- ` line prefix), no nesting, supports line breaks                                 |\r\n| Table       | no support for column alignment                                                                     |\r\n| Code block  | GFM only (triple backtick prefix), w/ optional language hint                                        |\r\n| Horiz. Rule | only dash supported (e.g. `---`), min 3 chars required                                              |\r\n\r\nNote: Currently, the last heading, paragraph, blockquote, list or table requires an additional newline.\r\n\r\n### Limitations\r\n\r\nThese MD features (and probably many more) are **not** supported:\r\n\r\n- inline HTML\r\n- nested inline formats (e.g. **bold** inside _italic_)\r\n- inline formats within link labels\r\n- image links\r\n- footnotes\r\n- link references\r\n- nested / ordered / numbered / todo lists\r\n\r\nSome of these are considered, though currently not high priority...\r\n\r\n> \"Weeks of coding can **save hours** of planning.\"\r\n> -- Anonymous\r\n\r\n![image alt tag](https://media.giphy.com/media/f6qMGmXuOdkwU/giphy.gif)\r\n\r\nand something\r\n\r\n### Other features\r\n\r\n- **Functional:** parser entirely built using\r\n  [transducers](https://github.com/thi-ng/umbrella/tree/master/packages/transducers)\r\n  & function composition. Use the parser in a transducer pipeline to\r\n  easily apply post-processing of the emitted results\r\n- **Declarative:** parsing rules defined declaratively with only minimal\r\n  state/context handling needed\r\n- **No regex:** consumes input character-wise and produces an iterator\r\n  of hiccup-style tree nodes, ready to be used with\r\n  [@thi.ng/hdom](https://github.com/thi-ng/umbrella/tree/master/packages/hdom),\r\n  [@thi.ng/hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\r\n  or\r\n  [@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\r\n  (for back conversion to MD)\r\n- **Customizable:** supports custom tag factory functions to override\r\n  default behavior / representation of each parsed result element\r\n- **Fast (enough):** parses this markdown file (5.8KB) in ~5ms on MBP2016 / Chrome 71\r\n- **Small:** minified + gzipped ~2.6KB\r\n\r\nSee [example source\r\ncode](https://github.com/thi-ng/umbrella/tree/master/examples/markdown/src/)\r\nfor reference...\r\n\r\n## Parsing & serializing to HTML\r\n\r\n```ts\r\nimport { iterator } from \"@thi.ng/transducers\";\r\nimport { serialize } from \"@thi.ng/hiccup\";\r\n\r\nimport { parse } from \"@thi.ng/hiccup-markdown/parse\";\r\n\r\nconst src = `\r\n# Hello world\r\n\r\n[This](http://example.com) is a _test_.\r\n\r\n`;\r\n\r\n// convert to hiccup tree\r\n[...iterator(parse(), src)]\r\n// [ [ 'h1', ' Hello world ' ],\r\n//   [ 'p',\r\n//     [ 'a', { href: 'http://example.com' }, 'This' ],\r\n//     ' is a ',\r\n//     [ 'em', 'test' ],\r\n//     '. ' ] ]\r\n\r\n// or serialize to HTML\r\nserialize(iterator(parse(), src));\r\n\r\n// <h1>Hello world</h1><p>\r\n// <a href=\"http://example.com\">This</a> is a <em>test</em>. </p>\r\n```\r\n\r\n## Customizing tags\r\n\r\nThe following interface defines factory functions for all supported\r\nelements. User implementations / overrides can be given to the\r\n`parseMD()` transducer to customize output.\r\n\r\n```ts\r\ninterface TagFactories {\r\n    blockquote(...children: any[]): any[];\r\n    code(body: string): any[];\r\n    codeblock(lang: string, body: string): any[];\r\n    em(body: string): any[];\r\n    heading(level, children: any[]): any[];\r\n    hr(): any[];\r\n    img(src: string, alt: string): any[];\r\n    li(children: any[]): any[];\r\n    link(href: string, body: string): any[];\r\n    list(type: string, items: any[]): any[];\r\n    paragraph(children: any[]): any[];\r\n    strike(body: string): any[];\r\n    strong(body: string): any[];\r\n    table(rows: any[]): any[];\r\n    td(i: number, children: any[]): any[];\r\n    tr(i: number, cells: any[]): any[];\r\n}\r\n```\r\n\r\nExample with custom link elements:\r\n\r\n```ts\r\nconst tags = {\r\n    link: (href, body) => [\"a.link.blue\", { href }, body]\r\n};\r\n\r\nserialize(iterator(parse(tags), src));\r\n\r\n// <h1>Hello world</h1>\r\n// <p><a href=\"http://example.com\" class=\"link blue\">This</a> is a <em>test</em>. </p>\r\n```\r\n\r\n## Building locally\r\n\r\n```bash\r\ngit clone https://github.com/thi-ng/umbrella.git\r\ncd umbrella/examples/markdown\r\nyarn install\r\nyarn start\r\n```\r\n\r\n## Authors\r\n\r\n- Karsten Schmidt\r\n\r\n## License\r\n\r\n\xA9 2018 - 2019 Karsten Schmidt // Apache Software License 2.0\r\n\r\n";
+var blog_CRLF = "# Minimal Markdown parser\r\n\r\nThis project is part of the\r\n[@thi.ng/umbrella](https://github.com/thi-ng/umbrella/) monorepo.\r\n\r\nI ~~am amazing~~ really messed up\r\n\r\nThis _is emphasized_ inline\r\n\r\n## About\r\n\r\nThis example is a test environment for the new & minimal\r\n[Markdown](https://en.wikipedia.org/wiki/Markdown) parser & converter to\r\n[hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\r\nformat from the\r\n[@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\r\npackage.\r\n\r\nThe rest of this file is an excerpt of the relevant parts of that\r\npackage's `README.md`...\r\n\r\n### Features\r\n\r\nThe parser itself is not aimed at supporting **all** of Markdown's\r\nquirky syntax features, but will restrict itself to a sane subset of\r\nfeatures and already sports:\r\n\r\n| Feature     | Comments                                                                                            |\r\n|-------------|-----------------------------------------------------------------------------------------------------|\r\n| Heading     | ATX only (`#` line prefix), levels 1-6, then downgrade to paragraph                                 |\r\n| Paragraph   | no support for `\\` line breaks                                                                      |\r\n| Blockquote  | Respects newlines                                                                                   |\r\n| Format      | **bold**, _emphasis_, `code`, ~~strikethrough~~ in paragraphs, headings, lists, blockquotes, tables |\r\n| Link        | no support for inline formats in label                                                              |\r\n| Image       | no image links                                                                                      |\r\n| List        | only unordered (`- ` line prefix), no nesting, supports line breaks                                 |\r\n| Table       | no support for column alignment                                                                     |\r\n| Code block  | GFM only (triple backtick prefix), w/ optional language hint                                        |\r\n| Horiz. Rule | only dash supported (e.g. `---`), min 3 chars required                                              |\r\n\r\nNote: Currently, the last heading, paragraph, blockquote, list or table requires an additional newline.\r\n\r\n### Limitations\r\n\r\nThese MD features (and probably many more) are **not** supported:\r\n\r\n- inline HTML\r\n- nested inline formats (e.g. **bold** inside _italic_)\r\n- inline formats within link labels\r\n- image links\r\n- footnotes\r\n- link references\r\n- nested / ordered / numbered / todo lists\r\n\r\nSome of these are considered, though currently not high priority...\r\n\r\n> \"Weeks of coding can **save hours** of planning.\"\r\n> -- Anonymous\r\n\r\n![image alt tag](https://media.giphy.com/media/f6qMGmXuOdkwU/giphy.gif)\r\n![surprise](https://www.fappenist.com/Uploads/Media/Mar19/Thu21/590/0fed88dd.jpg)\r\nand something\r\n\r\n### Other features\r\n\r\n- **Functional:** parser entirely built using\r\n  [transducers](https://github.com/thi-ng/umbrella/tree/master/packages/transducers)\r\n  & function composition. Use the parser in a transducer pipeline to\r\n  easily apply post-processing of the emitted results\r\n- **Declarative:** parsing rules defined declaratively with only minimal\r\n  state/context handling needed\r\n- **No regex:** consumes input character-wise and produces an iterator\r\n  of hiccup-style tree nodes, ready to be used with\r\n  [@thi.ng/hdom](https://github.com/thi-ng/umbrella/tree/master/packages/hdom),\r\n  [@thi.ng/hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\r\n  or\r\n  [@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\r\n  (for back conversion to MD)\r\n- **Customizable:** supports custom tag factory functions to override\r\n  default behavior / representation of each parsed result element\r\n- **Fast (enough):** parses this markdown file (5.8KB) in ~5ms on MBP2016 / Chrome 71\r\n- **Small:** minified + gzipped ~2.6KB\r\n\r\nSee [example source\r\ncode](https://github.com/thi-ng/umbrella/tree/master/examples/markdown/src/)\r\nfor reference...\r\n\r\n## Parsing & serializing to HTML\r\n\r\n```js\r\nimport { iterator } from \"@thi.ng/transducers\";\r\nimport { serialize } from \"@thi.ng/hiccup\";\r\n\r\nimport { parse } from \"@thi.ng/hiccup-markdown/parse\";\r\n\r\nconst src = `\r\n# Hello world\r\n\r\n[This](http://example.com) is a _test_.\r\n\r\n`;\r\n\r\n// convert to hiccup tree\r\n[...iterator(parse(), src)]\r\n// [ [ 'h1', ' Hello world ' ],\r\n//   [ 'p',\r\n//     [ 'a', { href: 'http://example.com' }, 'This' ],\r\n//     ' is a ',\r\n//     [ 'em', 'test' ],\r\n//     '. ' ] ]\r\n\r\n// or serialize to HTML\r\nserialize(iterator(parse(), src));\r\n\r\n// <h1>Hello world</h1><p>\r\n// <a href=\"http://example.com\">This</a> is a <em>test</em>. </p>\r\n```\r\n\r\n## Customizing tags\r\n\r\nThe following interface defines factory functions for all supported\r\nelements. User implementations / overrides can be given to the\r\n`parseMD()` transducer to customize output.\r\n\r\n```ts\r\ninterface TagFactories {\r\n    blockquote(...children: any[]): any[];\r\n    code(body: string): any[];\r\n    codeblock(lang: string, body: string): any[];\r\n    em(body: string): any[];\r\n    heading(level, children: any[]): any[];\r\n    hr(): any[];\r\n    img(src: string, alt: string): any[];\r\n    li(children: any[]): any[];\r\n    link(href: string, body: string): any[];\r\n    list(type: string, items: any[]): any[];\r\n    paragraph(children: any[]): any[];\r\n    strike(body: string): any[];\r\n    strong(body: string): any[];\r\n    table(rows: any[]): any[];\r\n    td(i: number, children: any[]): any[];\r\n    tr(i: number, cells: any[]): any[];\r\n}\r\n```\r\n\r\nExample with custom link elements:\r\n\r\n```js\r\nconst tags = {\r\n    link: (href, body) => [\"a.link.blue\", { href }, body]\r\n};\r\n\r\nserialize(iterator(parse(tags), src));\r\n\r\n// <h1>Hello world</h1>\r\n// <p><a href=\"http://example.com\" class=\"link blue\">This</a> is a <em>test</em>. </p>\r\n```\r\n\r\n## Building locally\r\n\r\n```bash\r\ngit clone https://github.com/thi-ng/umbrella.git\r\ncd umbrella/examples/markdown\r\nyarn install\r\nyarn start\r\n```\r\n\r\n## Authors\r\n\r\n- Karsten Schmidt\r\n\r\n## License\r\n\r\n\xA9 2018 - 2019 Karsten Schmidt // Apache Software License 2.0\r\n\r\n";
 var blog_LF = "# Minimal Markdown parser\n\nThis project is part of the\n[@thi.ng/umbrella](https://github.com/thi-ng/umbrella/) monorepo.\n\n## About\n\nThis example is a test environment for the new & minimal\n[Markdown](https://en.wikipedia.org/wiki/Markdown) parser & converter to\n[hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\nformat from the\n[@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\npackage.\n\nThe rest of this file is an excerpt of the relevant parts of that\npackage's `README.md`...\n\n### Features\n\nThe parser itself is not aimed at supporting **all** of Markdown's\nquirky syntax features, but will restrict itself to a sane subset of\nfeatures and already sports:\n\n| Feature     | Comments                                                                                            |\n|-------------|-----------------------------------------------------------------------------------------------------|\n| Heading     | ATX only (`#` line prefix), levels 1-6, then downgrade to paragraph                                 |\n| Paragraph   | no support for `\\` line breaks                                                                      |\n| Blockquote  | Respects newlines                                                                                   |\n| Format      | **bold**, _emphasis_, `code`, ~~strikethrough~~ in paragraphs, headings, lists, blockquotes, tables |\n| Link        | no support for inline formats in label                                                              |\n| Image       | no image links                                                                                      |\n| List        | only unordered (`- ` line prefix), no nesting, supports line breaks                                 |\n| Table       | no support for column alignment                                                                     |\n| Code block  | GFM only (triple backtick prefix), w/ optional language hint                                        |\n| Horiz. Rule | only dash supported (e.g. `---`), min 3 chars required                                              |\n\nNote: Currently, the last heading, paragraph, blockquote, list or table requires an additional newline.\n\n### Limitations\n\nThese MD features (and probably many more) are **not** supported:\n\n- inline HTML\n- nested inline formats (e.g. **bold** inside _italic_)\n- inline formats within link labels\n- image links\n- footnotes\n- link references\n- nested / ordered / numbered / todo lists\n\nSome of these are considered, though currently not high priority...\n\n> \"Weeks of coding can **save hours** of planning.\"\n> \n> -- Anonymous\n\n### Other features\n\n- **Functional:** parser entirely built using\n  [transducers](https://github.com/thi-ng/umbrella/tree/master/packages/transducers)\n  & function composition. Use the parser in a transducer pipeline to\n  easily apply post-processing of the emitted results\n- **Declarative:** parsing rules defined declaratively with only minimal\n  state/context handling needed\n- **No regex:** consumes input character-wise and produces an iterator\n  of hiccup-style tree nodes, ready to be used with\n  [@thi.ng/hdom](https://github.com/thi-ng/umbrella/tree/master/packages/hdom),\n  [@thi.ng/hiccup](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup)\n  or\n  [@thi.ng/hiccup-markdown](https://github.com/thi-ng/umbrella/tree/master/packages/hiccup-markdown)\n  (for back conversion to MD)\n- **Customizable:** supports custom tag factory functions to override\n  default behavior / representation of each parsed result element\n- **Fast (enough):** parses this markdown file (5.8KB) in ~5ms on MBP2016 / Chrome 71\n- **Small:** minified + gzipped ~2.6KB\n\nSee [example source\ncode](https://github.com/thi-ng/umbrella/tree/master/examples/markdown/src/)\nfor reference...\n\n## Parsing & serializing to HTML\n\n```ts\nimport { iterator } from \"@thi.ng/transducers\";\nimport { serialize } from \"@thi.ng/hiccup\";\n\nimport { parse } from \"@thi.ng/hiccup-markdown/parse\";\n\nconst src = `\n# Hello world\n\n[This](http://example.com) is a _test_.\n\n`;\n\n// convert to hiccup tree\n[...iterator(parse(), src)]\n// [ [ 'h1', ' Hello world ' ],\n//   [ 'p',\n//     [ 'a', { href: 'http://example.com' }, 'This' ],\n//     ' is a ',\n//     [ 'em', 'test' ],\n//     '. ' ] ]\n\n// or serialize to HTML\nserialize(iterator(parse(), src));\n\n// <h1>Hello world</h1><p>\n// <a href=\"http://example.com\">This</a> is a <em>test</em>. </p>\n```\n\n## Customizing tags\n\nThe following interface defines factory functions for all supported\nelements. User implementations / overrides can be given to the\n`parseMD()` transducer to customize output.\n\n```ts\ninterface TagFactories {\n    blockquote(...children: any[]): any[];\n    code(body: string): any[];\n    codeblock(lang: string, body: string): any[];\n    em(body: string): any[];\n    heading(level, children: any[]): any[];\n    hr(): any[];\n    img(src: string, alt: string): any[];\n    li(children: any[]): any[];\n    link(href: string, body: string): any[];\n    list(type: string, items: any[]): any[];\n    paragraph(children: any[]): any[];\n    strike(body: string): any[];\n    strong(body: string): any[];\n    table(rows: any[]): any[];\n    td(i: number, children: any[]): any[];\n    tr(i: number, cells: any[]): any[];\n}\n```\n\nExample with custom link elements:\n\n```ts\nconst tags = {\n    link: (href, body) => [\"a.link.blue\", { href }, body]\n};\n\nserialize(iterator(parse(tags), src));\n\n// <h1>Hello world</h1>\n// <p><a href=\"http://example.com\" class=\"link blue\">This</a> is a <em>test</em>. </p>\n```\n\n## Building locally\n\n```bash\ngit clone https://github.com/thi-ng/umbrella.git\ncd umbrella/examples/markdown\nyarn install\nyarn start\n```\n\n## Authors\n\n- Karsten Schmidt\n\n## License\n\n\xA9 2018 - 2019 Karsten Schmidt // Apache Software License 2.0\n\n";
 var short = "# Minimal Markdown parser\n\nThis project is part of the [@thi.ng/umbrella](https://github.com/thi-ng/umbrella/) monorepo.\n\n\n";
 
@@ -25470,6 +27080,11 @@ exports.test_blog_LF = test_blog_LF;
 },{"@thi.ng/bench":"../node_modules/@thi.ng/bench/index.js","@thi.ng/rstream":"../node_modules/@thi.ng/rstream/index.js","fs":"../node_modules/parcel-bundler/src/builtins/_empty.js","@thi.ng/hiccup-markdown":"../node_modules/@thi.ng/hiccup-markdown/index.js","@thi.ng/transducers":"../node_modules/@thi.ng/transducers/index.js","../styles":"styles/index.js","../components":"components/index.js","os":"../node_modules/os-browserify/browser.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fireStyles = exports.THEME = void 0;
+
 var _hdom = require("@thi.ng/hdom");
 
 var _bus = require("./bus");
@@ -25484,8 +27099,35 @@ var _blog = require("./pages/blog");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var _themer = (0, _styles.themer)(_styles.theme),
+    _themer2 = _slicedToArray(_themer, 2),
+    THEME = _themer2[0],
+    fireStyles = _themer2[1];
+
+exports.fireStyles = fireStyles;
+exports.THEME = THEME;
+THEME; //?
+// const data = fetch('../assets/blog.md').then(r => console.log(r))
+// import md from '../assets/blog.md'
+// const md = fs.readFileSync('./assets/blog.md', 'utf8')
+// fetch(blog)
+//   .then(r => r.text())
+//   .then(t => console.log([...iterator(parse(), t)])) //?
+
 (0, _hdom.start)(function (ctx) {
-  return ctx.bus.processQueue() ? ["div", [_components.button, null, "hello world"], [_components.button, null, "hello -> ()"], _blog.test_blog_CRLF] : null;
+  return ctx.bus.processQueue() ? ["div", {
+    style: {
+      padding: "20px"
+    }
+  }, ["div", [_components.button, null, "hello world"], [_components.button, null, "hello -> ()"], _blog.test_blog_CRLF]] : null;
 }, {
   ctx: {
     state: _bus.state,
@@ -25525,7 +27167,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62379" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56800" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
