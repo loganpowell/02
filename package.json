@@ -1,34 +1,46 @@
 {
-    "name": "02",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "clean": "rm -rf .cache build out",
-        "prep": "npm run clean && mkdir out && cp -R assets out",
-        "build": "npm run prep && parcel build src/index.html -d out --no-source-maps --no-cache --experimental-scope-hoisting --detailed-report --public-url ./",
-        "start": "npm run prep && parcel src/index.html -p 8080 --open -d out watch"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "@styled-system/css": "^5.0.23",
-        "@thi.ng/associative": "^3.0.1",
-        "@thi.ng/atom": "^3.1.0",
-        "@thi.ng/hdom": "^9.0.0-alpha1",
-        "@thi.ng/hiccup-css": "^1.1.5",
-        "@thi.ng/interceptors": "^2.2.1",
-        "@thi.ng/paths": "^2.1.5",
-        "decamelize-keys-deep": "^0.1.1"
-    },
-    "prettier": {
-        "tabWidth": 2,
-        "semi": false,
-        "singleQuote": true
-    },
-    "devDependencies": {
-        "babel-core": "^6.26.3",
-        "babel-plugin-emotion": "^10.0.22"
-    }
+  "name": "02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf .cache build dist",
+    "prep": "npm run clean && mkdir dist && cp -R assets dist",
+    "build": "npm run prep && parcel build src/index.html -d dist --no-source-maps --no-cache --detailed-report --public-url ./",
+    "start": "npm run prep && parcel src/index.html --global md -p 8080 --open -d dist watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@styled-system/css": "^5.0.23",
+    "@styled-system/theme-get": "^5.1.2",
+    "@thi.ng/associative": "^3.0.1",
+    "@thi.ng/atom": "^3.1.0",
+    "@thi.ng/bench": "^1.0.9",
+    "@thi.ng/hdom": "^9.0.0-alpha1",
+    "@thi.ng/hiccup-css": "^1.1.5",
+    "@thi.ng/hiccup-markdown": "^1.1.5",
+    "@thi.ng/interceptors": "^2.2.1",
+    "@thi.ng/paths": "^2.1.5",
+    "@thi.ng/rstream": "^2.5.5",
+    "@thi.ng/transducers-hdom": "^2.0.30",
+    "decamelize-keys-deep": "^0.1.1"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": false,
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "endOfLine": "lf",
+    "trailingComma": "none",
+    "proseWrap": "always"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-markdown-string": "^1.4.2"
+  }
 }
